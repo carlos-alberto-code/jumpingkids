@@ -1,7 +1,7 @@
-from domain.model import Exercise, Routine
-from application.repository import RoutinesRepositoryPort
-from application.service.routines_service_port import RoutinesServicePort
-from infrastructure.repository.routines_repository_adapter import RoutinesRepositoryAdapter
+from hexagon.domain.model import Exercise, Routine
+from hexagon.application.repository import RoutinesRepositoryPort
+from hexagon.application.service.routines_service_port import RoutinesServicePort
+from hexagon.infrastructure.repository.routines_repository_adapter import RoutinesRepositoryAdapter
 
 
 class RoutinesServiceCore(RoutinesServicePort):

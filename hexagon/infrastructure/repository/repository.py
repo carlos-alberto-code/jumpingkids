@@ -3,7 +3,7 @@ from typing import Type, TypeVar, Generic
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from infrastructure.model.model import Base
+from hexagon.infrastructure.model.model import Base
 
 
 T = TypeVar("T", bound=Base)

@@ -1,4 +1,4 @@
-from application.repository import RoutinesRepositoryPort
+from hexagon.application.repository import RoutinesRepositoryPort
 
 
 class RoutinesRepositoryAdapter(RoutinesRepositoryPort):

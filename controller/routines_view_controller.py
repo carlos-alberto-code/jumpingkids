@@ -1,9 +1,9 @@
 import flet as ft
 
 from view import RoutinesView
-from domain.model import Exercise, Routine
-from application.core import RoutinesServiceCore
-from application.service import RoutinesServicePort
+from hexagon.domain.model import Exercise, Routine
+from hexagon.application.core import RoutinesServiceCore
+from hexagon.application.service import RoutinesServicePort
 
 
 class RoutinesViewController:
