@@ -2,8 +2,8 @@ import flet as ft
 
 from view import RoutinesView
 from domain.model import Exercise, Routine
-from application.core.routines_service_core import RoutinesServiceCore
-from application.service.routines_service_port import RoutinesServicePort
+from application.core import RoutinesServiceCore
+from application.service import RoutinesServicePort
 
 
 class RoutinesViewController:

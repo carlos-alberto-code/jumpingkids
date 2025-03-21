@@ -4,6 +4,9 @@ from domain.model import Exercise, Routine
 
 
 class RoutinesServicePort(ABC):
+    """
+    Este servicio une los repositorios de rutinas, ejercicios y usuarios para proporcionar unicamente las rutinas relacionadas con un usuario, así como relacionar rutinas con usuarios para marcarlas como favoritas.
+    """
 
     @abstractmethod
     def get_all_routines(self) -> list[Routine]:
