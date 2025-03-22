@@ -1,7 +1,7 @@
 import flet as ft
 
-from view import RoutinesView
-from controller import RoutinesViewController
+from ui.view import RoutinesView
+from ui.controller import RoutinesViewController
 from hexagon.application.core import RoutinesServiceCore
 from infrastructure.adapter import RoutinesRepositoryAdapter
 

@@ -1,6 +1,6 @@
 import flet as ft
 
-from app_builder import AppViewBuilder
+from ui.app_builder import AppViewBuilder
 
 
 def main(page: ft.Page):

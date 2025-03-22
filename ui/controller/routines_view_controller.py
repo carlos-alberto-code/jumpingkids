@@ -1,7 +1,7 @@
 import flet as ft
 
-from view import RoutinesView
-from event import RoutinesViewEvents
+from ui.view import RoutinesView
+from ui.event import RoutinesViewEvents
 from hexagon.domain.model import Routine
 from hexagon.application.service import RoutinesServicePort
 
