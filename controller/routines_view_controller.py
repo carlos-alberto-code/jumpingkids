@@ -13,7 +13,7 @@ class RoutinesViewController:
         self._routines_view = routines_view
         self._routines_service_port = routines_service_port
         self._events = RoutinesViewEvents(routines_service_port)
-        self._connect_event_with_view()
+        self._connect_events_with_view()
         self._routines_view.routines = self._routines_service_port.get_all_routines()
 
     @property
@@ -23,7 +23,7 @@ class RoutinesViewController:
         """
         return self._routines_view
     
-    def _connect_event_with_view(self) -> None:
+    def _connect_events_with_view(self) -> None:
         """
         Conecta los eventos de la vista con los métodos del controlador.
         """

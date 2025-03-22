@@ -1,22 +1,17 @@
 import flet as ft
 
-from view import RoutinesView
-from controller import RoutinesViewController
-from hexagon.application.core import RoutinesServiceCore
-from infrastructure.adapter import RoutinesRepositoryAdapter
+from app_builder import AppViewBuilder
 
-
-routines_view_controller = RoutinesViewController(
-    RoutinesServiceCore(RoutinesRepositoryAdapter()),
-    RoutinesView()
-)
 
 def main(page: ft.Page):
     page.title = "Rutinas"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.views.append(
-        routines_view_controller.view
+
+    app_builder = AppViewBuilder()
+    page.views.extend(
+        [view for view in app_builder.views]
     )
     page.update()
 
-ft.app(target=main, view=ft.AppView.FLET_APP_WEB)
+
+ft.app(target=main)
