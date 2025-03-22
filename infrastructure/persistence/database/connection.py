@@ -7,9 +7,6 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from infrastructure.model.model import Base
-
-
 load_dotenv()
 
 DATABASE_URL_PRE = os.getenv("DATABASE_URL_PRE", "sqlite:///:memory:")
@@ -27,5 +24,3 @@ def get_session() -> Generator[Session, None, None]:
         yield db
     finally:
         db.close()
-
-

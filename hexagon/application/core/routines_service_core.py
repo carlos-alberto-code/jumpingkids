@@ -1,14 +1,13 @@
-from domain.model import Exercise, Routine
-from application.repository import RoutinesRepositoryPort
-from application.service.routines_service_port import RoutinesServicePort
-from infrastructure.repository.routines_repository_adapter import RoutinesRepositoryAdapter
+from hexagon.domain.model import Exercise, Routine
+from hexagon.application.repository import RoutinesRepositoryPort
+from hexagon.application.service.routines_service_port import RoutinesServicePort
 
 
 class RoutinesServiceCore(RoutinesServicePort):
 
-    def __init__(self) -> None:
+    def __init__(self, routines_repository_port: RoutinesRepositoryPort) -> None:
         super().__init__()
-        self._routines_repository: RoutinesRepositoryPort = RoutinesRepositoryAdapter()
+        self._routines_repository = routines_repository_port
 
     def get_all_routines(self) -> list[Routine]:
         routines: list[Routine] = self._routines_repository.get_all_routines()
