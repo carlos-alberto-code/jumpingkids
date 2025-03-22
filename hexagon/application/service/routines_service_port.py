@@ -11,7 +11,7 @@ class RoutinesServicePort(ABC):
     @abstractmethod
     def get_all_routines(self) -> list[Routine]:
         """
-        Obtiene todas las rutinas disponibles.
+        Obtiene todas las rutinas disponibles, sin importar el usuario.
         """
         pass
 
