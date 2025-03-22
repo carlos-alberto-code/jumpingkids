@@ -1,15 +1,21 @@
 import flet as ft
 
+from ui.view import RoutinesView
 from hexagon.domain.model import Exercise, Routine
 from hexagon.application.service.routines_service_port import RoutinesServicePort
 
 
-class RoutinesViewEvents:
+class RoutinesViewEventsConnector:
+    """
+    La clase empareja la definicón de los eventos con la vista. Hace uso de un servicio para manejar la lógica de negocio y conectar los resultados con la parte gráfica. Esta clase tiene todos los eventos que se pueden disparar desde la vista de rutinas y genera esa conexión internamente.
+    """
 
-    def __init__(self, routines_service_port: RoutinesServicePort) -> None:
+    def __init__(self, routines_service_port: RoutinesServicePort, routines_view: RoutinesView) -> None:
         self._routines_service_port = routines_service_port
+        self._routines_view = routines_view
+        self._connect_events()
 
-    def on_view_exercises_button_click(self, event: ft.ControlEvent):
+    def _on_view_exercises_button_click(self, event: ft.ControlEvent):
         """
         Muestra los ejercicios de una rutina específica.
         """
@@ -20,7 +26,7 @@ class RoutinesViewEvents:
                 f"Ejercicio: {exercise.name}, Descripción: {exercise.description}")
         # Conectar los ejercicios con la vista y actualizar la GUI
 
-    def on_favorite_button_click(self, event: ft.ControlEvent):
+    def _on_favorite_button_click(self, event: ft.ControlEvent):
         """
         Agrega o elimina la rutina a una lista de favoritos del usuario.
         """
@@ -35,7 +41,7 @@ class RoutinesViewEvents:
 
         # Mostrar un mensaje de éxito o error
 
-    def on_filter_by_favorite_button_click(self, event: ft.ControlEvent):
+    def _on_filter_by_favorite_button_click(self, event: ft.ControlEvent):
         """
         Filtra las rutinas favoritas del usuario.
         """
@@ -47,7 +53,7 @@ class RoutinesViewEvents:
                 f"Rutina favorita: {routine.name}, Descripción: {routine.description}")
         # Conectar las rutinas obtenidas con la vista y actualizar la GUI
 
-    def on_filter_by_category_button_click(self, event: ft.ControlEvent):
+    def _on_filter_by_category_button_click(self, event: ft.ControlEvent):
         """
         Filtra las rutinas en función de la categoría seleccionada.
         """
@@ -58,3 +64,12 @@ class RoutinesViewEvents:
             print(
                 f"Rutina por categoría: {routine.name}, Descripción: {routine.description}")
         # Conectar las rutinas obtenidas con la vista y actualizar la GUI
+
+    def _connect_events(self) -> None:
+        """
+        Conecta los eventos de la vista con los métodos del controlador.
+        """
+        self._routines_view.on_view_exercises_button_click = self._on_view_exercises_button_click
+        self._routines_view.on_favorite_button_click = self._on_favorite_button_click
+        self._routines_view.on_filter_by_favorite_button_click = self._on_filter_by_favorite_button_click
+        self._routines_view.on_filter_by_category_button_click = self._on_filter_by_category_button_click

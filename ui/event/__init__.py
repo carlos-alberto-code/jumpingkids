@@ -1,5 +1,5 @@
-from ui.event.routines_view_event import RoutinesViewEvents
+from ui.event.routines_view_event import RoutinesViewEventsConnector
 
 __all__ = [
-    "RoutinesViewEvents",
+    "RoutinesViewEventsConnector",
 ]

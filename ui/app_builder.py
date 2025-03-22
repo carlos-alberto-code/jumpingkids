@@ -9,7 +9,7 @@ from infrastructure.adapter import RoutinesRepositoryAdapter
 class AppViewBuilder:
 
     def __init__(self) -> None:
-        self._controller = RoutinesViewController(
+        self._routines_view_controller = RoutinesViewController(
             RoutinesServiceCore(RoutinesRepositoryAdapter()),
             RoutinesView()
         )
@@ -17,5 +17,5 @@ class AppViewBuilder:
     @property
     def views(self) -> list[ft.View]:
         return [
-            self._controller.view
+            self._routines_view_controller.view
         ]
