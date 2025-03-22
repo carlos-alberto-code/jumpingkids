@@ -13,8 +13,10 @@ routines_view_controller = RoutinesViewController(
 
 def main(page: ft.Page):
     page.title = "Rutinas"
+    page.theme_mode = ft.ThemeMode.LIGHT
     page.views.append(
         routines_view_controller.view
     )
+    page.update()
 
-ft.app(target=main)
+ft.app(target=main, view=ft.AppView.FLET_APP_WEB)

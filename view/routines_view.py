@@ -18,6 +18,7 @@ class RoutinesView(ft.View):
         self._on_filter_by_favorite_button_click = on_filter_by_favorite_button_click
         self._on_filter_by_category_button_click = on_filter_by_category_button_click
         self._routines = []
+        self.controls = [ft.Text("Routines View")]
     
     @property
     def on_view_exercises_button_click(self):
