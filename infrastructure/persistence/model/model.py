@@ -8,137 +8,124 @@ class Base(DeclarativeBase):
     pass
 
 
-class CategoriaEntity(Base):
+class CategoryEntity(Base):
     """
-    Representa un categoría de rutina. Ejemplos de categorías de rutinas con Yoga, Spinning, Crossfit, Fuerza, Resistencia, etc. Cada categoría puede tener varias rutinas asociadas.
+    Representa una categoría de rutina. Ejemplos de categorías de rutina incluyen Yoga, Spinning, Crossfit, Fuerza, Resistencia, etc. Cada categoría puede tener múltiples rutinas asociadas.
     """
-    __tablename__ = "categorias"
+    __tablename__ = "categories"
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nombre: Mapped[str] = mapped_column(
-        String(50), nullable=False, unique=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
 
     def __repr__(self):
-        return f"CategoriaEntity(id={self.id}, nombre={self.nombre})"
+        return f"CategoryEntity(id={self.id}, name={self.name})"
 
 
-class RutinaEntity(Base):
+class RoutineEntity(Base):
     """
-    Representa una rutina de ejercicios. Cada rutina puede tener un nombre, una descripción y una categoría asociada. Las rutinas pueden estar asociadas a varios ejercicios."
+    Representa una rutina de ejercicio. Cada rutina puede tener un nombre, una descripción y una categoría asociada. Las rutinas pueden estar asociadas con múltiples ejercicios.
     """
-    __tablename__ = "rutinas"
+    __tablename__ = "routines"
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nombre: Mapped[str] = mapped_column(
-        String(50), nullable=False, unique=True)
-    descripcion: Mapped[str] = mapped_column(String(255), nullable=False)
-    categoria_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("categorias.id"), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    description: Mapped[str] = mapped_column(String(255), nullable=False)
+    category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
 
     def __repr__(self):
-        return f"RutinaEntity(id={self.id}, nombre={self.nombre})"
+        return f"RoutineEntity(id={self.id}, name={self.name})"
 
 
-class EjercicioEntity(Base):
+class ExerciseEntity(Base):
     """
-    Representa un ejercicio individual. Cada ejercicio puede tener un nombre y una descripción. Los ejercicios pueden estar asociados a varias rutinas.
+    Representa un ejercicio individual. Cada ejercicio puede tener un nombre y una descripción. Los ejercicios pueden estar asociados con múltiples rutinas.
     """
-    __tablename__ = "ejercicios"
+    __tablename__ = "exercises"
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nombre: Mapped[str] = mapped_column(String(50), nullable=False)
-    descripcion: Mapped[str] = mapped_column(String(255), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False)
+    description: Mapped[str] = mapped_column(String(255), nullable=False)
 
     def __repr__(self):
-        return f"EjercicioEntity(id={self.id}, nombre={self.nombre})"
+        return f"ExerciseEntity(id={self.id}, name={self.name})"
 
 
-RutinaEjercicioEntity = Table(
-    "rutinas_ejercicios",
+RoutineExerciseEntity = Table(
+    "routines_exercises",
     Base.metadata,
-    Column("rutina_id", Integer, ForeignKey("rutinas.id"), primary_key=True),
-    Column("ejercicio_id", Integer, ForeignKey(
-        "ejercicios.id"), primary_key=True),
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
+    Column("exercise_id", Integer, ForeignKey("exercises.id"), primary_key=True),
 )
 
 
 class TutorEntity(Base):
     """
-    Representa un tutor o cuidador de un niño. Cada tutor puede tener un nombre completo y puede estar asociado a varios niños.
+    Representa un tutor o cuidador de un niño. Cada tutor puede tener un nombre completo y puede estar asociado con múltiples niños.
     """
-    __tablename__ = "tutores"
+    __tablename__ = "tutors"
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nombre_completo: Mapped[str] = mapped_column(String(100), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    full_name: Mapped[str] = mapped_column(String(100), nullable=False)
 
     def __repr__(self):
-        return f"TutorEntity(id={self.id}, nombre={self.nombre_completo})"
+        return f"TutorEntity(id={self.id}, full_name={self.full_name})"
 
 
-class NinoEntity(Base):
+class ChildEntity(Base):
     """
-    Representa un niño que realiza las rutinas. Cada niño puede tener un nombre completo, una edad y un tutor asociado. Los niños pueden estar asociados a varias rutinas a través de la tabla de asignaciones.
+    Representa a un niño que realiza las rutinas. Cada niño puede tener un nombre completo, una edad y un tutor asociado. Los niños pueden estar asociados con múltiples rutinas a través de la tabla de asignación.
     """
-    __tablename__ = "ninos"
+    __tablename__ = "children"
     __table_args__ = (
-        CheckConstraint("edad >= 10", name="check_edad_minima"),
-        CheckConstraint("edad <= 15", name="check_edad_maxima"),
+        CheckConstraint("age >= 10", name="check_min_age"),
+        CheckConstraint("age <= 15", name="check_max_age"),
     )
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nombre_completo: Mapped[str] = mapped_column(String(100), nullable=False)
-    edad: Mapped[int] = mapped_column(Integer, nullable=False)
-    tutor_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("tutores.id"), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    full_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    age: Mapped[int] = mapped_column(Integer, nullable=False)
+    tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
 
     def __repr__(self):
-        return f"NinoEntity(id={self.id}, nombre={self.nombre_completo}, edad={self.edad})"
+        return f"ChildEntity(id={self.id}, full_name={self.full_name}, age={self.age})"
 
 
-class NivelRutinaEntity(Base):
+class RoutineLevelEntity(Base):
     """
-    Representa un nivel de dificultad para una rutina. Cada nivel puede tener un número, un tiempo asociado y un valor de medalla. Los niveles pueden estar asociados a varias rutinas a través de la tabla de asignaciones.
+    Representa un nivel de dificultad para una rutina. Cada nivel puede tener un número, un tiempo asociado y un valor de medalla. Los niveles pueden estar asociados con múltiples rutinas a través de la tabla de asignación.
     """
-    __tablename__ = "niveles_rutinas"
+    __tablename__ = "routine_levels"
     __table_args__ = (
-        CheckConstraint("valor_medalla IN (1, 2, 3)",
-                        name="check_valor_medalla"),
+        CheckConstraint("medal_value IN (1, 2, 3)",
+                        name="check_medal_value"),
         CheckConstraint(
-            "((nivel = 1 AND tiempo BETWEEN 10 AND 15) OR (nivel = 2 AND tiempo BETWEEN 15 AND 20) OR (nivel = 3 AND tiempo BETWEEN 20 AND 30))", name="check_tiempo"),
-        CheckConstraint("((nivel = 1 AND valor_medalla = 1) OR (nivel = 2 AND valor_medalla = 2) OR (nivel = 3 AND valor_medalla = 3))",
-                        name="check_nivel_valor_medalla"),
+            "((level = 1 AND time BETWEEN 10 AND 15) OR (level = 2 AND time BETWEEN 15 AND 20) OR (level = 3 AND time BETWEEN 20 AND 30))", name="check_time"),
+        CheckConstraint("((level = 1 AND medal_value = 1) OR (level = 2 AND medal_value = 2) OR (level = 3 AND medal_value = 3))",
+                        name="check_level_medal_value"),
     )
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nivel: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
-    tiempo: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
-    valor_medalla: Mapped[int] = mapped_column(
-        Integer, nullable=False, unique=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    level: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
+    time: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
+    medal_value: Mapped[int] = mapped_column(Integer, nullable=False, unique=True)
 
     def __repr__(self):
-        return f"NivelRutinaEntity(id={self.id}, nivel={self.nivel}, tiempo={self.tiempo}, valor_medalla={self.valor_medalla})"
+        return f"RoutineLevelEntity(id={self.id}, level={self.level}, time={self.time}, medal_value={self.medal_value})"
 
 
-class AsignacionEntity(Base):
-    __tablename__ = "asignaciones"
+class AssignmentEntity(Base):
+    """
+    Representa una asignación de una rutina a un niño con un nivel de dificultad específico.
+    """
+    __tablename__ = "assignments"
 
-    id: Mapped[int] = mapped_column(
-        Integer, primary_key=True, autoincrement=True)
-    nino_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("ninos.id"), nullable=False)
-    rutina_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("rutinas.id"), nullable=False)
-    nivel_rutina_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("niveles_rutinas.id"), nullable=False)
-    fecha: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    hecho: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    fecha_completado: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    child_id: Mapped[int] = mapped_column(Integer, ForeignKey("children.id"), nullable=False)
+    routine_id: Mapped[int] = mapped_column(Integer, ForeignKey("routines.id"), nullable=False)
+    routine_level_id: Mapped[int] = mapped_column(Integer, ForeignKey("routine_levels.id"), nullable=False)
+    date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    completed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    completion_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
 
     def __repr__(self):
-        return f"AsignacionEntity(id={self.id}, nino_id={self.nino_id}, rutina_id={self.rutina_id}, nivel_rutina_id={self.nivel_rutina_id}, fecha={self.fecha}, hecho={self.hecho})"
+        return f"AssignmentEntity(id={self.id}, child_id={self.child_id}, routine_id={self.routine_id}, routine_level_id={self.routine_level_id}, date={self.date}, completed={self.completed})"
