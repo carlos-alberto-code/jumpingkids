@@ -19,7 +19,7 @@ class Routine:
     id: int
     name: str
     description: str
-    category: Category
+    categories: list[Category]
 
 
 @dataclass
