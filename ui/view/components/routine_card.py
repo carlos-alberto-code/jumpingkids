@@ -23,14 +23,14 @@ class RoutineCard(ft.Card):
 
 
 class HorizontalRoutineCard(RoutineCard):
+    """
+    Es un componente que representa una tarjeta de rutina en un diseño horizontal.
+    Esta tarjeta muestra el nombre y la descripción de la rutina, así como botones para ver los ejercicios y agregar la rutina a favoritos.
+    """
 
     def __init__(self, routine: Routine, on_favorite_button_click=None, on_card_click=None) -> None:
         super().__init__(routine)
         self.content = ft.ListTile(
-            leading=ft.Image(
-                src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3Q3ZDEwYWRleWwwZm50bWtsOGF0bDF0Z282YTNnZmdsYmttZ2Z6ZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/OLY40BwPRUWic/giphy.gif",
-
-            ),
             title=ft.Text(routine.name),
             subtitle=ft.Column(
                 controls=[
