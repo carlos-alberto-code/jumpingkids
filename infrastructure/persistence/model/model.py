@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Boolean, Integer, String, ForeignKey, DateTime, Column, Table, CheckConstraint
 
 
@@ -17,6 +17,8 @@ class CategoryEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
 
+    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="categories_routines", back_populates="categories")
+
     def __repr__(self):
         return f"CategoryEntity(id={self.id}, name={self.name})"
 
@@ -32,8 +34,18 @@ class RoutineEntity(Base):
     description: Mapped[str] = mapped_column(String(255), nullable=False)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
 
+    categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines")
+
     def __repr__(self):
         return f"RoutineEntity(id={self.id}, name={self.name})"
+
+
+CategoryRoutineEntity = Table(
+    "categories_routines",
+    Base.metadata,
+    Column("category_id", Integer, ForeignKey("categories.id"), primary_key=True),
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
+)
 
 
 class ExerciseEntity(Base):
@@ -45,6 +57,7 @@ class ExerciseEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
+    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="routines_exercises", back_populates="exercises")
 
     def __repr__(self):
         return f"ExerciseEntity(id={self.id}, name={self.name})"
@@ -66,6 +79,7 @@ class TutorEntity(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor")
 
     def __repr__(self):
         return f"TutorEntity(id={self.id}, full_name={self.full_name})"
@@ -85,6 +99,7 @@ class ChildEntity(Base):
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
+    tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
 
     def __repr__(self):
         return f"ChildEntity(id={self.id}, full_name={self.full_name}, age={self.age})"
@@ -126,6 +141,10 @@ class AssignmentEntity(Base):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     completed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     completion_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    child: Mapped["ChildEntity"] = relationship("ChildEntity")
+    routine: Mapped["RoutineEntity"] = relationship("RoutineEntity")
+    routine_level: Mapped["RoutineLevelEntity"] = relationship("RoutineLevelEntity")
 
     def __repr__(self):
         return f"AssignmentEntity(id={self.id}, child_id={self.child_id}, routine_id={self.routine_id}, routine_level_id={self.routine_level_id}, date={self.date}, completed={self.completed})"
