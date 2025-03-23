@@ -1,10 +1,10 @@
 from hexagon.domain.model import Exercise, Routine
 from hexagon.application.repository import RoutinesRepositoryPort
 
+from infrastructure.mapper import RoutineMapper
+from infrastructure.mapper import ExerciseMapper
 from infrastructure.persistence import Repository
 from infrastructure.persistence.model import RoutineEntity
-from infrastructure.mapper.routines_mapper import RoutineMapper
-from infrastructure.mapper.exercise_mapper import ExerciseMapper
 
 
 class RoutinesRepositoryAdapter(RoutinesRepositoryPort):

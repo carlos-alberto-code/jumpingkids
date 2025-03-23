@@ -3,9 +3,11 @@ from infrastructure.persistence.model import RoutineEntity
 from infrastructure.mapper.category_mapper import CategoryMapper
 from infrastructure.mapper.exercise_mapper import ExerciseMapper
 
+
 class RoutineMapper:
     
-    def from_entity_to_domain(self, entity: RoutineEntity) -> Routine:
+    @staticmethod
+    def from_entity_to_domain(entity: RoutineEntity) -> Routine:
         return Routine(
             id=entity.id,
             name=entity.name,
@@ -18,7 +20,8 @@ class RoutineMapper:
             ],
         )
 
-    def from_domain_to_entity(self, domain: Routine) -> RoutineEntity:
+    @staticmethod
+    def from_domain_to_entity(domain: Routine) -> RoutineEntity:
         return RoutineEntity(
             id=domain.id,
             name=domain.name,

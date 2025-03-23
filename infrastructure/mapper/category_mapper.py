@@ -5,7 +5,8 @@ from infrastructure.persistence.model.model import CategoryEntity
 
 class CategoryMapper:
 
-    def from_entity_to_domain(self, entity: CategoryEntity) -> Category:
+    @staticmethod
+    def from_entity_to_domain(entity: CategoryEntity) -> Category:
         return Category(
             id=entity.id,
             name=entity.name,
@@ -14,7 +15,8 @@ class CategoryMapper:
             ]
         )
 
-    def from_domain_to_entity(self, domain: Category) -> CategoryEntity:
+    @staticmethod
+    def from_domain_to_entity(domain: Category) -> CategoryEntity:
         return CategoryEntity(
             id=domain.id,
             name=domain.name,

@@ -4,14 +4,16 @@ from infrastructure.persistence.model.model import ExerciseEntity
 
 class ExerciseMapper:
 
-    def from_entity_to_domain(self, entity: ExerciseEntity) -> Exercise:
+    @staticmethod
+    def from_entity_to_domain(entity: ExerciseEntity) -> Exercise:
         return Exercise(
             id=entity.id,
             name=entity.name,
             description=entity.description,
         )
 
-    def from_domain_to_entity(self, domain: Exercise) -> ExerciseEntity:
+    @staticmethod
+    def from_domain_to_entity(domain: Exercise) -> ExerciseEntity:
         return ExerciseEntity(
             id=domain.id,
             name=domain.name,
