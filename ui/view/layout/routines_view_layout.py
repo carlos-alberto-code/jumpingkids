@@ -1,11 +1,29 @@
 import flet as ft
 
+from hexagon.domain.model import Routine
 from ui.view.components.routine_card import HorizontalRoutineCard
 
 
-class RoutinesViewLayout:
+class RoutinesViewLayout(ft.Container):
 
-    def create_search_row(self, on_submit=None, on_filter_by_category_button_click=None, on_filter_by_favorites_button_click=None) -> ft.Row:
+    def __init__(self, routines: list[Routine]) -> None:
+        super().__init__()
+        self.content = ft.Column(
+            controls=[
+                self._create_search_row(),
+                self._create_routines_list(
+                    routine_cards=[
+                        HorizontalRoutineCard(
+                            routine=routine,
+                            on_favorite_button_click=lambda e: print(f"Favoritar rutina {routine.name}"),
+                            on_card_click=lambda e: print(f"Ver ejercicios de la rutina {routine.name}"),
+                        ) for routine in routines
+                    ]
+                )
+            ]
+        )
+
+    def _create_search_row(self, on_submit=None, on_filter_by_category_button_click=None, on_filter_by_favorites_button_click=None) -> ft.Row:
         return ft.Row(
             controls=[
                 ft.TextField(
@@ -37,7 +55,7 @@ class RoutinesViewLayout:
             alignment=ft.MainAxisAlignment.END,
         )
     
-    def create_routines_list(self, routine_cards: list[HorizontalRoutineCard]) -> ft.ListView:
+    def _create_routines_list(self, routine_cards: list[HorizontalRoutineCard]) -> ft.ListView:
         return ft.ListView(
             controls=routine_cards,
             spacing=10,

@@ -1,24 +1,19 @@
 import flet as ft
 
 from hexagon.domain.model import Routine
-
+from ui.view.layout import RoutinesViewLayout
+    
 
 class RoutinesView(ft.View):
 
-    def __init__(
-            self,
-            on_view_exercises_button_click=None,
-            on_favorite_button_click=None,
-            on_filter_by_favorite_button_click=None,
-            on_filter_by_category_button_click=None,
-    ) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self._on_view_exercises_button_click = on_view_exercises_button_click
-        self._on_favorite_button_click = on_favorite_button_click
-        self._on_filter_by_favorite_button_click = on_filter_by_favorite_button_click
-        self._on_filter_by_category_button_click = on_filter_by_category_button_click
+        self.router = "/routines"
+        self._on_view_exercises_button_click = None
+        self._on_favorite_button_click = None
+        self._on_filter_by_favorite_button_click = None
+        self._on_filter_by_category_button_click = None
         self._routines = []
-        self.controls = [ft.Text("Routines View")]
     
     @property
     def on_view_exercises_button_click(self):
@@ -59,3 +54,13 @@ class RoutinesView(ft.View):
     @routines.setter
     def routines(self, routines: list[Routine]):
         self._routines = routines
+        self.update_view(routines)
+    
+    def update_view(self, routines: list[Routine]) -> None:
+        """
+        Actualiza la vista con los nuevos datos de las rutinas.
+        """
+        layout = RoutinesViewLayout(routines)
+        self.controls = [
+            layout
+        ]
