@@ -27,3 +27,18 @@ class Routine:
 class RoutineExercise:
     routine: Routine
     exercise: Exercise
+
+
+@dataclass
+class Tutor:
+    id: int
+    full_name: str
+    children: list["Child"]
+
+
+@dataclass
+class Child:
+    id: int
+    full_name: str
+    age: int
+    tutor: Tutor

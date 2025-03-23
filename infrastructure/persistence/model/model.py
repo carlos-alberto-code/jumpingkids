@@ -71,7 +71,6 @@ RoutineExerciseEntity = Table(
     Column("exercise_id", Integer, ForeignKey("exercises.id"), primary_key=True),
 )
 
-
 class TutorEntity(Base):
     """
     Representa un tutor o cuidador de un niño. Cada tutor puede tener un nombre completo y puede estar asociado con múltiples niños.
