@@ -147,3 +147,5 @@ cython_debug/
 *.sql
 *.sqlite3
 *.db
+
+test_controls.py
