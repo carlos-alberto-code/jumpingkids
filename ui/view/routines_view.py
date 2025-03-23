@@ -13,6 +13,7 @@ class RoutinesView(ft.View):
         self._on_favorite_button_click = None
         self._on_filter_by_favorite_button_click = None
         self._on_filter_by_category_button_click = None
+        self._on_submit = None
         self._routines = []
     
     @property
@@ -46,6 +47,14 @@ class RoutinesView(ft.View):
     @on_filter_by_category_button_click.setter
     def on_filter_by_category_button_click(self, value):
         self._on_filter_by_category_button_click = value
+    
+    @property
+    def on_submit(self):
+        return self._on_submit
+    
+    @on_submit.setter
+    def on_submit(self, value):
+        self._on_submit = value
 
     @property
     def routines(self):
@@ -60,7 +69,12 @@ class RoutinesView(ft.View):
         """
         Actualiza la vista con los nuevos datos de las rutinas.
         """
-        layout = RoutinesViewLayout(routines)
-        self.controls = [
-            layout
-        ]
+        layout = RoutinesViewLayout(
+            routines,
+            on_favorite_button_click=self._on_favorite_button_click,
+            on_show_exercises_button_click=self._on_view_exercises_button_click,
+            on_filter_by_favorites_button_click=self._on_filter_by_favorite_button_click,
+            on_filter_by_category_button_click=self._on_filter_by_category_button_click,
+            on_submit=self._on_submit,
+        )
+        self.controls = [layout]

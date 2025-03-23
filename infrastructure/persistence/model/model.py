@@ -35,6 +35,7 @@ class RoutineEntity(Base):
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
 
     categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines")
+    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises", back_populates="routines")
 
     def __repr__(self):
         return f"RoutineEntity(id={self.id}, name={self.name})"

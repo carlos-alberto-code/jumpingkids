@@ -28,7 +28,7 @@ class HorizontalRoutineCard(RoutineCard):
     Esta tarjeta muestra el nombre y la descripción de la rutina, así como botones para ver los ejercicios y agregar la rutina a favoritos.
     """
 
-    def __init__(self, routine: Routine, on_favorite_button_click=None, on_card_click=None) -> None:
+    def __init__(self, routine: Routine, on_favorite_button_click=None, on_show_exercises_button_click=None) -> None:
         super().__init__(routine)
         self.content = ft.ListTile(
             title=ft.Text(routine.name),
@@ -40,7 +40,7 @@ class HorizontalRoutineCard(RoutineCard):
                             ft.TextButton(
                                 text="Ver Ejercicios",
                                 icon=ft.Icons.FITNESS_CENTER,
-                                on_click=on_card_click,
+                                on_click=on_show_exercises_button_click,
                             ),
                             ft.TextButton(
                                 text="Agregar a favoritos",

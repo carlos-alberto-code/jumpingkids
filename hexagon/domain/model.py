@@ -20,6 +20,7 @@ class Routine:
     name: str
     description: str
     categories: list[Category]
+    exercises: list[Exercise]
 
 
 @dataclass

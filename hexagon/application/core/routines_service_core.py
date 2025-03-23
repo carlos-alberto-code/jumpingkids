@@ -10,9 +10,8 @@ class RoutinesServiceCore(RoutinesServicePort):
         self._routines_repository = routines_repository_port
 
     def get_all_routines(self) -> list[Routine]:
-        routines: list[Routine] = self._routines_repository.get_all_routines()
-        return routines
-
+        return self._routines_repository.get_all_routines()
+        
     def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise]:
         exercises: list[Exercise] = self._routines_repository.get_exercises_by_routine_id(routine_id)
         return exercises

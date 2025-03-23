@@ -5,18 +5,33 @@ from ui.view.components.routine_card import HorizontalRoutineCard
 
 
 class RoutinesViewLayout(ft.Container):
+    """
+    Esta clase representa el diseño de la vista de rutinas en general. Recibe todos los eventos definidos y suministra las referencias a cada componente.
+    """
 
-    def __init__(self, routines: list[Routine]) -> None:
+    def __init__(
+            self,
+            routines: list[Routine],
+            on_favorite_button_click=None,
+            on_show_exercises_button_click=None,
+            on_submit=None,
+            on_filter_by_category_button_click=None,
+            on_filter_by_favorites_button_click=None,
+    ) -> None:
         super().__init__()
         self.content = ft.Column(
             controls=[
-                self._create_search_row(),
+                self._create_search_row(
+                    on_submit=on_submit,
+                    on_filter_by_category_button_click=on_filter_by_category_button_click,
+                    on_filter_by_favorites_button_click=on_filter_by_favorites_button_click,
+                ),
                 self._create_routines_list(
                     routine_cards=[
                         HorizontalRoutineCard(
                             routine=routine,
-                            on_favorite_button_click=lambda e: print(f"Favoritar rutina {routine.name}"),
-                            on_card_click=lambda e: print(f"Ver ejercicios de la rutina {routine.name}"),
+                            on_favorite_button_click=on_favorite_button_click,
+                            on_show_exercises_button_click=on_show_exercises_button_click,
                         ) for routine in routines
                     ]
                 )
