@@ -5,6 +5,7 @@ from dataclasses import dataclass
 class Category:
     id: int
     name: str
+    routines: list["Routine"]
 
 
 @dataclass
