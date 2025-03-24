@@ -15,7 +15,7 @@ class CategoryEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
 
-    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="categories_routines", back_populates="categories")
+    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="categories_routines", back_populates="categories", lazy="selectin")
 
     def __repr__(self):
         return f"CategoryEntity(id={self.id}, name={self.name})"
@@ -31,8 +31,8 @@ class RoutineEntity(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines")
-    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises")
+    categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines", lazy="selectin")
+    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises", lazy="selectin")
 
     def __repr__(self):
         return f"RoutineEntity(id={self.id}, name={self.name})"
@@ -76,7 +76,7 @@ class TutorEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor")
+    children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor", lazy="selectin")
 
     def __repr__(self):
         return f"TutorEntity(id={self.id}, full_name={self.full_name})"
@@ -98,7 +98,7 @@ class ChildEntity(Base):
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
     tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
 
-    favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines")
+    favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
 
     def __repr__(self):
         return f"ChildEntity(id={self.id}, full_name={self.full_name}, age={self.age})"
