@@ -109,6 +109,6 @@ class ChildEntity(Base):
 FavoriteRoutinesEntity = Table(
     "favorite_routines",
     Base.metadata,
-    Column("child_id", Integer, ForeignKey("children.id"), primary_key=True),
-    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
+    Column("child_id", Integer, ForeignKey("children.id"), primary_key=True, nullable=False),
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True, nullable=False),
 )
