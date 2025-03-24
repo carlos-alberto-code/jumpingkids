@@ -13,10 +13,10 @@ class RoutineMapper:
             name=entity.name,
             description=entity.description,
             categories=[
-                CategoryMapper().from_entity_to_domain(category) for category in entity.categories
+                CategoryMapper.from_entity_to_domain(category) for category in entity.categories
             ],
             exercises=[
-                ExerciseMapper().from_entity_to_domain(exercise) for exercise in entity.exercises
+                ExerciseMapper.from_entity_to_domain(exercise) for exercise in entity.exercises
             ],
         )
 
@@ -27,9 +27,9 @@ class RoutineMapper:
             name=domain.name,
             description=domain.description,
             categories=[
-                CategoryMapper().from_domain_to_entity(category) for category in domain.categories
+                CategoryMapper.from_domain_to_entity(category) for category in domain.categories
             ],
             exercises=[
-                ExerciseMapper().from_domain_to_entity(exercise) for exercise in domain.exercises
+                ExerciseMapper.from_domain_to_entity(exercise) for exercise in domain.exercises
             ],
         )

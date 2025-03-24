@@ -11,7 +11,7 @@ class TutorMapper:
             id=entity.id,
             full_name=entity.full_name,
             children=[
-                ChildMapper().from_entity_to_domain(child) for child in entity.children
+                ChildMapper.from_entity_to_domain(child) for child in entity.children
             ]
         )
 
@@ -21,6 +21,6 @@ class TutorMapper:
             id=domain.id,
             full_name=domain.full_name,
             children=[
-                ChildMapper().from_domain_to_entity(child) for child in domain.children
+                ChildMapper.from_domain_to_entity(child) for child in domain.children
             ]
         )
