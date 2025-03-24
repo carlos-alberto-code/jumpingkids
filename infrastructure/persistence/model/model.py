@@ -1,11 +1,29 @@
-from datetime import datetime
+import unicodedata
 
+from sqlalchemy import event
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Boolean, Integer, String, ForeignKey, DateTime, Column, Table, CheckConstraint
+from sqlalchemy import Integer, String, ForeignKey, Column, Table, CheckConstraint
+
+
+def normalize_text(input_text: str) -> str:
+    """
+    Normaliza el texto eliminando acentos y convirtiéndolo a mayúsculas.
+    """
+    nfkd_form = unicodedata.normalize('NFKD', input_text)
+    without_accents = ''.join([c for c in nfkd_form if not unicodedata.combining(c)])
+    return without_accents.upper()
 
 
 class Base(DeclarativeBase):
     pass
+
+
+@event.listens_for(Base, 'attribute_instrument')
+def instrument_attributes(cls, key, inst):
+    if isinstance(inst.prop, Column) and isinstance(inst.prop.columns[0].type, String):
+        @event.listens_for(inst, 'set', retval=True)
+        def set_normalized(instance, value, oldvalue, initiator):
+            return normalize_text(value)
 
 
 class CategoryEntity(Base):
