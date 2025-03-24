@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from hexagon.domain.model import Routine, Exercise
 
+
 class RoutinesRepositoryPort(ABC):
     
     @abstractmethod
