@@ -11,7 +11,7 @@ load_dotenv()
 
 DATABASE_URL_PRE = os.getenv("DATABASE_URL_PRE", "sqlite:///:memory:")
 
-engine = create_engine(DATABASE_URL_PRE, echo=True)
+engine = create_engine(DATABASE_URL_PRE)
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
