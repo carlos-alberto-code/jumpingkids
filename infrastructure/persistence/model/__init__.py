@@ -1,21 +1,21 @@
 from infrastructure.persistence.model.model import (
     CategoryEntity,
     RoutineEntity,
-    EjercicioEntity,
-    RutinaEjercicioEntity,
+    CategoryRoutineEntity,
+    ExerciseEntity,
+    RoutineExerciseEntity,
     TutorEntity,
-    NinoEntity,
-    NivelRutinaEntity,
-    AsignacionEntity
+    ChildEntity,
+    FavoriteRoutinesEntity
 )
 
 __all__ = [
     "CategoryEntity",
     "RoutineEntity",
-    "EjercicioEntity",
-    "RutinaEjercicioEntity",
+    "ExerciseEntity",
+    "RoutineExerciseEntity",
     "TutorEntity",
-    "NinoEntity",
-    "NivelRutinaEntity",
-    "AsignacionEntity"
+    "ChildEntity",
+    "CategoryRoutineEntity",
+    "FavoriteRoutinesEntity"
 ]

@@ -1,5 +1,6 @@
 from hexagon.domain.model import Child
-from infrastructure.mapper.tutor_mapper import TutorMapper
+from infrastructure.mapper import TutorMapper
+from infrastructure.mapper import RoutineMapper
 from infrastructure.persistence.model.model import ChildEntity
 
 class ChildMapper:
@@ -10,7 +11,10 @@ class ChildMapper:
             id=entity.id,
             full_name=entity.full_name,
             age=entity.age,
-            tutor=TutorMapper().from_entity_to_domain(entity.tutor)
+            tutor=TutorMapper().from_entity_to_domain(entity.tutor),
+            favorite_routines=[
+                RoutineMapper().from_entity_to_domain(routine) for routine in entity.favorite_routines
+            ]
         )
 
     @staticmethod
