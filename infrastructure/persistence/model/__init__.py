@@ -6,7 +6,8 @@ from infrastructure.persistence.model.model import (
     RoutineExerciseEntity,
     TutorEntity,
     ChildEntity,
-    FavoriteRoutinesEntity
+    FavoriteRoutinesEntity,
+    Base
 )
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "TutorEntity",
     "ChildEntity",
     "CategoryRoutineEntity",
-    "FavoriteRoutinesEntity"
+    "FavoriteRoutinesEntity",
+    "Base",
 ]
