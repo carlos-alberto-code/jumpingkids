@@ -22,7 +22,7 @@ class Repository(Generic[T]):
             # Considera logging aquí
             raise Exception(f"Error al obtener entidad por ID: {str(e)}")
     
-    def get_all(self) -> list[T]:
+    def get_all(self) -> list[T] | None:
         try:
             with get_session() as session:
                 return session.query(self._model).all()
