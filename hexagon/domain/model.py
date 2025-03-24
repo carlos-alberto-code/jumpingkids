@@ -25,12 +25,6 @@ class Routine:
 
 
 @dataclass
-class RoutineExercise:
-    routine: Routine
-    exercise: Exercise
-
-
-@dataclass
 class Tutor:
     id: int
     full_name: str
@@ -43,3 +37,4 @@ class Child:
     full_name: str
     age: int
     tutor: Tutor
+    favorite_routines: list[Routine]

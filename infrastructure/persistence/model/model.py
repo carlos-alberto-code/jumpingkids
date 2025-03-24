@@ -32,10 +32,9 @@ class RoutineEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
-    category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
 
     categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines")
-    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises", back_populates="routines")
+    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises")
 
     def __repr__(self):
         return f"RoutineEntity(id={self.id}, name={self.name})"
@@ -58,7 +57,6 @@ class ExerciseEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
-    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="routines_exercises", back_populates="exercises")
 
     def __repr__(self):
         return f"ExerciseEntity(id={self.id}, name={self.name})"
@@ -79,6 +77,7 @@ class TutorEntity(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
+
     children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor")
 
     def __repr__(self):
@@ -101,5 +100,15 @@ class ChildEntity(Base):
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
     tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
 
+    favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines")
+
     def __repr__(self):
         return f"ChildEntity(id={self.id}, full_name={self.full_name}, age={self.age})"
+
+
+FavoriteRoutinesEntity = Table(
+    "favorite_routines",
+    Base.metadata,
+    Column("child_id", Integer, ForeignKey("children.id"), primary_key=True),
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
+)
