@@ -5,16 +5,22 @@ from infrastructure.persistence.model.model import CategoryEntity
 class CategoryMapper:
 
     @staticmethod
-    def from_entity_to_domain(entity: CategoryEntity) -> Category:
+    def from_entity_to_domain(entity: CategoryEntity, include_routines=True) -> Category:
         # Importación local para evitar la circular
         from infrastructure.mapper.routines_mapper import RoutineMapper
         
+        # Evitamos la recursión infinita
+        routines = []
+        if include_routines:
+            routines = [
+                RoutineMapper.from_entity_to_domain(routine, include_categories=False) 
+                for routine in entity.routines
+            ]
+            
         return Category(
             id=entity.id,
             name=entity.name,
-            routines=[
-                RoutineMapper.from_entity_to_domain(routine) for routine in entity.routines
-            ]
+            routines=routines
         )
 
     @staticmethod

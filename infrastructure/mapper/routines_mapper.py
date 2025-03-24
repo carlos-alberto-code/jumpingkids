@@ -7,14 +7,19 @@ from infrastructure.mapper.exercise_mapper import ExerciseMapper
 class RoutineMapper:
     
     @staticmethod
-    def from_entity_to_domain(entity: RoutineEntity) -> Routine:
+    def from_entity_to_domain(entity: RoutineEntity, include_categories=True) -> Routine:
+        categories = []
+        if include_categories:
+            categories = [
+                CategoryMapper.from_entity_to_domain(category, include_routines=False) 
+                for category in entity.categories
+            ]
+            
         return Routine(
             id=entity.id,
             name=entity.name,
             description=entity.description,
-            categories=[
-                CategoryMapper.from_entity_to_domain(category) for category in entity.categories
-            ],
+            categories=categories,
             exercises=[
                 ExerciseMapper.from_entity_to_domain(exercise) for exercise in entity.exercises
             ],
