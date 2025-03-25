@@ -21,9 +21,7 @@ class RoutinesViewEventsConnector:
         """
         exercises: list[Exercise] = self._routines_service_port.get_exercises_by_routine_id(
             1)
-        for exercise in exercises:
-            print(
-                f"Ejercicio: {exercise.name}, Descripción: {exercise.description}")
+        print(exercises)
         # Conectar los ejercicios con la vista y actualizar la GUI
 
     def _on_favorite_button_click(self, event: ft.ControlEvent):
@@ -46,11 +44,11 @@ class RoutinesViewEventsConnector:
         Filtra las rutinas favoritas del usuario.
         """
         user_id = 1  # TODO: Hay que buscar una forma de obtener el id del usuario
-        favorite_routines: list[Routine] = self._routines_service_port.get_favorite_routines_by_user_id(
-            user_id)
-        for routine in favorite_routines:
-            print(
-                f"Rutina favorita: {routine.name}, Descripción: {routine.description}")
+        # favorite_routines: list[Routine] = self._routines_service_port.get_favorite_routines_by_user_id(
+        #     user_id)
+        # for routine in favorite_routines:
+        #     print(
+        #         f"Rutina favorita: {routine.name}, Descripción: {routine.description}")
         # Conectar las rutinas obtenidas con la vista y actualizar la GUI
 
     def _on_filter_by_category_button_click(self, event: ft.ControlEvent):
@@ -58,11 +56,11 @@ class RoutinesViewEventsConnector:
         Filtra las rutinas en función de la categoría seleccionada.
         """
         category_id = 1  # TODO: Hay que buscar una forma de obtener el id de la categoría
-        category_routines: list[Routine] = self._routines_service_port.get_routines_by_category_id(
-            category_id)
-        for routine in category_routines:
-            print(
-                f"Rutina por categoría: {routine.name}, Descripción: {routine.description}")
+        # category_routines: list[Routine] = self._routines_service_port.get_routines_by_category_id(
+        #     category_id)
+        # for routine in category_routines:
+        #     print(
+        #         f"Rutina por categoría: {routine.name}, Descripción: {routine.description}")
         # Conectar las rutinas obtenidas con la vista y actualizar la GUI
 
     def _connect_events(self) -> None:

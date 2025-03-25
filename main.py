@@ -5,7 +5,7 @@ from ui.app_builder import AppViewBuilder
 
 def main(page: ft.Page):
     page.title = "Rutinas"
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.theme_mode = ft.ThemeMode.DARK
 
     app_builder = AppViewBuilder()
     page.views.extend(

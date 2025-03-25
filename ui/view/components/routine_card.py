@@ -31,10 +31,10 @@ class HorizontalRoutineCard(RoutineCard):
     def __init__(self, routine: Routine, on_favorite_button_click=None, on_show_exercises_button_click=None) -> None:
         super().__init__(routine)
         self.content = ft.ListTile(
-            title=ft.Text(routine.name),
+            title=ft.Text(routine.name.capitalize()),
             subtitle=ft.Column(
                 controls=[
-                    ft.Text(routine.description),
+                    ft.Text(routine.description.capitalize()),
                     ft.Row(
                         controls=[
                             ft.TextButton(

@@ -4,7 +4,7 @@ from hexagon.domain.model import Routine
 from ui.view.components.routine_card import HorizontalRoutineCard
 
 
-class RoutinesViewLayout(ft.Container):
+class RoutinesViewLayout(ft.Column):
     """
     Esta clase representa el diseño de la vista de rutinas en general. Recibe todos los eventos definidos y suministra las referencias a cada componente.
     """
@@ -18,25 +18,35 @@ class RoutinesViewLayout(ft.Container):
             on_filter_by_category_button_click=None,
             on_filter_by_favorites_button_click=None,
     ) -> None:
-        super().__init__()
-        self.content = ft.Column(
-            controls=[
-                self._create_search_row(
-                    on_submit=on_submit,
-                    on_filter_by_category_button_click=on_filter_by_category_button_click,
-                    on_filter_by_favorites_button_click=on_filter_by_favorites_button_click,
-                ),
-                self._create_routines_list(
-                    routine_cards=[
-                        HorizontalRoutineCard(
-                            routine=routine,
-                            on_favorite_button_click=on_favorite_button_click,
-                            on_show_exercises_button_click=on_show_exercises_button_click,
-                        ) for routine in routines
-                    ]
-                )
-            ]
-        )
+        super().__init__(expand=True)
+        self._routines = routines
+        self.controls = [
+            ft.Row(
+                controls=[
+                    ft.Column(
+                        controls=[
+                            self._create_search_row(
+                                on_submit=on_submit,
+                                on_filter_by_category_button_click=on_filter_by_category_button_click,
+                                on_filter_by_favorites_button_click=on_filter_by_favorites_button_click,
+                            ),
+                            self._create_routines_list(
+                                routine_cards=[
+                                    HorizontalRoutineCard(
+                                        routine=routine,
+                                        on_favorite_button_click=on_favorite_button_click,
+                                        on_show_exercises_button_click=on_show_exercises_button_click,
+                                    ) for routine in routines
+                                ]
+                            )
+                        ],
+                        expand=True,
+                    ),
+                    ft.Column(width=400),
+                ],
+                expand=True,
+            )
+        ]
 
     def _create_search_row(self, on_submit=None, on_filter_by_category_button_click=None, on_filter_by_favorites_button_click=None) -> ft.Row:
         return ft.Row(
@@ -75,4 +85,5 @@ class RoutinesViewLayout(ft.Container):
             controls=routine_cards,
             spacing=10,
             build_controls_on_demand=True,
+            expand=True,
         )
