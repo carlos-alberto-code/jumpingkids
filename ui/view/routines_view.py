@@ -15,6 +15,34 @@ class RoutinesView(ft.View):
         self._on_filter_by_category_button_click = None
         self._on_submit = None
         self._routines = []
+        self.appbar = ft.AppBar(
+            title=ft.Text("Rutinas"),
+            automatically_imply_leading=False,
+            center_title=True,
+            elevation=5,
+            actions=[
+                ft.PopupMenuButton(
+                    tooltip="Usuario",
+                    icon=ft.Icons.ACCOUNT_CIRCLE,
+                    elevation=5,
+                    items=[
+                        ft.PopupMenuItem(
+                            text="Perfil",
+                            icon=ft.Icons.PERSON,
+                        ),
+                        ft.PopupMenuItem(
+                            text="Configuración",
+                            icon=ft.Icons.SETTINGS,
+                        ),
+                        ft.PopupMenuItem(
+                            text="Cerrar sesión",
+                            icon=ft.Icons.LOGOUT,
+                        ),
+                    ],
+                ),
+                ft.Container(width=15)
+            ]
+        )
     
     @property
     def on_view_exercises_button_click(self):
