@@ -6,7 +6,7 @@ from ui.view.layout import RoutinesViewLayout
 
 class RoutinesView(ft.View):
 
-    def __init__(self) -> None:
+    def __init__(self, appbar: ft.AppBar) -> None:
         super().__init__()
         self.router = "/routines"
         self._on_view_exercises_button_click = None
@@ -15,36 +15,7 @@ class RoutinesView(ft.View):
         self._on_filter_by_category_button_click = None
         self._on_submit = None
         self._routines = []
-        self.appbar = ft.AppBar(
-            title=ft.Text("Rutinas"),
-            automatically_imply_leading=False,
-            center_title=True,
-            elevation=5,
-            actions=[
-                ft.Text("Carlos Alberto Baltazar Hinojosa"),
-                ft.VerticalDivider(visible=False),
-                ft.PopupMenuButton(
-                    tooltip="Usuario",
-                    icon=ft.Icons.ACCOUNT_CIRCLE,
-                    elevation=5,
-                    items=[
-                        ft.PopupMenuItem(
-                            text="Perfil",
-                            icon=ft.Icons.PERSON,
-                        ),
-                        ft.PopupMenuItem(
-                            text="Configuración",
-                            icon=ft.Icons.SETTINGS,
-                        ),
-                        ft.PopupMenuItem(
-                            text="Cerrar sesión",
-                            icon=ft.Icons.LOGOUT,
-                        ),
-                    ],
-                ),
-                ft.Container(width=15)
-            ]
-        )
+        self.appbar = appbar
     
     @property
     def on_view_exercises_button_click(self):
@@ -97,7 +68,7 @@ class RoutinesView(ft.View):
     
     def update_view(self, routines: list[Routine]) -> None:
         """
-        Actualiza la vista con los nuevos datos de las rutinas.
+        Actualiza la vista con los nuevos datos de las rutinas. Verifica si las rutinas están marcadas como favoritas para cambiar el icono del botón de favoritos de forma que se muestre marcado.
         """
         layout = RoutinesViewLayout(
             routines,
@@ -108,3 +79,4 @@ class RoutinesView(ft.View):
             on_submit=self._on_submit,
         )
         self.controls = [layout]
+        

@@ -5,9 +5,9 @@ from hexagon.application.service.routines_service_port import RoutinesServicePor
 
 class RoutinesServiceCore(RoutinesServicePort):
 
-    def __init__(self, routines_repository_port: RoutinesRepositoryPort) -> None:
+    def __init__(self, routines_repository: RoutinesRepositoryPort) -> None:
         super().__init__()
-        self._routines_repository = routines_repository_port
+        self._routines_repository = routines_repository
 
     def get_all_routines(self) -> list[Routine]:
         return self._routines_repository.get_all_routines()

@@ -1,13 +1,13 @@
 import flet as ft
 
 from ui.view import RoutinesView
+from ui.controller.controller import Controller
 from ui.event import RoutinesViewEventsConnector
 
-from hexagon.domain.model import Category, Routine
-from hexagon.application.service import RoutinesServicePort
+from hexagon.application.service import UserServicePort, RoutinesServicePort
 
 
-class RoutinesViewController:
+class RoutinesViewController(Controller):
     """
     Este controlador es responsable de manejar la lógica de presentación para la vista de rutinas. Interactúa con el puerto de servicio de rutinas ``(RoutinesServicePort)`` y la vista de rutinas ``(RoutinesView)``.
     Se encarga de inicializar la vista con todas las rutinas disponibles y conectar los eventos de la vista con el servicio de rutinas.
@@ -15,14 +15,22 @@ class RoutinesViewController:
     Sólo devuelve la vista de rutinas y no tiene acceso a la lógica de negocio.
     """
 
-    def __init__(self, routines_service_port: RoutinesServicePort, routines_view: RoutinesView) -> None:
+    def __init__(
+            self,
+            routines_view: RoutinesView,
+            user_service: UserServicePort,
+            routines_service: RoutinesServicePort,
+    ) -> None:
         self._routines_view = routines_view
-        self._events_connector = RoutinesViewEventsConnector(routines_service_port, routines_view)
-        self._routines_view.routines = routines_service_port.get_all_routines()
+        self._events_connector = RoutinesViewEventsConnector(
+            routines_view=routines_view,
+            user_service_port=user_service,
+            routines_service_port=routines_service,
+        )
+        self._routines_view.routines = routines_service.get_all_routines()
 
     @property
-    def view(self) -> ft.View:
-        """
-        Devuelve la vista de rutinas.
-        """
-        return self._routines_view
+    def view(self) -> dict[str, ft.View]:
+        return {
+            "routines": self._routines_view
+        }

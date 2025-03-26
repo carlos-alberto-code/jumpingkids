@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import date
 
 
 @dataclass
@@ -25,16 +26,22 @@ class Routine:
 
 
 @dataclass
-class Tutor:
+class User:
     id: int
     full_name: str
+    birth_date: date
+    username: str
+    password: str
+
+
+@dataclass
+class Tutor(User):
+    id: int
     children: list["Child"]
 
 
 @dataclass
-class Child:
+class Child(User):
     id: int
-    full_name: str
-    age: int
     tutor: Tutor
     favorite_routines: list[Routine]

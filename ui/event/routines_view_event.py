@@ -2,7 +2,7 @@ import flet as ft
 
 from ui.view import RoutinesView
 from hexagon.domain.model import Exercise, Routine
-from hexagon.application.service.routines_service_port import RoutinesServicePort
+from hexagon.application.service import RoutinesServicePort, UserServicePort
 
 
 class RoutinesViewEventsConnector:
@@ -10,9 +10,15 @@ class RoutinesViewEventsConnector:
     La clase empareja la definicón de los eventos con la vista. Hace uso de un servicio para manejar la lógica de negocio y conectar los resultados con la parte gráfica. Esta clase tiene todos los eventos que se pueden disparar desde la vista de rutinas y genera esa conexión internamente.
     """
 
-    def __init__(self, routines_service_port: RoutinesServicePort, routines_view: RoutinesView) -> None:
-        self._routines_service_port = routines_service_port
+    def __init__(
+            self,
+            routines_view: RoutinesView,
+            user_service_port: UserServicePort,
+            routines_service_port: RoutinesServicePort,
+    ) -> None:
         self._routines_view = routines_view
+        self._user_service_port = user_service_port
+        self._routines_service_port = routines_service_port
         self._connect_events()
 
     def _on_view_exercises_button_click(self, event: ft.ControlEvent):
@@ -28,14 +34,16 @@ class RoutinesViewEventsConnector:
         """
         Agrega o elimina la rutina a una lista de favoritos del usuario.
         """
-        user_id = 1  # TODO: Hay que buscar una forma de obtener el id del usuario
-        routine_id = 2  # TODO: Hay que buscar una forma de obtener el id de la rutina
-        # Se requiere el id del usuario y el id de la rutina para agregarla
-        self._routines_service_port.add_routine_to_user_favorite_list(
-            user_id, routine_id)
-        # Se requiere el id del usuario y el id de la rutina para eliminarla
-        self._routines_service_port.remove_routine_from_user_favorite_list(
-            user_id, routine_id)
+        control: ft.TextButton = event.control
+        print(control)
+        # user_id = 1  # TODO: Hay que buscar una forma de obtener el id del usuario
+        # routine_id = 2  # TODO: Hay que buscar una forma de obtener el id de la rutina
+        # # Se requiere el id del usuario y el id de la rutina para agregarla
+        # self._routines_service_port.add_routine_to_user_favorite_list(
+        #     user_id, routine_id)
+        # # Se requiere el id del usuario y el id de la rutina para eliminarla
+        # self._routines_service_port.remove_routine_from_user_favorite_list(
+        #     user_id, routine_id)
 
         # Mostrar un mensaje de éxito o error
 
