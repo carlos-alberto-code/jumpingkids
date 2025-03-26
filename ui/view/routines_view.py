@@ -21,6 +21,8 @@ class RoutinesView(ft.View):
             center_title=True,
             elevation=5,
             actions=[
+                ft.Text("Carlos Alberto Baltazar Hinojosa"),
+                ft.VerticalDivider(visible=False),
                 ft.PopupMenuButton(
                     tooltip="Usuario",
                     icon=ft.Icons.ACCOUNT_CIRCLE,
