@@ -6,7 +6,7 @@ from ui.view.appbar import JumpingKidsAppbar
 from hexagon.domain.model import Child, Tutor
 from hexagon.application.core import SessionServiceCore
 
-from infrastructure.adapter import SessionRepositoryAdapter
+from infrastructure.adapter import ChildSessionRepositoryAdapter
 
 
 class AppViewBuilder:
@@ -14,7 +14,7 @@ class AppViewBuilder:
     def __init__(
             self,
     ) -> None:
-        session_service = SessionServiceCore(session_repository=SessionRepositoryAdapter())
+        session_service = SessionServiceCore(session_repository=ChildSessionRepositoryAdapter())
         self._user: Tutor | Child | None = session_service.login("CABH_000", "cabh_000")
         if self._user:
             self._appbar = JumpingKidsAppbar("Rutinas", self._user.username)

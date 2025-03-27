@@ -1,4 +1,5 @@
 from typing import Type, TypeVar, Generic
+from sqlalchemy import ColumnElement, select, and_
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from infrastructure.persistence.model.model import Base
@@ -14,8 +15,15 @@ class Repository(Generic[T]):
         super().__init__()
         self._model = model
     
-    def get_by(self, **kwargs) -> T | None:
-        pass
+    def get_by(self, *conditions: ColumnElement[bool]) -> T | None:
+        with get_session() as session:
+            try:
+                stmt = select(self._model).where(and_(*conditions))
+                result = session.execute(stmt)
+                return result.scalar_one_or_none()
+            except SQLAlchemyError as e:
+                # Considera logging aquí
+                raise SQLAlchemyError(f"Error al obtener entidad: {str(e)}")
 
     def get_by_id(self, id: int) -> T | None:
         try:
