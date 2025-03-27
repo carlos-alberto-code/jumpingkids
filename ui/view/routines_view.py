@@ -1,6 +1,6 @@
 import flet as ft
 
-from hexagon.domain.model import Routine
+from hexagon.domain.model import Exercise, Routine
 from ui.view.layout import RoutinesViewLayout
     
 
@@ -15,6 +15,8 @@ class RoutinesView(ft.View):
         self._on_filter_by_category_button_click = None
         self._on_submit = None
         self._routines = []
+        self._exercises = []
+        self._layout: RoutinesViewLayout | None = None
         self.appbar = appbar
         self.navigation_bar = navigation
     
@@ -59,7 +61,7 @@ class RoutinesView(ft.View):
         self._on_submit = value
 
     @property
-    def routines(self):
+    def routines(self) -> list[Routine]:
         return self._routines
     
     @routines.setter
@@ -71,7 +73,7 @@ class RoutinesView(ft.View):
         """
         Actualiza la vista con los nuevos datos de las rutinas. Verifica si las rutinas están marcadas como favoritas para cambiar el icono del botón de favoritos de forma que se muestre marcado.
         """
-        layout = RoutinesViewLayout(
+        self._layout = RoutinesViewLayout(
             routines,
             on_favorite_button_click=self._on_favorite_button_click,
             on_show_exercises_button_click=self._on_view_exercises_button_click,
@@ -79,5 +81,16 @@ class RoutinesView(ft.View):
             on_filter_by_category_button_click=self._on_filter_by_category_button_click,
             on_submit=self._on_submit,
         )
-        self.controls = [layout]
-        
+        self.controls = [self._layout]
+    
+    @property
+    def exercises(self) -> list[Exercise]:
+        return self._exercises
+    
+    @exercises.setter
+    def exercises(self, exercises: list[Exercise]) -> None:
+        self._exercises = exercises
+        print("Logica para mostrar ejercicios en la vista")
+        # Aquí puedes agregar lógica para mostrar los ejercicios en la vista si es necesario.
+        # Por ejemplo, podrías actualizar un componente de la interfaz de usuario para mostrar los ejercicios.
+

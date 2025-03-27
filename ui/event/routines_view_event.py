@@ -28,8 +28,21 @@ class RoutinesViewEventsConnector:
         """
         text_button: ft.TextButton = event.control
         routine: Routine = cast(Routine, text_button.data)
-        exercises: list[Exercise] = self._routines_service_port.get_exercises_by_routine_id(routine.id)
-        print(exercises)
+        exercises: list[Exercise] | None = self._routines_service_port.get_exercises_by_routine_id(routine.id)
+        if exercises:
+            self._routines_view.exercises = exercises
+            self._routines_view.update()
+        else:
+            page: ft.Page = event.page
+            snack = ft.SnackBar(
+                content=ft.Text("No se encontraron ejercicios para esta rutina."),
+                action="Cerrar",
+                action_color=ft.Colors.RED,
+            )
+            page.overlay.append(snack)
+            snack.open = True
+            page.update()
+
         # Conectar los ejercicios con la vista y actualizar la GUI
 
     def _on_favorite_button_click(self, event: ft.ControlEvent):

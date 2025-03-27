@@ -12,8 +12,12 @@ class RoutinesServiceCore(RoutinesServicePort):
     def get_all_routines(self) -> list[Routine]:
         return self._routines_repository.get_all_routines()
         
-    def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise]:
-        exercises: list[Exercise] = self._routines_repository.get_exercises_by_routine_id(routine_id)
+    # def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise]:
+    #     exercises: list[Exercise] = self._routines_repository.get_exercises_by_routine_id(routine_id)
+    #     return exercises
+
+    def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise] | None:
+        exercises: list[Exercise] | None = self._routines_repository.get_exercises_by_routine_id(routine_id)
         return exercises
     
     def get_favorite_routines_by_user_id(self, user_id: int) -> list[Routine]:

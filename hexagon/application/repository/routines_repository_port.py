@@ -12,7 +12,7 @@ class RoutinesRepositoryPort(ABC):
         pass
 
     @abstractmethod
-    def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise]:
+    def get_exercises_by_routine_id(self, routine_id: int) -> list[Exercise] | None:
         """
         Obtiene todos los ejercicios de una rutina específica.
         """
