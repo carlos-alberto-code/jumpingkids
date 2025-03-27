@@ -14,7 +14,7 @@ class AppViewBuilder:
     def __init__(
             self,
     ) -> None:
-        session_service = ChildSessionServiceCore(session_repository=ChildSessionRepositoryAdapter())
+        session_service = ChildSessionServiceCore(child_session_repository=ChildSessionRepositoryAdapter())
         self._user: Child | None = session_service.login("cabh")
         if self._user:
             self._appbar = JumpingKidsAppbar("Rutinas", self._user.username)
