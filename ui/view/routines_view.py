@@ -6,7 +6,7 @@ from ui.view.layout import RoutinesViewLayout
 
 class RoutinesView(ft.View):
 
-    def __init__(self, appbar: ft.AppBar) -> None:
+    def __init__(self, appbar: ft.AppBar, navigation: ft.NavigationBar) -> None:
         super().__init__()
         self.router = "/routines"
         self._on_view_exercises_button_click = None
@@ -16,6 +16,7 @@ class RoutinesView(ft.View):
         self._on_submit = None
         self._routines = []
         self.appbar = appbar
+        self.navigation_bar = navigation
     
     @property
     def on_view_exercises_button_click(self):

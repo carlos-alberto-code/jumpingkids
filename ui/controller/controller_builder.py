@@ -1,4 +1,4 @@
-from flet import AppBar
+from flet import AppBar, NavigationBar
 
 from ui.view import RoutinesView
 from ui.controller import Controller
@@ -15,8 +15,9 @@ class ControllersBuilder:
     Esta clase tiene la responsabilidade de construir los controladores de la aplicación. Para armar un controlador, es necesario crear un nuevo método privado en donde se importará el controlador a construir y se inicializará con los parámetros necesarios. La clase es un iterable, por lo que se puede iterar sobre los controladores construidos.
     """
 
-    def __init__(self, appbar: AppBar) -> None:
+    def __init__(self, appbar: AppBar, navigation: NavigationBar) -> None:
         self._appbar = appbar
+        self._navigation = navigation
         self._controllers: dict[str, Controller] = {}
         self._build()
     
@@ -33,7 +34,8 @@ class ControllersBuilder:
         from ui.controller import RoutinesViewController
         self._controllers["routines"] = RoutinesViewController(
             routines_view=RoutinesView(
-                appbar=self._appbar
+                appbar=self._appbar,
+                navigation=self._navigation
             ),
             user_service=UserServiceCore(
                 user_repository=UserRepositoryAdapter(),

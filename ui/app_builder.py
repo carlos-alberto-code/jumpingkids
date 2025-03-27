@@ -1,5 +1,6 @@
 import flet as ft
 
+from ui.view.navigation import Navigation
 from ui.controller import ControllersBuilder
 from ui.view.appbar import JumpingKidsAppbar
 
@@ -18,7 +19,8 @@ class AppViewBuilder:
         self._user: Child | None = session_service.login("cabh")
         if self._user:
             self._appbar = JumpingKidsAppbar("Rutinas", self._user.username)
-            self._controllers = ControllersBuilder(appbar=self._appbar)
+            self._navigation = Navigation()
+            self._controllers = ControllersBuilder(appbar=self._appbar, navigation=self._navigation)
             self._views: dict[str, ft.View] = {
                 route: controller.view
                 for route, controller in self._controllers
