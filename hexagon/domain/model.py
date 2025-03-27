@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import date
 from typing import Optional
 
 
@@ -24,6 +23,8 @@ class Routine:
     description: str
     categories: list[Category]
     exercises: list[Exercise]
+    created_by: "Nutritionist"
+    verified_by: list["Nutritionist"] | None = None
 
 
 @dataclass
@@ -32,6 +33,15 @@ class User:
     full_name: str
     username: str
     password: str
+
+
+@dataclass
+class Nutritionist(User):
+    """
+    Represents a nutritionist who can create and verify routines.
+    """
+    routines_created: list[Routine] | None = None
+    routines_verified: list[Routine] | None = None
 
 
 @dataclass
