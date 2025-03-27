@@ -1,9 +1,9 @@
 from hexagon.application.service.routines_service_port import RoutinesServicePort
 from hexagon.application.service.user_service_port import UserServicePort
-from hexagon.application.service.session_service_port import SessionServicePort
+from hexagon.application.service.child_session_service_port import ChildSessionServicePort
 
 __all__ = [
     "RoutinesServicePort",
     "UserServicePort",
-    "SessionServicePort",
+    "ChildSessionServicePort",
 ]

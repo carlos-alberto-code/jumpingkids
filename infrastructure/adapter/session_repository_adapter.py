@@ -11,6 +11,6 @@ class ChildSessionRepositoryAdapter(SessionRepositoryPort):
         super().__init__()
         self._child_repository = Repository[ChildEntity](ChildEntity)
     
-    def get_user(self, username: str, password: str) -> Child | None:
+    def get_user(self, username: str) -> Child | None:
         child = self._child_repository.get_by(ChildEntity.username == username)
         return ChildMapper.from_entity_to_domain(child) if child else None

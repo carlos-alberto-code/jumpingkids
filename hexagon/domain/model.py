@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date
+from typing import Optional
 
 
 @dataclass
@@ -29,7 +30,6 @@ class Routine:
 class User:
     id: int
     full_name: str
-    birth_date: date
     username: str
     password: str
 
@@ -43,5 +43,5 @@ class Tutor(User):
 @dataclass
 class Child(User):
     id: int
-    tutor: Tutor
-    favorite_routines: list[Routine]
+    tutor: Tutor | None = None
+    favorite_routines: list[Routine] | None = None

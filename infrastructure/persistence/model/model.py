@@ -100,7 +100,7 @@ class ChildEntity(Base):
     username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
+    tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children", lazy="selectin")
     favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
 
     def __repr__(self):
