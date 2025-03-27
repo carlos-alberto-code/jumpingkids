@@ -1,7 +1,7 @@
 import flet as ft
 
 from hexagon.domain.model import Routine
-from ui.view.components.routine_card import HorizontalRoutineCard
+from ui.view.components.card import ExerciseCard, HorizontalRoutineCard
 
 
 class RoutinesViewLayout(ft.Column):
@@ -83,7 +83,11 @@ class RoutinesViewLayout(ft.Column):
     def _create_routines_list(self, routine_cards: list[HorizontalRoutineCard]) -> ft.ListView:
         return ft.ListView(
             controls=routine_cards,
-            spacing=10,
-            build_controls_on_demand=True,
+            expand=True,
+        )
+    
+    def _create_exercise_list(self, exercises: list[ExerciseCard]) -> ft.ListView:
+        return ft.ListView(
+            controls=exercises,
             expand=True,
         )

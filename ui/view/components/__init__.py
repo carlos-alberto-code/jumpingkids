@@ -1,4 +1,4 @@
-from ui.view.components.routine_card import RoutineCard, HorizontalRoutineCard
+from ui.view.components.card import RoutineCard, HorizontalRoutineCard
 
 
 __all__ = [

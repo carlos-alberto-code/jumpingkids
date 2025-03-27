@@ -1,6 +1,6 @@
 import flet as ft
 
-from hexagon.domain.model import Routine
+from hexagon.domain.model import Routine, Exercise
 
 
 class RoutineCard(ft.Card):
@@ -41,6 +41,7 @@ class HorizontalRoutineCard(RoutineCard):
                                 text="Ver Ejercicios",
                                 icon=ft.Icons.FITNESS_CENTER,
                                 on_click=on_show_exercises_button_click,
+                                data=routine
                             ),
                             ft.TextButton(
                                 text="Agregar a favoritos",
@@ -52,3 +53,28 @@ class HorizontalRoutineCard(RoutineCard):
                 ]
             )
         )
+
+
+class ExerciseCard(ft.Card):
+    """
+    Clase base para representar una tarjeta de ejercicio.
+    Esta clase hereda de `ft.Card` y se utiliza para mostrar información sobre un ejercicio. Es heredada en otras ExerciseCard más específicas.
+    """
+    
+    def __init__(self, exercise: Exercise) -> None:
+        self._exercise = exercise
+        super().__init__(
+            content=ft.ListTile(
+                title=ft.Text(exercise.name.capitalize()),
+                subtitle=ft.Text(exercise.description.capitalize()),
+                leading=ft.Icon(ft.Icons.FITNESS_CENTER),
+            )
+        )
+    
+    @property
+    def exercise(self) -> Exercise:
+        return self._exercise
+
+    @exercise.setter
+    def exercise(self, exercise: Exercise) -> None:
+        self._exercise = exercise

@@ -1,3 +1,4 @@
+from typing import cast
 import flet as ft
 
 from ui.view import RoutinesView
@@ -25,8 +26,9 @@ class RoutinesViewEventsConnector:
         """
         Muestra los ejercicios de una rutina específica.
         """
-        exercises: list[Exercise] = self._routines_service_port.get_exercises_by_routine_id(
-            1)
+        text_button: ft.TextButton = event.control
+        routine: Routine = cast(Routine, text_button.data)
+        exercises: list[Exercise] = self._routines_service_port.get_exercises_by_routine_id(routine.id)
         print(exercises)
         # Conectar los ejercicios con la vista y actualizar la GUI
 
