@@ -1,5 +1,8 @@
+from datetime import date
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Integer, String, ForeignKey, Column, Table, CheckConstraint
+from sqlalchemy import Integer, String, ForeignKey, Column, Table, CheckConstraint, DATE, text
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.sql import func
 
 
 class Base(DeclarativeBase):
@@ -75,8 +78,29 @@ class TutorEntity(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
+    birth_date: Mapped[date] = mapped_column(DATE, nullable=False)
+    username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(255), nullable=False)
 
     children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor", lazy="selectin")
+
+    @hybrid_property
+    def age(self):
+        today = date.today()
+        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+    
+    @age.expression
+    def age_expression(cls):
+        today = func.current_date()
+        today_month = func.extract('month', today)
+        today_day = func.extract('day', today)
+        birth_month = func.extract('month', cls.birth_date)
+        birth_day = func.extract('day', cls.birth_date)
+        
+        # Check if today's date is before the birth date in the current year
+        is_before_birthday = (today_month < birth_month) | ((today_month == birth_month) & (today_day < birth_day))
+        
+        return func.extract('year', today) - func.extract('year', cls.birth_date) - func.cast(is_before_birthday, Integer)
 
     def __repr__(self):
         return f"TutorEntity(id={self.id}, full_name={self.full_name})"
@@ -87,21 +111,46 @@ class ChildEntity(Base):
     Representa a un niño que realiza las rutinas. Cada niño puede tener un nombre completo, una edad y un tutor asociado. Los niños pueden estar asociados con múltiples rutinas a través de la tabla de asignación.
     """
     __tablename__ = "children"
-    __table_args__ = (
-        CheckConstraint("age >= 10", name="check_min_age"),
-        CheckConstraint("age <= 15", name="check_max_age"),
-    )
+    
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    age: Mapped[int] = mapped_column(Integer, nullable=False)
+    birth_date: Mapped[date] = mapped_column(DATE, nullable=False)
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
-    tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
+    username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(255), nullable=False)
 
+    # Adding constraints on birth_date instead of age
+    __table_args__ = (
+        # Example constraint: children must be born after a certain date (for max age)
+        CheckConstraint(text("birth_date > DATE '2008-01-01'"), name="child_min_birth_date"),
+        # Example constraint: children must be born before a certain date (for min age)
+        CheckConstraint(text("birth_date < CURRENT_DATE - INTERVAL '5 years'"), name="child_max_birth_date"),
+    )
+
+    tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children")
     favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
 
+    @hybrid_property
+    def age(self):
+        today = date.today()
+        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+    
+    @age.expression
+    def age_expression(cls):  # Renamed to avoid redeclaration warning
+        today = func.current_date()
+        today_month = func.extract('month', today)
+        today_day = func.extract('day', today)
+        birth_month = func.extract('month', cls.birth_date)
+        birth_day = func.extract('day', cls.birth_date)
+        
+        # Check if today's date is before the birth date in the current year
+        is_before_birthday = (today_month < birth_month) | ((today_month == birth_month) & (today_day < birth_day))
+        
+        return func.extract('year', today) - func.extract('year', cls.birth_date) - func.cast(is_before_birthday, Integer)
+
     def __repr__(self):
-        return f"ChildEntity(id={self.id}, full_name={self.full_name}, age={self.age})"
+        return f"ChildEntity(id={self.id}, full_name={self.full_name})"
 
 
 FavoriteRoutinesEntity = Table(

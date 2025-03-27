@@ -2,7 +2,6 @@ from flet import AppBar
 
 from ui.view import RoutinesView
 from ui.controller import Controller
-from ui.controller import RoutinesViewController
 
 from hexagon.application.core import UserServiceCore
 from hexagon.application.core import RoutinesServiceCore
@@ -12,16 +11,26 @@ from infrastructure.adapter.routines_repository_adapter import RoutinesRepositor
 
 
 class ControllersBuilder:
+    """
+    Esta clase tiene la responsabilidade de construir los controladores de la aplicación. Para armar un controlador, es necesario crear un nuevo método privado en donde se importará el controlador a construir y se inicializará con los parámetros necesarios. La clase es un iterable, por lo que se puede iterar sobre los controladores construidos.
+    """
 
     def __init__(self, appbar: AppBar) -> None:
         self._appbar = appbar
         self._controllers: dict[str, Controller] = {}
+        self._build()
     
-    @property
-    def controllers(self) -> dict[str, Controller]:
-        return self._controllers
+    def __iter__(self):
+        return iter(self._controllers.items())
+
+    def _build(self) -> None:
+        """
+        Este método es el punto de entrada para construir los controladores. Se encarga de llamar a los métodos privados que construyen cada controlador.
+        """
+        self._build_routines_controller()
         
-    def build_routines_controller(self) -> None:
+    def _build_routines_controller(self) -> None:
+        from ui.controller import RoutinesViewController
         self._controllers["routines"] = RoutinesViewController(
             routines_view=RoutinesView(
                 appbar=self._appbar

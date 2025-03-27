@@ -10,7 +10,7 @@ class Controller(ABC):
 
     @property
     @abstractmethod
-    def view(self) -> dict[str, View]:
+    def view(self) -> View:
         """
         Devuelve la vista asociada al controlador.
         """

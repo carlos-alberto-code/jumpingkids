@@ -30,7 +30,5 @@ class RoutinesViewController(Controller):
         self._routines_view.routines = routines_service.get_all_routines()
 
     @property
-    def view(self) -> dict[str, ft.View]:
-        return {
-            "routines": self._routines_view
-        }
+    def view(self) -> ft.View:
+        return self._routines_view

@@ -8,9 +8,9 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
 
     app_builder = AppViewBuilder()
-    page.views.extend(
-        [view for view in app_builder.views]
-    )
+    for route, view in app_builder:
+        page.views.append(view)
+    
     page.update()
 
 

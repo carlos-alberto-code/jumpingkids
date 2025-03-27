@@ -9,9 +9,6 @@ from hexagon.application.core import SessionServiceCore
 from infrastructure.adapter import SessionRepositoryAdapter
 
 
-
-
-
 class AppViewBuilder:
 
     def __init__(
@@ -21,24 +18,19 @@ class AppViewBuilder:
         self._user: Tutor | Child | None = session_service.login("CABH_000", "cabh_000")
         if self._user:
             self._appbar = JumpingKidsAppbar("Rutinas", self._user.username)
-            self._controllers = ControllersBuilder(appbar=self._appbar).controllers
+            self._controllers = ControllersBuilder(appbar=self._appbar)
+            self._views: dict[str, ft.View] = {
+                route: controller.view
+                for route, controller in self._controllers
+            }
         else:
             raise Exception("El usuario no existe!")
     
-    @property
-    def user_id(self) -> int:
-        return self._user_id
-    
-    @user_id.setter
-    def user_id(self, user_id: int) -> None:
-        self._user_id = user_id
+    def __iter__(self):
+        return iter(self._views.items())
 
     @property
-    def views(self) -> dict[str, dict[str, ft.View]]:
-        return {
-            route: controller.view
-            for route, controller in self._controllers.items()
-        }
-
+    def views(self) -> dict[str, ft.View]:
+        return self._views
     # Definir aquí los eventos para los actions del appbar
     

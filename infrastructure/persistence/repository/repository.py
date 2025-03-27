@@ -13,6 +13,9 @@ class Repository(Generic[T]):
     def __init__(self, model: Type[T]):
         super().__init__()
         self._model = model
+    
+    def get_by(self, **kwargs) -> T | None:
+        pass
 
     def get_by_id(self, id: int) -> T | None:
         try:
