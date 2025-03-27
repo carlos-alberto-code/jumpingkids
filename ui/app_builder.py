@@ -18,7 +18,7 @@ class AppViewBuilder:
         session_service = ChildSessionServiceCore(child_session_repository=ChildSessionRepositoryAdapter())
         self._user: Child | None = session_service.login("cabh")
         if self._user:
-            self._appbar = JumpingKidsAppbar("Rutinas", self._user.username)
+            self._appbar = JumpingKidsAppbar("Rutinas", self._user.full_name)
             self._navigation = Navigation()
             self._controllers = ControllersBuilder(appbar=self._appbar, navigation=self._navigation)
             self._views: dict[str, ft.View] = {
