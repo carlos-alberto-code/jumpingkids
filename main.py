@@ -5,14 +5,12 @@ from ui.view.theme import JumpingKidsTheme
 
 
 def main(page: ft.Page):
-    page.title = "Rutinas"
-    page.theme_mode = ft.ThemeMode.LIGHT
+
     page.theme = JumpingKidsTheme()
+    page.theme_mode = ft.ThemeMode.LIGHT
 
     app_builder = AppViewBuilder()
-    for route, view in app_builder:
-        page.views.append(view)
-    
+    page.views.extend(view for _, view in app_builder)
     page.update()
 
 
