@@ -24,7 +24,6 @@ class Routine:
     categories: list[Category]
     exercises: list[Exercise]
     created_by: "Nutritionist"
-    verified_by: list["Nutritionist"] | None = None
 
 
 @dataclass
@@ -41,7 +40,6 @@ class Nutritionist(User):
     Represents a nutritionist who can create and verify routines.
     """
     routines_created: list[Routine] | None = None
-    routines_verified: list[Routine] | None = None
 
 
 @dataclass
