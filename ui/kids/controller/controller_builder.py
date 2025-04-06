@@ -1,7 +1,7 @@
 from flet import AppBar, NavigationBar
 
-from ui.view import RoutinesView
-from ui.controller import Controller
+from ui.kids.controller import Controller
+from ui.kids.view.routines_view import RoutinesView
 
 from hexagon.application.core import UserServiceCore
 from hexagon.application.core import RoutinesServiceCore
@@ -31,7 +31,7 @@ class ControllersBuilder:
         self._build_routines_controller()
         
     def _build_routines_controller(self) -> None:
-        from ui.controller import RoutinesViewController
+        from ui.kids.controller.routines_view_controller import RoutinesViewController
         self._controllers["routines"] = RoutinesViewController(
             routines_view=RoutinesView(
                 appbar=self._appbar,

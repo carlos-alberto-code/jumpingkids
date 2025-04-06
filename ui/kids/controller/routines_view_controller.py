@@ -1,8 +1,8 @@
 import flet as ft
 
-from ui.view import RoutinesView
-from ui.controller.controller import Controller
-from ui.event import RoutinesViewEventsConnector
+from ui.kids.view.routines_view import RoutinesView
+from ui.kids.controller.controller import Controller
+from ui.kids.event.routines_view_event import RoutinesViewEventsConnector
 
 from hexagon.application.service import UserServicePort, RoutinesServicePort
 

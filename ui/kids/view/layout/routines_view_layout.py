@@ -1,7 +1,7 @@
 import flet as ft
 
 from hexagon.domain.model import Routine
-from ui.view.components.card import ExerciseCard, HorizontalRoutineCard
+from ui.kids.view.components.card import ExerciseCard, HorizontalRoutineCard
 
 
 class RoutinesViewLayout(ft.Column):

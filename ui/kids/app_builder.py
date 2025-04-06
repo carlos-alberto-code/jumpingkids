@@ -1,8 +1,8 @@
 import flet as ft
 
-from ui.view.navigation import Navigation
-from ui.controller import ControllersBuilder
-from ui.view.appbar import JumpingKidsAppbar
+from ui.kids.view.navigation import Navigation
+from ui.kids.controller import ControllersBuilder
+from ui.kids.view.appbar import JumpingKidsAppbar
 
 from hexagon.domain.model import Child, Tutor
 from hexagon.application.core import ChildSessionServiceCore
