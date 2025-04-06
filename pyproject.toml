@@ -11,6 +11,7 @@ python = "^3.11"
 sqlalchemy = "^2.0.39"
 flet = "^0.27.6"
 python-dotenv = "^1.0.1"
+navigation-system = {git = "https://github.com/carlos-alberto-code/navigation-system.git"}
 
 
 [build-system]
