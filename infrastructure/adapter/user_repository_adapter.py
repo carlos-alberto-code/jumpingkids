@@ -1,5 +1,5 @@
-from hexagon.application.repository import UserRepositoryPort
-from hexagon.domain.model import Routine
+from domain.model.model import Routine
+from domain.application.repository import UserRepositoryPort
 
 
 class UserRepositoryAdapter(UserRepositoryPort):

@@ -1,5 +1,5 @@
-from hexagon.domain.model import Exercise, Routine
-from hexagon.application.repository import RoutinesRepositoryPort
+from domain.model.model import Exercise, Routine
+from domain.application.repository import RoutinesRepositoryPort
 
 from infrastructure.mapper import RoutineMapper
 from infrastructure.mapper import ExerciseMapper

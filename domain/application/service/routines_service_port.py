@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from hexagon.domain.model import Exercise, Routine
+from domain.model.model import Exercise, Routine
 
 
 class RoutinesServicePort(ABC):

@@ -1,6 +1,6 @@
-from hexagon.domain.model import Child, Tutor
-from hexagon.application.service import ChildSessionServicePort
-from hexagon.application.repository import SessionRepositoryPort
+from domain.model.model import Child, Tutor
+from application.service import ChildSessionServicePort
+from application.repository import SessionRepositoryPort
 
 
 class ChildSessionServiceCore(ChildSessionServicePort):

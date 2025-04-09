@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from hexagon.domain.model import Child, Tutor
+from domain.model.model import Child, Tutor
 
 
 class ChildSessionServicePort(ABC):

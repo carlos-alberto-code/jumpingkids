@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from hexagon.domain.model import Routine, Exercise
+from domain.model.model import Routine, Exercise
 
 
 class RoutinesRepositoryPort(ABC):

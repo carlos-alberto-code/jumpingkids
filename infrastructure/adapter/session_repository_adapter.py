@@ -1,5 +1,5 @@
-from hexagon.domain.model import Child
-from hexagon.application.repository import SessionRepositoryPort
+from domain.model.model import Child
+from domain.application.repository import SessionRepositoryPort
 
 from infrastructure.mapper import ChildMapper
 from infrastructure.persistence import Repository

@@ -1,7 +1,7 @@
-from hexagon.application.service import UserServicePort
-from hexagon.application.repository import UserRepositoryPort
-from hexagon.application.repository import RoutinesRepositoryPort
-from hexagon.domain.model import Routine
+from domain.model.model import Routine
+from application.service import UserServicePort
+from application.repository import UserRepositoryPort
+from application.repository import RoutinesRepositoryPort
 
 
 class UserServiceCore(UserServicePort):

@@ -22,11 +22,12 @@ class Routine:
     description: str
     categories: list[Category]
     exercises: list[Exercise]
-    created_by: "Nutritionist"
+    # created_by: "Nutritionist"
 
 
 @dataclass
 class User:
+    """Representa a un usuario de la aplicación."""
     id: int
     full_name: str
     username: str
@@ -35,20 +36,20 @@ class User:
 
 @dataclass
 class Nutritionist(User):
-    """
-    Represents a nutritionist who can create and verify routines.
-    """
+    """Representa a un nutricionista de la aplicación."""
     routines_created: list[Routine] | None = None
 
 
 @dataclass
 class Tutor(User):
+    """Representa a un tutor de la aplicación."""
     id: int
     children: list["Child"]
 
 
 @dataclass
 class Child(User):
+    """Representa a un niño de la aplicación."""
     id: int
-    tutor: Tutor | None = None
+    tutor: Tutor
     favorite_routines: list[Routine] | None = None

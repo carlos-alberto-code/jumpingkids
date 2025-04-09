@@ -1,4 +1,4 @@
-from hexagon.domain.model import Exercise
+from domain.model.model import Exercise
 from infrastructure.persistence.model.model import ExerciseEntity
 
 

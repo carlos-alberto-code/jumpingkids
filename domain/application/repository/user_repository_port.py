@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from hexagon.domain.model import Routine
+from domain.model.model import Routine
 
 
 class UserRepositoryPort(ABC):

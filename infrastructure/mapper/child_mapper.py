@@ -1,4 +1,4 @@
-from hexagon.domain.model import Child
+from domain.model.model import Child
 from infrastructure.persistence.model.model import ChildEntity
 
 class ChildMapper:

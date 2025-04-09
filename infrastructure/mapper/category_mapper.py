@@ -1,4 +1,4 @@
-from hexagon.domain.model import Category
+from domain.model.model import Category
 from infrastructure.persistence.model.model import CategoryEntity
 
 

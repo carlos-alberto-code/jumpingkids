@@ -1,4 +1,4 @@
-from hexagon.domain.model import Routine
+from domain.model.model import Routine
 from infrastructure.persistence.model import RoutineEntity
 from infrastructure.mapper.category_mapper import CategoryMapper
 from infrastructure.mapper.exercise_mapper import ExerciseMapper

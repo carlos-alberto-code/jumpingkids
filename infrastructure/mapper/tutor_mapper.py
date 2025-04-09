@@ -1,4 +1,4 @@
-from hexagon.domain.model import Tutor
+from domain.model.model import Tutor
 from infrastructure.persistence.model.model import TutorEntity
 from infrastructure.mapper.child_mapper import ChildMapper
 

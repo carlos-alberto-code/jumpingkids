@@ -1,16 +1,19 @@
 import flet as ft
 
-from ui.kids.app_builder import AppViewBuilder
-from ui.kids.view.theme import JumpingKidsTheme
+from ui.theme import ChildJumpingKidsTheme
 
+from ui.kids.app_builder import AppViewBuilder
 from navigation_system.widget.sidebar import Sidebar, SidebarContent, SidebarGroup, SidebarItem
 
 
 def main(page: ft.Page):
 
     page.padding = 0
-    page.theme = JumpingKidsTheme()
+    page.theme = ChildJumpingKidsTheme()
     page.theme_mode = ft.ThemeMode.LIGHT
+
+    # auth = AutenticationServiceCore(AutenticationRepositoryAdapter())
+    # user = auth.login("child", "password") # Devuelve un Child
 
     sidebar_content = SidebarContent(
         groups=[
