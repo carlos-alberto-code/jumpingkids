@@ -225,7 +225,7 @@ flet = "^0.27.6"
 type = "git"
 url = "https://github.com/carlos-alberto-code/navigation-system.git"
 reference = "HEAD"
-resolved_reference = "efb1a660ffe7373655731e7c20ebf116cb252255"
+resolved_reference = "d21dd215781e40d2d8caf40d1bb9ee95c5e0e29f"
 
 [[package]]
 name = "oauthlib"
