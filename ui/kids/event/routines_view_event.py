@@ -2,8 +2,8 @@ from typing import cast
 import flet as ft
 
 from ui.kids.view.routines_view import RoutinesView
-from hexagon.domain.model import Exercise, Routine
-from hexagon.application.service import RoutinesServicePort, UserServicePort
+from domain.model import Exercise, Routine
+from domain.application.service import RoutinesServicePort, UserServicePort
 
 
 class RoutinesViewEventsConnector:

@@ -1,6 +1,6 @@
-from domain.model.model import Child, Tutor
-from application.service import ChildSessionServicePort
-from application.repository import SessionRepositoryPort
+from domain.model import Child, Tutor
+from domain.application.service import ChildSessionServicePort
+from domain.application.repository import SessionRepositoryPort
 
 
 class ChildSessionServiceCore(ChildSessionServicePort):

@@ -1,6 +1,6 @@
 import flet as ft
 
-from hexagon.domain.model import Routine, Exercise
+from domain.model import Routine, Exercise
 
 
 class RoutineCard(ft.Card):

@@ -3,8 +3,8 @@ from flet import AppBar, NavigationBar
 from ui.kids.controller import Controller
 from ui.kids.view.routines_view import RoutinesView
 
-from hexagon.application.core import UserServiceCore
-from hexagon.application.core import RoutinesServiceCore
+from domain.application.core import UserServiceCore
+from domain.application.core import RoutinesServiceCore
 
 from infrastructure.adapter.user_repository_adapter import UserRepositoryAdapter
 from infrastructure.adapter.routines_repository_adapter import RoutinesRepositoryAdapter

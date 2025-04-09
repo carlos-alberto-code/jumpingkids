@@ -1,6 +1,6 @@
-from domain.model.model import Exercise, Routine
-from application.repository import RoutinesRepositoryPort
-from application.service.routines_service_port import RoutinesServicePort
+from domain.model import Exercise, Routine
+from domain.application.repository import RoutinesRepositoryPort
+from domain.application.service.routines_service_port import RoutinesServicePort
 
 
 class RoutinesServiceCore(RoutinesServicePort):

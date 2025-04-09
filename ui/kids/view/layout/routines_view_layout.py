@@ -1,6 +1,6 @@
 import flet as ft
 
-from hexagon.domain.model import Routine
+from domain.model import Routine
 from ui.kids.view.components.card import ExerciseCard, HorizontalRoutineCard
 
 

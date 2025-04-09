@@ -5,6 +5,9 @@ from ui.theme import ChildJumpingKidsTheme
 from ui.kids.app_builder import AppViewBuilder
 from navigation_system.widget.sidebar import Sidebar, SidebarContent, SidebarGroup, SidebarItem
 
+from domain.application.core.auth import AuthServiceCore
+from infrastructure.adapter.auth import AuthRepositoryAdapter
+
 
 def main(page: ft.Page):
 
@@ -12,8 +15,9 @@ def main(page: ft.Page):
     page.theme = ChildJumpingKidsTheme()
     page.theme_mode = ft.ThemeMode.LIGHT
 
-    # auth = AutenticationServiceCore(AutenticationRepositoryAdapter())
-    # user = auth.login("child", "password") # Devuelve un Child
+    auth = AuthServiceCore(AuthRepositoryAdapter())
+    user = auth.login("child", "password")
+    print(user)
 
     sidebar_content = SidebarContent(
         groups=[
