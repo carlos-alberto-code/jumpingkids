@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.model.model import User
+from domain.model.model import Child, Nutritionist, Tutor
 
 
 class AuthRepositoryPort(ABC):
@@ -14,6 +14,6 @@ class AuthRepositoryPort(ABC):
         pass
 
     @abstractmethod
-    def get_user(self, username: str, password: str) -> User | None:
+    def get_user(self, username: str, password: str) -> Tutor | Child | Nutritionist | None:
         pass
     

@@ -210,24 +210,6 @@ files = [
 all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
 
 [[package]]
-name = "navigation-system"
-version = "0.1.0"
-description = ""
-optional = false
-python-versions = "^3.11"
-files = []
-develop = false
-
-[package.dependencies]
-flet = "^0.27.6"
-
-[package.source]
-type = "git"
-url = "https://github.com/carlos-alberto-code/navigation-system.git"
-reference = "HEAD"
-resolved_reference = "d21dd215781e40d2d8caf40d1bb9ee95c5e0e29f"
-
-[[package]]
 name = "oauthlib"
 version = "3.2.2"
 description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
@@ -402,4 +384,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "eb5c94303a88318ff891bf980cb4852d920daec158ebb9b26a52870950a73347"
+content-hash = "3fdeb29486566ef490423da47a51447d0f7d8a0ef7a4fc50c75e391695814c2b"

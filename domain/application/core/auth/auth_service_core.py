@@ -8,6 +8,6 @@ class AuthServiceCore(AuthServicePort):
         self._auth_repository_port = auth_repository_port
         super().__init__()
     
-    def login(self, username: str, password: str) -> User | Tutor | Child | Nutritionist | None:
+    def login(self, username: str, password: str) -> Tutor | Child | Nutritionist | None:
         return self._auth_repository_port.get_user(username, password)
     

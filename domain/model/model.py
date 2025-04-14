@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Literal
 
 
 @dataclass
@@ -32,11 +33,12 @@ class User:
     full_name: str
     username: str
     password: str
+    suscription: "Subscription | None"
 
 
 @dataclass
 class Nutritionist(User):
-    """Representa a un nutricionista de la aplicación."""
+    """Representa a un nutricionista de la aplicación. No es necesario que tenga una suscripción."""
     routines_created: list[Routine] | None = None
 
 
@@ -53,3 +55,27 @@ class Child(User):
     id: int
     tutor: Tutor
     favorite_routines: list[Routine] | None = None
+
+
+class Subscription:
+    """Representa una suscripción de la aplicación."""
+    id: int
+    name: str
+    description: str
+    price: float
+
+
+class FreeSubscription(Subscription):
+    """Representa una suscripción gratuita de la aplicación."""
+    def __init__(self):
+        self.name = "Free"
+        self.description = "Suscripción gratuita"
+        self.price = 0.0
+    
+
+class PremiumSubscription(Subscription):
+    """Representa una suscripción premium de la aplicación."""
+    def __init__(self):
+        self.name = "Premium"
+        self.description = "Suscripción premium"
+        self.price = 9.99
