@@ -1,12 +1,19 @@
-from datetime import date
+from sqlalchemy import Integer, String, ForeignKey, Column, Table
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Integer, String, ForeignKey, Column, Table, CheckConstraint, DATE, text
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.sql import func
 
 
 class Base(DeclarativeBase):
     pass
+
+
+class SubscriptionEntity(Base):
+    """
+    Representa una suscripción a un servicio. Cada suscripción tiene un nombre, una fecha de inicio y una fecha de finalización. La fecha de finalización se calcula automáticamente al agregar 30 días a la fecha de inicio.
+    """
+    __tablename__ = "subscriptions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
 
 
 class CategoryEntity(Base):
@@ -80,6 +87,8 @@ class TutorEntity(Base):
     full_name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
+    subscription_type_id: Mapped[int] = mapped_column(Integer, ForeignKey("subscriptions.id"), nullable=False)
+    subscription: Mapped["SubscriptionEntity"] = relationship("SubscriptionEntity", lazy="selectin")
 
     children: Mapped[list["ChildEntity"]] = relationship("ChildEntity", back_populates="tutor", lazy="selectin")
 
@@ -99,6 +108,7 @@ class ChildEntity(Base):
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
     username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
+    subscription_type: Mapped[SubscriptionTypeEnum] = mapped_column(Enum(SubscriptionTypeEnum), nullable=False, default=SubscriptionTypeEnum.FREE)
 
     tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children", lazy="selectin")
     favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
