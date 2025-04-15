@@ -5,5 +5,15 @@ from domain.model.model import (
     User,
     Child,
     Tutor,
-    Nutritionist
+    SubscriptionType,
 )
+
+__all__ = [
+    "Category",
+    "Exercise",
+    "Routine",
+    "User",
+    "Child",
+    "Tutor",
+    "SubscriptionType",
+]

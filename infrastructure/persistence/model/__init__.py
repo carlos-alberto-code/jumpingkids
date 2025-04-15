@@ -7,7 +7,8 @@ from infrastructure.persistence.model.model import (
     TutorEntity,
     ChildEntity,
     FavoriteRoutinesEntity,
-    Base
+    Base,
+    SubscriptionTypeEnum,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "CategoryRoutineEntity",
     "FavoriteRoutinesEntity",
     "Base",
+    "SubscriptionTypeEnum",
 ]
