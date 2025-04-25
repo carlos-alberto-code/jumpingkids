@@ -2,8 +2,8 @@ from typing import Type, TypeVar, Generic
 from sqlalchemy import ColumnElement, select, and_
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
-from infrastructure.persistence.model.model import Base
-from infrastructure.persistence.database import get_session
+from infrastructure.database.model import Base
+from infrastructure.database.connection import get_session
 
 
 T = TypeVar("T", bound=Base)
@@ -38,7 +38,6 @@ class Repository(Generic[T]):
             with get_session() as session:
                 return session.query(self._model).all()
         except SQLAlchemyError as e:
-            # Considera logging aquí
             raise Exception(f"Error al obtener todas las entidades: {str(e)}")
     
     def add(self, entity: T) -> T:
