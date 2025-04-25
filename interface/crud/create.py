@@ -8,10 +8,10 @@ T = TypeVar('T')
 class CreateEntity(ABC, Generic[T]):
 
     @abstractmethod
-    def create(self, entity: T) -> T: pass
+    def create(self, domain_object: T): pass
 
 
 class CreateManyEntities(ABC, Generic[T]):
 
     @abstractmethod
-    def create_many(self, entities: list[T]) -> list[T]: pass
+    def create_many(self, domain_objects: list[T]): pass

@@ -1,4 +1,4 @@
-from infrastructure.persistence.model.model import (
+from infrastructure.database.model import (
     CategoryEntity,
     RoutineEntity,
     CategoryRoutineEntity,
@@ -8,7 +8,6 @@ from infrastructure.persistence.model.model import (
     ChildEntity,
     FavoriteRoutinesEntity,
     Base,
-    SubscriptionTypeEnum,
 )
 
 __all__ = [
@@ -21,5 +20,4 @@ __all__ = [
     "CategoryRoutineEntity",
     "FavoriteRoutinesEntity",
     "Base",
-    "SubscriptionTypeEnum",
 ]

@@ -108,7 +108,7 @@ class ChildEntity(Base):
     tutor_id: Mapped[int] = mapped_column(Integer, ForeignKey("tutors.id"), nullable=False)
     username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
-    subscription_type: Mapped[SubscriptionTypeEnum] = mapped_column(Enum(SubscriptionTypeEnum), nullable=False, default=SubscriptionTypeEnum.FREE)
+    subscription_type: Mapped[SubscriptionEntity] = mapped_column(Integer, ForeignKey("subscriptions.id"), nullable=False)
 
     tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children", lazy="selectin")
     favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
