@@ -13,12 +13,12 @@ class User:
     username: str
     password: str
     full_name: str
-    subscription_type: SubscriptionType
 
 
 @dataclass
 class Tutor(User):
     children: list['Child']
+    subscription_type: SubscriptionType
 
 
 @dataclass
