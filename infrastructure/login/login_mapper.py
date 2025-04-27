@@ -20,7 +20,15 @@ class LoginTutorMapper:
                 else SubscriptionType.PREMIUM
             )
         )
-    
+
+    @staticmethod
+    def to_entity(tutor: Tutor) -> TutorEntity:
+        return TutorEntity(
+            full_name=tutor.full_name,
+            username=tutor.username,
+            password=tutor.password,
+            subscription_type_id=1 if tutor.subscription_type == SubscriptionType.FREE else 2
+        )    
 
 class LoginChildMapper:
 
@@ -33,3 +41,13 @@ class LoginChildMapper:
             full_name=entity.full_name,
             tutor=LoginTutorMapper.to_domain(entity.tutor),
         )
+    
+    @staticmethod
+    def to_entity(child: Child) -> ChildEntity:
+        return ChildEntity(
+            full_name=child.full_name,
+            tutor_id=child.tutor.id,
+            username=child.username,
+            password=child.password,
+        )
+    
