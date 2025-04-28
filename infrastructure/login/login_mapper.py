@@ -1,4 +1,4 @@
-from domain.login.model import Child, Tutor, SubscriptionType
+from domain.model import Child, Tutor, SubscriptionType
 from infrastructure.database.model import ChildEntity, TutorEntity, SubscriptionTypeEntity
 
 
@@ -15,9 +15,9 @@ class LoginTutorMapper:
                 LoginChildMapper.to_domain(child)
                 for child in entity.children
             ],
-            subscription_type=(
-                SubscriptionType.FREE if entity.subscription_type == "free"
-                else SubscriptionType.PREMIUM
+            subscription_type=SubscriptionType(
+                id=entity.subscription_type_id,
+                name=entity.subscription_type.name
             )
         )
 
@@ -27,7 +27,7 @@ class LoginTutorMapper:
             full_name=tutor.full_name,
             username=tutor.username,
             password=tutor.password,
-            subscription_type_id=1 if tutor.subscription_type == SubscriptionType.FREE else 2
+            subscription_type_id=tutor.subscription_type.id,
         )    
 
 class LoginChildMapper:

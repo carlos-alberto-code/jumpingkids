@@ -1,5 +1,5 @@
-from domain.login.model import Child, Tutor
-from domain.login.application import LoginRepositoryPort
+from domain.model import Child, Tutor
+from domain.login import LoginRepositoryPort
 
 from infrastructure.repository import Repository
 from infrastructure.login.login_mapper import LoginTutorMapper
