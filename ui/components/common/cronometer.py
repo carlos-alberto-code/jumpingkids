@@ -1,7 +1,7 @@
 import flet as ft
 import time
 from enum import Enum
-from threading import Thread
+from threading import Thread, Event
 
 
 class CronometerState(Enum):
@@ -9,6 +9,79 @@ class CronometerState(Enum):
     RUNNING = "running"
     PAUSED = "paused"
     FINISHED = "finished"
+
+
+class TimerLogic:
+    """
+    Lógica del cronómetro: maneja el tiempo, estado y callbacks.
+    """
+    def __init__(self, minutes: float, on_tick=None, on_finish=None):
+        self._initial_minutes = minutes
+        self._current_seconds = int(minutes * 60)
+        self._state = CronometerState.READY
+        self._on_tick = on_tick
+        self._on_finish = on_finish
+        self._thread = None
+        self._stop_event = Event()
+
+    @property
+    def state(self):
+        return self._state
+
+    @property
+    def current_seconds(self):
+        return self._current_seconds
+
+    def start(self):
+        if self._state in [CronometerState.READY, CronometerState.PAUSED]:
+            self._state = CronometerState.RUNNING
+            self._stop_event.clear()
+            if not self._thread or not self._thread.is_alive():
+                self._thread = Thread(target=self._run, daemon=True)
+                self._thread.start()
+
+    def pause(self):
+        if self._state == CronometerState.RUNNING:
+            self._state = CronometerState.PAUSED
+
+    def reset(self):
+        self._stop_event.set()
+        self._state = CronometerState.READY
+        self._current_seconds = int(self._initial_minutes * 60)
+        if self._on_tick:
+            self._on_tick(self._current_seconds)
+
+    def stop(self):
+        self._stop_event.set()
+        self._state = CronometerState.FINISHED
+
+    def _run(self):
+        last_tick = time.time()
+        while self._state == CronometerState.RUNNING and self._current_seconds > 0:
+            if self._stop_event.is_set():
+                return
+            if self._state == CronometerState.PAUSED:
+                last_tick = time.time()
+                while self._state == CronometerState.PAUSED:
+                    if self._stop_event.is_set():
+                        return
+                    time.sleep(0.1)
+                last_tick = time.time()
+            now = time.time()
+            elapsed = now - last_tick
+            if elapsed >= 1:
+                self._current_seconds = max(0, self._current_seconds - int(elapsed))
+                last_tick = now
+                if self._on_tick:
+                    self._on_tick(self._current_seconds)
+            if self._current_seconds <= 0:
+                self._state = CronometerState.FINISHED
+                if self._on_tick:
+                    self._on_tick(0)
+                if self._on_finish:
+                    self._on_finish()
+                return
+            time.sleep(0.1)
 
 
 class TimeDisplay(ft.Text):
@@ -22,8 +95,8 @@ class TimeDisplay(ft.Text):
             color=text_color,
             size=size,
         )
-    
-    def update_time(self, seconds: float) -> None:
+
+    def update_time(self, seconds: int) -> None:
         """Actualiza la visualización del tiempo en formato MM:SS"""
         minutes = int(seconds // 60)
         seconds = int(seconds % 60)
@@ -35,31 +108,24 @@ class CronometerControls(ft.Row):
     Componente que contiene los botones de control del cronómetro
     """
     def __init__(self, on_play_click=None, on_pause_click=None, on_reset_click=None, accent_color=None, button_size=None) -> None:
-        self._on_play = on_play_click
-        self._on_pause = on_pause_click
-        self._on_reset = on_reset_click
-                
         self._play_button = ft.IconButton(
             icon=ft.Icons.PLAY_ARROW,
-            on_click=on_play_click if on_play_click else None,
+            on_click=on_play_click,
             icon_color=accent_color,
             icon_size=button_size,
         )
-
         self._pause_button = ft.IconButton(
             icon=ft.Icons.PAUSE,
-            on_click=on_pause_click if on_pause_click else None,
+            on_click=on_pause_click,
             icon_color=accent_color,
             icon_size=button_size,
         )
-        
         self._reset_button = ft.IconButton(
             icon=ft.Icons.RESTART_ALT,
-            on_click=on_reset_click if on_reset_click else None,
+            on_click=on_reset_click,
             icon_color=accent_color,
             icon_size=button_size,
         )
-        
         super().__init__(
             controls=[
                 self._play_button,
@@ -79,138 +145,65 @@ class Cronometer(ft.Card):
         time: float = 15.0,
         on_finish=None,
     ) -> None:
-        self._on_finish = on_finish
-        self._initial_time = time
-        self._current_time = time
-        self._state = CronometerState.READY
-        self._timer_thread = None
-        
-        # Componentes de UI
+        super().__init__()
         self._display = TimeDisplay()
-        
-        self._cronometer_controls = CronometerControls(
+        self._logic = TimerLogic(
+            minutes=time,
+            on_tick=self._on_tick,
+            on_finish=self._on_finish_wrapper(on_finish),
+        )
+        self._controls = CronometerControls(
             on_play_click=self._on_play_click,
             on_pause_click=self._on_pause_click,
             on_reset_click=self._on_reset_click,
         )
-        
-        # Inicializar la visualización del tiempo
-        self._update_time_display(time * 60)
-        
-        super().__init__(
-            content=ft.Container(
-                padding=20,
-                content=ft.Column(
-                    controls=[
-                        ft.Container(
-                            content=self._display,
-                            margin=ft.margin.symmetric(vertical=20),
-                        ),
-                        self._cronometer_controls,
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                ),
-                border_radius=10,
+        self.content = ft.Container(
+            padding=20,
+            content=ft.Column(
+                controls=[
+                    ft.Container(
+                        content=self._display,
+                        margin=ft.margin.symmetric(vertical=20),
+                    ),
+                    self._controls,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            elevation=4,
+            border_radius=10,
         )
-    
-    def _update_time_display(self, seconds: float) -> None:
-        """Actualiza el display de tiempo"""
+        self.elevation = 4
+        self._on_tick(self._logic.current_seconds)
+
+    def _on_tick(self, seconds: int):
         self._display.update_time(seconds)
-    
-    def _on_play_click(self, e) -> None:
-        """Maneja el clic en el botón de play"""
-        if self._state == CronometerState.READY or self._state == CronometerState.PAUSED:
-            self._start_timer()
-    
-    def _on_pause_click(self, e) -> None:
-        """Maneja el clic en el botón de pausa"""
-        if self._state == CronometerState.RUNNING:
-            self._pause_timer()
-    
-    def _on_reset_click(self, e) -> None:
-        """Reinicia el cronómetro a su estado inicial"""
-        self._stop_timer()
-        self._current_time = self._initial_time
-        self._update_time_display(self._current_time * 60)
-        self._state = CronometerState.READY
-        self.update()
-    
-    def _start_timer(self) -> None:
-        """Inicia el cronómetro"""
-        if self._current_time <= 0:
-            return
-        
-        self._state = CronometerState.RUNNING
-        
-        if not self._timer_thread or not self._timer_thread.is_alive():
-            self._timer_thread = Thread(target=self._run_timer)
-            self._timer_thread.daemon = True
-            self._timer_thread.start()
-    
-    def _pause_timer(self) -> None:
-        """Pausa el cronómetro"""
-        self._state = CronometerState.PAUSED
-    
-    def _stop_timer(self) -> None:
-        """Detiene el cronómetro completamente"""
-        self._state = CronometerState.FINISHED
-    
-    def _run_timer(self) -> None:
-        """Función que ejecuta la cuenta regresiva en un hilo separado"""
-        start_time = time.time()
-        elapsed_time = 0
-        
-        while self._state == CronometerState.RUNNING and self._current_time > 0:
-            # Si está en pausa, actualizar el tiempo de inicio para mantener la coherencia
-            if self._state == CronometerState.PAUSED:
-                start_time = time.time() - elapsed_time
-                while self._state == CronometerState.PAUSED:
-                    if self._state == CronometerState.FINISHED:
-                        return
-                    time.sleep(0.1)
-                # Reiniciar si se reanudó desde pausa
-                start_time = time.time() - elapsed_time
-            
-            # Calcular tiempo transcurrido y restante
-            elapsed_time = time.time() - start_time
-            self._current_time = max(0, self._initial_time - elapsed_time / 60)
-            
-            # Actualizar UI de forma segura
-            self._update_time_display(self._current_time * 60)
-            
-            # Usar el método page.update desde el contexto correcto
-            if self.page:
-                self.page.update()
-            
-            # Verificar si terminó
-            if self._current_time <= 0:
-                self._timer_finished()
-                break
-            
-            # Pequeña pausa para no sobrecargar la CPU
-            time.sleep(0.1)
-    
-    def _timer_finished(self) -> None:
-        """Maneja la finalización del cronómetro"""
-        self._state = CronometerState.FINISHED
-        self._update_time_display(0)
-        
         if self.page:
             self.page.update()
-        
-        if self._on_finish:
-            self._on_finish()
+
+    def _on_finish_wrapper(self, user_on_finish):
+        def wrapper():
+            if self.page:
+                self.page.update()
+            if user_on_finish:
+                user_on_finish()
+        return wrapper
+
+    def _on_play_click(self, event: ft.ControlEvent):
+        self._logic.start()
+
+    def _on_pause_click(self, event: ft.ControlEvent):
+        self._logic.pause()
+
+    def _on_reset_click(self, event: ft.ControlEvent):
+        self._logic.reset()
+        if self.page:
+            self.page.update()
 
 
 def main(page: ft.Page) -> None:
     """Función de ejemplo para probar el componente"""
     page.theme_mode = ft.ThemeMode.LIGHT
-    
     cronometer = Cronometer(time=0.10)
-    
     page.add(cronometer)
 
 if __name__ == "__main__":
