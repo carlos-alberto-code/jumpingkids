@@ -198,13 +198,3 @@ class Cronometer(ft.Card):
         self._logic.reset()
         if self.page:
             self.page.update()
-
-
-def main(page: ft.Page) -> None:
-    """Función de ejemplo para probar el componente"""
-    page.theme_mode = ft.ThemeMode.LIGHT
-    cronometer = Cronometer(time=0.10)
-    page.add(cronometer)
-
-if __name__ == "__main__":
-    ft.app(main)
