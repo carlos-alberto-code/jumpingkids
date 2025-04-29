@@ -1,23 +1,27 @@
 import flet as ft
 
-from ui.theme import ChildJumpingKidsTheme
+from domain.login import LoginServiceCore
+from infrastructure.login import LoginRepositoryAdapter
+from domain.subscription import SubscriptionServiceCore
+from ui.subscription.subscription_gui_adapter import SubscriptionGuiAdapter
 
-from ui.kids.app_builder import AppViewBuilder
 from navigation_system.widget.sidebar import Sidebar, SidebarContent, SidebarGroup, SidebarItem
-
-
-from domain.application.core.auth import AuthServiceCore
-from infrastructure.adapter.auth import AuthRepositoryAdapter
 
 
 def main(page: ft.Page):
 
     page.padding = 0
-    page.theme = ChildJumpingKidsTheme()
     page.theme_mode = ft.ThemeMode.LIGHT
 
-    auth = AuthServiceCore(AuthRepositoryAdapter())
-    user = auth.login("axel", "qwe123")
+    user = LoginServiceCore(LoginRepositoryAdapter()).login("cabh", "cabh")
+    print(user)
+
+    if not user:
+        raise ValueError("No se pudo iniciar sesión con las credenciales proporcionadas.")
+    
+    app = SubscriptionServiceCore(SubscriptionGuiAdapter()).get_user_app(user)
+    page.theme = app.theme
+
     
 
     sidebar_content = SidebarContent(
