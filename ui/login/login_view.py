@@ -66,18 +66,6 @@ class LoginForm(ft.Column):
                     height=50,
                     width=400,
                 ),
-                ft.Container(
-                    content=ft.Row(
-                        alignment=ft.MainAxisAlignment.END,
-                        controls=[
-                            ft.TextButton(
-                                text="¿Olvidaste tu contraseña?", 
-                                style=ft.ButtonStyle(color=ft.Colors.GREY_700)
-                            ),
-                        ]
-                    ),
-                    width=400,
-                ),
                 ft.Container(height=10),
                 ft.ElevatedButton(
                     text="Iniciar sesión",
@@ -208,18 +196,22 @@ class AuthPanel(ft.Container):
     def _build_forms(self, on_login, on_signup):
         self.login_form = LoginForm(
             on_login=on_login,
-            on_switch_to_signup=lambda _: self.show_signup()
+            on_switch_to_signup=lambda e: self.show_signup()
         )
         self.signup_form = SignupForm(
             on_signup=on_signup,
-            on_switch_to_login=lambda _: self.show_login()
+            on_switch_to_login=lambda e: self.show_login()
         )
 
     def show_login(self):
         self.content.controls = [self.login_form]
+        if hasattr(self, "page") and self.page:
+            self.page.update()
 
     def show_signup(self):
         self.content.controls = [self.signup_form]
+        if hasattr(self, "page") and self.page:
+            self.page.update()
 
 
 class LoginView(ft.View):
