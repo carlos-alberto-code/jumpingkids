@@ -6,7 +6,6 @@ class AnimationPanel(ft.Container):
         super().__init__(
             width=500,
             bgcolor="#2D2242",
-            border_radius=ft.border_radius.only(top_right=25, bottom_right=25),
             padding=20,
             animate=ft.Animation(300, ft.AnimationCurve.EASE_IN_OUT),
             content=ft.Column(
@@ -235,29 +234,3 @@ class LoginView(ft.View):
                 )
             ],
         )
-
-
-def main(page: ft.Page):
-    """
-    Punto de entrada de la app.
-    Responsabilidad: inicializar la vista y manejar eventos principales.
-    """
-    page.title = "JumpingKids Login"
-    page.theme_mode = ft.ThemeMode.LIGHT
-
-    def handle_login(e):
-        print("Login attempt")
-        # page.go("/home")
-
-    def handle_signup(e):
-        print("Signup attempt")
-        # page.go("/home")
-
-    lv = LoginView(on_login=handle_login, on_signup=handle_signup)
-    page.views.append(lv)
-    page.go("/login")
-    page.update()
-
-
-if __name__ == "__main__":
-    ft.app(target=main, assets_dir="assets")
