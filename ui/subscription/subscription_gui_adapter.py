@@ -1,5 +1,5 @@
-from domain.app import ChildFreeApp, ChildPremiumApp, TutorFreeApp, TutorPremiumApp
 from domain.subscription import SubscriptionRepositoryPort
+from domain.app import ChildFreeApp, ChildPremiumApp, TutorFreeApp, TutorPremiumApp
 
 
 class SubscriptionGuiAdapter(SubscriptionRepositoryPort):
