@@ -1,7 +1,7 @@
 from domain.app import JumpingkidsTheme
 
 
-class FreeChildTheme(JumpingkidsTheme):
+class ChildFreeTheme(JumpingkidsTheme):
 
     def __init__(self) -> None:
         super().__init__()
