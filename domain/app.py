@@ -6,9 +6,9 @@ class JumpingkidsTheme(ft.Theme):
 
 
 class App:
-    def __init__(self, theme: JumpingkidsTheme) -> None:
+    def __init__(self, theme: JumpingkidsTheme, content: ft.Control) -> None:
         self._theme = theme
-        self._content: ft.Control = ft.Container()
+        self._content = content
     
     @property
     def theme(self) -> JumpingkidsTheme:
@@ -20,22 +20,22 @@ class App:
 
 
 class TutorFreeApp(App):
-    def __init__(self, theme: JumpingkidsTheme) -> None:
-        super().__init__(theme)
+    def __init__(self, theme: JumpingkidsTheme, content: ft.Control) -> None:
+        super().__init__(theme, content)
         
 
 
 class TutorPremiumApp(App):
-    def __init__(self, theme: JumpingkidsTheme) -> None:
-        super().__init__(theme)
+    def __init__(self, theme: JumpingkidsTheme, content: ft.Control) -> None:
+        super().__init__(theme, content)
 
 
 
 class ChildFreeApp(App):
-    def __init__(self, theme: JumpingkidsTheme) -> None:
-        super().__init__(theme)
+    def __init__(self, theme: JumpingkidsTheme, content: ft.Control) -> None:
+        super().__init__(theme, content)
 
 
 class ChildPremiumApp(App):
-    def __init__(self, theme: JumpingkidsTheme) -> None:
-        super().__init__(theme)
+    def __init__(self, theme: JumpingkidsTheme, content: ft.Control) -> None:
+        super().__init__(theme, content)
