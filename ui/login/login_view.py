@@ -184,11 +184,12 @@ class AuthPanel(ft.Container):
             expand=True,
             padding=ft.padding.all(40),
             animate=ft.Animation(300, ft.AnimationCurve.EASE_IN_OUT),
-            content=ft.Column(
-                alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            )
         )
+        self.column_panel = ft.Column(
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        )
+        self.content = self.column_panel
         self._build_forms(on_login, on_signup)
         self.show_login()
 
@@ -203,12 +204,14 @@ class AuthPanel(ft.Container):
         )
 
     def show_login(self):
-        self.content.controls = [self.login_form]
+        self.column_panel.controls = [self.login_form]
+        self.content = self.column_panel
         if hasattr(self, "page") and self.page:
             self.page.update()
 
     def show_signup(self):
-        self.content.controls = [self.signup_form]
+        self.column_panel.controls = [self.signup_form]
+        self.content = self.column_panel
         if hasattr(self, "page") and self.page:
             self.page.update()
 
