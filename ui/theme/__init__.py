@@ -1,10 +1,6 @@
-from ui.theme.child_theme import ChildJumpingKidsTheme
-from ui.theme.tutor_theme import TutorJumpingKidsTheme
-from ui.theme.nutritionist_theme import NutritionistJumpingKidsTheme
+from ui.theme.child_free_theme import ChildFreeTheme
 
 
 __all__ = [
-    "ChildJumpingKidsTheme",
-    "TutorJumpingKidsTheme",
-    "NutritionistJumpingKidsTheme",
+    "ChildFreeTheme",
 ]
