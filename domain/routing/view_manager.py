@@ -1,13 +1,12 @@
-from domain.routing.module import Module
-from interface.module_view import ModuleView
-
+import flet as ft
+from domain.routing.controller import Controller
 
 class ViewManager:
     """
-    Gestiona las vistas de la aplicación utilizando Módulos.
+    Gestiona las vistas de la aplicación (Módulos de aplicación).
     
     Esta clase proporciona mecanismos para:
-    1. Registrar Módulos para diferentes rutas
+    1. Registrar controladores para diferentes rutas
     2. Obtener vistas reconstruidas bajo demanda
     
     Cada vez que se solicita una vista, se reconstruye completamente,
@@ -16,38 +15,33 @@ class ViewManager:
     
     Ejemplo de uso:
     ```python
-    view_manager = ViewManager[type(App)]()
-    view_manager["inventory"] = Module(
-        name="Inventario",
-        icon=...,  # icono correspondiente
-        route="/inventory",
-        controller=Controller(
-            view_class=InventoryView,
-            event_class=InventoryEvents,
-            service_classes={
-                InventoryServiceCore: (InventoryRepositoryAdapter, ProductsRepositoryAdapter),
-                StoreServiceCore: (StoreRepositoryAdapter,)
-            }
-        )
+    view_manager = ViewManager()
+    view_manager["inventory"] = Controller(
+        view_class=InventoryView,
+        event_class=InventoryEvents,
+        service_classes={
+            InventoryServiceCore: (InventoryRepositoryAdapter, ProductsRepositoryAdapter),
+            StoreServiceCore: (StoreRepositoryAdapter,)
+        }
     )
     
     # Obtener la vista instanciada (reconstruida cada vez)
-    inventory_view = view_manager["inventory"]  # Retorna un ft.Control
+    inventory_view = view_manager["inventory"]  # Retorna un ft.View
     ```
     """
 
     def __init__(self) -> None:
-        self._modules: dict[str, Module] = {}
+        self._controllers: dict[str, Controller] = {}
 
-    def __getitem__(self, key: str) -> ModuleView:
-        if key not in self._modules:
-            raise KeyError(f"Módulo no registrado: {key}")
-        module = self._modules[key]
-        return module.controller.build()
+    def __getitem__(self, key: str) -> ft.View:
+        if key not in self._controllers:
+            raise KeyError(f"Controlador no registrado: {key}")
+        controller = self._controllers[key]
+        return controller.build()
 
-    def __setitem__(self, key: str, module: Module) -> None:
-        self._modules[key] = module
+    def __setitem__(self, key: str, controller: Controller) -> None:
+        self._controllers[key] = controller
     
     def keys(self) -> list[str]:
-        """Devuelve una lista de las claves de los módulos registrados. Pueden ser usadas como nombres de vistas."""
-        return list(self._modules.keys())
+        """Devuelve una lista de las claves de los controladores registrados. Pueden ser usadas como nombres de vistas."""
+        return list(self._controllers.keys())

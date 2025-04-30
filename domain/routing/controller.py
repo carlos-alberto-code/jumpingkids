@@ -1,7 +1,8 @@
+import flet as ft
+
 from interface.service import Service
 from interface.event_view import EventView
 from interface.repository import Repository
-from interface.module_view import ModuleView
 
 
 class Controller:
@@ -13,7 +14,7 @@ class Controller:
 
     def __init__(
         self,
-        view_class: type[ModuleView],
+        view_class: type[ft.View],
         event_class: type[EventView],
         service_classes: dict[type[Service], list[type[Repository]]]
     ) -> None:
@@ -21,7 +22,7 @@ class Controller:
         self._event_class = event_class
         self._services_class = service_classes
     
-    def build(self) -> ModuleView:
+    def build(self) -> ft.View:
         """
         Devuelve la vista con sus eventos ya conectados. Los eventos hacen uso de servicios para suministrar datos para las acciones demandadas.
         """

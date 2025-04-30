@@ -1,7 +1,7 @@
+import flet as ft
 from abc import ABC, abstractmethod
 
 from interface.service import Service
-from interface.module_view import ModuleView
 
 
 class EventView(ABC):
@@ -12,13 +12,13 @@ class EventView(ABC):
     """
 
     @abstractmethod
-    def __init__(self, view: ModuleView, services: list[Service]) -> None:
+    def __init__(self, view: ft.View, services: list[Service]) -> None:
         self._view = view
         self._services = services
         self._connect_events()
 
     @property
-    def view(self) -> ModuleView:
+    def view(self) -> ft.View:
         """
         Devuelve la vista con sus eventos ya conectados. Los eventos hacen uso de servicios para suministrar datos para las acciones demandadas.
         """
