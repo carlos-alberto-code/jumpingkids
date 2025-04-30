@@ -19,9 +19,10 @@ def main(page: ft.Page):
     
     app = SubscriptionServiceCore(SubscriptionGuiAdapter()).get_user_app(user)
     
+    view_manager = app.view_manager
     page.theme = app.theme
-    app_content = app.content
-    page.add(app_content)
+    content = view_manager["home"]
+    page.add(content)
 
 
 ft.app(target=main, port=9000)
