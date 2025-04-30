@@ -1,5 +1,3 @@
-from typing import Any
-
 from domain.app import JumpingkidsTheme
 from domain.subscription import SubscriptionRepositoryPort
 from domain.app import App, ChildFreeApp, ChildPremiumApp, TutorFreeApp, TutorPremiumApp
