@@ -3,7 +3,7 @@ import flet as ft
 from domain.login import LoginServiceCore
 from infrastructure.login import LoginRepositoryAdapter
 from domain.subscription import SubscriptionServiceCore
-from ui.subscription.subscription_gui_adapter import SubscriptionGuiAdapter
+from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 
 
 def main(page: ft.Page):
