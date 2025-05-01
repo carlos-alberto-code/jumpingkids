@@ -1,18 +1,10 @@
 import flet as ft
 
 class WelcomeComponent(ft.Container):
-    """Componente que muestra el saludo personalizado al usuario con una animación."""
     
     def __init__(self, username):
-        """
-        Inicializa el componente de bienvenida.
-        
-        Args:
-            username (str): Nombre del usuario para mostrar en el saludo
-        """
         self.username = username
         
-        # Crear contenido del componente
         content = ft.Column([
             ft.Row([
                 ft.Column([
@@ -55,17 +47,3 @@ class WelcomeComponent(ft.Container):
                 color=ft.colors.with_opacity(0.2, "grey")
             ),
         )
-    
-    def update_username(self, username):
-        """
-        Actualiza el nombre de usuario mostrado en el componente.
-        
-        Args:
-            username (str): Nuevo nombre de usuario
-        """
-        self.username = username
-        
-        # Actualizar el texto del saludo
-        if isinstance(self.content.controls[0].controls[0].controls[0], ft.Text):
-            self.content.controls[0].controls[0].controls[0].value = f"¡Hola, {username}!"
-            self.update()
