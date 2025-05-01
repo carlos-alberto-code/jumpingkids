@@ -31,7 +31,7 @@ class ExerciseView(ft.View):
                                         ExerciseCard(
                                             exercise=exercise,
                                         ) for exercise in ejercicios
-                                    ], scroll=ft.ScrollMode.AUTO, expand=True)
+                                    ], expand=True)
                                 ], expand=True)
                             ),
                             
