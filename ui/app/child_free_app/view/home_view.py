@@ -2,9 +2,11 @@ import flet as ft
 from ui.app.child_free_app.components.section import SectionHome
 
 class HomeView(ft.View):
-    def __init__(self):
+    def __init__(self, appbar: ft.AppBar | None):
+
         super().__init__(
             route="/home",
+            appbar=appbar,
             controls=[
                 ft.Container(
                     padding=20,

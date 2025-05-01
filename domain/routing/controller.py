@@ -1,7 +1,7 @@
 import flet as ft
 
 from interface.service import Service
-from interface.event_view import EventView
+from interface.view_event import ViewEvent
 from interface.repository import Repository
 
 
@@ -15,7 +15,7 @@ class Controller:
     def __init__(
         self,
         view_class: type[ft.View],
-        event_class: type[EventView],
+        event_class: type[ViewEvent],
         service_classes: dict[type[Service], list[type[Repository]]]
     ) -> None:
         self._view_class = view_class

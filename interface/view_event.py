@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from interface.service import Service
 
 
-class EventView(ABC):
+class ViewEvent(ABC):
     """
     Clase base de la cual deben heredar todas las clases que implementarán la lógica de eventos de la vista. 
 

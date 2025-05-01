@@ -24,3 +24,13 @@ class Tutor(User):
 @dataclass
 class Child(User):
     tutor: Tutor
+
+
+
+@dataclass
+class Exercise:
+    id: int
+    name: str
+    description: str
+    level: int
+    category: str
