@@ -59,10 +59,10 @@ class ProgressComponent(ft.Container):
         self.progress_value = self.active_days / self.total_days
         
         # Actualizar el texto de días y la barra de progreso
-        row = self.content.controls[0]
+        row = self.content.controls[0] # type: ignore
         row.controls[1].value = f"{self.active_days}/{self.total_days} días"
         
-        progress_bar = self.content.controls[1].content
+        progress_bar = self.content.controls[1].content # type: ignore
         progress_bar.value = self.progress_value
         
         self.update()

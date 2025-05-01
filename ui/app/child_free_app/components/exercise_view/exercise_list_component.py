@@ -6,13 +6,6 @@ class ExerciseListComponent(ft.Container):
     """Componente que muestra la lista de ejercicios con filtros por categoría."""
     
     def __init__(self, exercises=None, on_exercise_selected=None):
-        """
-        Inicializa el componente de lista de ejercicios.
-        
-        Args:
-            exercises (list): Lista de objetos Exercise a mostrar
-            on_exercise_selected (callable): Función a ejecutar cuando se selecciona un ejercicio
-        """
         self.exercises = exercises or []
         self.on_exercise_selected = on_exercise_selected or (lambda exercise: None)
         self.filtered_exercises = self.exercises.copy()
@@ -69,12 +62,6 @@ class ExerciseListComponent(ft.Container):
     def _create_category_filter(self, category):
         """
         Crea un filtro de categoría clickeable.
-        
-        Args:
-            category (str): Nombre de la categoría
-        
-        Returns:
-            ft.Container: Contenedor del filtro de categoría
         """
         is_selected = category == self.selected_category
         
@@ -91,12 +78,6 @@ class ExerciseListComponent(ft.Container):
     def _create_exercise_card(self, exercise):
         """
         Crea una tarjeta de ejercicio.
-        
-        Args:
-            exercise (Exercise): Objeto Exercise a mostrar
-        
-        Returns:
-            ExerciseCard: Componente de tarjeta de ejercicio
         """
         return ExerciseCard(
             exercise=exercise,
@@ -106,9 +87,6 @@ class ExerciseListComponent(ft.Container):
     def _handle_exercise_selected(self, exercise):
         """
         Maneja la selección de un ejercicio.
-        
-        Args:
-            exercise (Exercise): Ejercicio seleccionado
         """
         if self.on_exercise_selected:
             self.on_exercise_selected(exercise)
@@ -116,9 +94,6 @@ class ExerciseListComponent(ft.Container):
     def _apply_category_filter(self, category):
         """
         Aplica un filtro de categoría a la lista de ejercicios.
-        
-        Args:
-            category (str): Categoría para filtrar
         """
         self.selected_category = category
         
@@ -129,32 +104,13 @@ class ExerciseListComponent(ft.Container):
             self.filtered_exercises = [ex for ex in self.exercises if ex.category == category]
         
         # Actualizar los botones de filtro
-        category_row = self.content.controls[1].content
+        category_row = self.content.controls[1].content # type: ignore
         for i, cat_container in enumerate(category_row.controls):
             cat_text = cat_container.content.value
             cat_container.bgcolor = "green50" if cat_text == category else "white"
         
         # Actualizar la lista de ejercicios
-        exercise_list = self.content.controls[2].content
+        exercise_list = self.content.controls[2].content # type: ignore
         exercise_list.controls = [self._create_exercise_card(ex) for ex in self.filtered_exercises]
         
         self.update()
-    
-    def set_exercises(self, exercises):
-        """
-        Actualiza la lista de ejercicios.
-        
-        Args:
-            exercises (list): Nueva lista de objetos Exercise
-        """
-        self.exercises = exercises
-        self._apply_category_filter(self.selected_category)
-    
-    def set_on_exercise_selected(self, callback):
-        """
-        Actualiza el callback para la selección de ejercicios.
-        
-        Args:
-            callback (callable): Nuevo callback
-        """
-        self.on_exercise_selected = callback or (lambda exercise: None)

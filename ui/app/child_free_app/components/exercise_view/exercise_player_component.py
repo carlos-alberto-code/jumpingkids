@@ -106,7 +106,7 @@ class ExercisePlayerComponent(ft.Container):
         # Aquí se podría actualizar la animación según el tipo de ejercicio
         # Por ahora, actualizamos el título del componente
         if exercise:
-            self.content.controls[0].value = f"¡Ejercítate! - {exercise.name}"
+            self.content.controls[0].value = f"¡Ejercítate! - {exercise.name}" # type: ignore
             self.update()
     
     def set_animation(self, animation_url):
@@ -127,8 +127,8 @@ class ExercisePlayerComponent(ft.Container):
         Args:
             minutes (float): Minutos que durará el ejercicio
         """
-        self.cronometer.set_time(minutes)
-        self.cronometer.start()
+        self.cronometer.set_time(minutes) # type: ignore
+        self.cronometer.start() # type: ignore
     
     def _handle_exercise_finished(self):
         """Maneja el evento cuando termina el cronómetro."""
@@ -153,7 +153,7 @@ class ExercisePlayerComponent(ft.Container):
             callback (callable): Función a ejecutar
         """
         self.on_exercise_finished = callback
-        self.cronometer.set_on_finish(callback)
+        self.cronometer.set_on_finish(callback) # type: ignore
     
     def set_on_exercise_completed(self, callback):
         """
