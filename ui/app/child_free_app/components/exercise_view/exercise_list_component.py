@@ -1,6 +1,6 @@
 import flet as ft
 from domain.model import Exercise
-from ui.app.child_free_app.components.exercise_card import ExerciseCard
+from ui.app.child_free_app.components.exercise_view.exercise_card import ExerciseCard
 
 class ExerciseListComponent(ft.Container):
     """Componente que muestra la lista de ejercicios con filtros por categoría."""
