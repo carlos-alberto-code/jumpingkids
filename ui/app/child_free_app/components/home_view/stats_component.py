@@ -32,7 +32,6 @@ class StatsComponent(ft.Container):
                     title="Puntos", 
                     value=str(points), 
                     icon=ft.icons.STAR,
-                    icon_color="#FFD180"
                 ),
             ], 
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
