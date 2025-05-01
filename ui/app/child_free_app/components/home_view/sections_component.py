@@ -32,8 +32,8 @@ class SectionsComponent(ft.Container):
             SectionHome(
                 title="Desafíos semanales",
                 subtitle="Supera retos y gana medallas",
-                icon=ft.Icon(ft.icons.STAR, color="#FFD180", size=40),
-                icon_bgcolor="#FFF3E0",
+                icon=ft.Icon(ft.icons.STAR, color="#7C4DFF", size=40),
+                icon_bgcolor="#D1C4E9",
                 on_click=lambda e: self.on_section_click("/desafios"),
                 margin=ft.margin.only(bottom=10),
             ),
@@ -58,55 +58,3 @@ class SectionsComponent(ft.Container):
                 color=ft.colors.with_opacity(0.2, "grey")
             ),
         )
-    
-    def add_section(self, title, subtitle, icon, icon_bgcolor, route, margin=None):
-        """
-        Añade una nueva sección al componente.
-        
-        Args:
-            title (str): Título de la sección
-            subtitle (str): Subtítulo o descripción
-            icon (ft.Icon): Icono a mostrar
-            icon_bgcolor (str): Color de fondo del icono
-            route (str): Ruta a navegar al hacer clic
-            margin (ft.margin): Márgenes del componente
-        """
-        new_section = SectionHome(
-            title=title,
-            subtitle=subtitle,
-            icon=icon,
-            icon_bgcolor=icon_bgcolor,
-            on_click=lambda e: self.on_section_click(route),
-            margin=margin,
-        )
-        self.content.controls.append(new_section)
-        self.update()
-        
-    def set_on_section_click(self, callback):
-        """
-        Actualiza la función callback para manejar clicks en las secciones.
-        
-        Args:
-            callback (callable): Nueva función a ejecutar cuando se hace clic
-        """
-        self.on_section_click = callback
-        
-        # Actualizar los callbacks en todas las secciones existentes
-        for i in range(1, len(self.content.controls)):
-            section = self.content.controls[i]
-            if hasattr(section, 'on_click'):
-                # Obtener la ruta del evento actual
-                route = None
-                if section.on_click:
-                    old_callback = section.on_click
-                    # Extraer la ruta del lambda original (esto es una simplificación)
-                    if hasattr(old_callback, '__closure__') and old_callback.__closure__:
-                        for cell in old_callback.__closure__:
-                            if isinstance(cell.cell_contents, str) and cell.cell_contents.startswith('/'):
-                                route = cell.cell_contents
-                                break
-                
-                if route:
-                    section.on_click = lambda e, r=route: callback(r)
-        
-        self.update()
