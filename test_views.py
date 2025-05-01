@@ -7,9 +7,9 @@ from ui.app.child_free_app.view.personaje import PersonajeView
 
 def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.views.append(HomeView())
+    page.views.append(PersonajeView())
 
-    page.go("/home")
+    page.go("/personaje")
     page.update()
 
 ft.app(main)
