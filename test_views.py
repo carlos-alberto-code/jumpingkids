@@ -8,9 +8,9 @@ from ui.app.components.appbar import JumpingKidsAppbar
 
 def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.views.append(ExerciseView())
+    page.views.append(HomeView())
 
-    page.go("/ejercicios")
+    page.go("/home")
     page.update()
 
 ft.app(main)
