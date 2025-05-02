@@ -4,14 +4,10 @@ from ui.app.child_free_app.components.section import SectionHome
 class SectionsComponent(ft.Container):
     """Componente que muestra las actividades disponibles para el usuario."""
     
-    def __init__(self, on_section_click=None):
-        """
-        Inicializa el componente de secciones/actividades.
-        
-        Args:
-            on_section_click (callable): Función a ejecutar cuando se hace clic en una sección
-        """
-        self.on_section_click = on_section_click or (lambda route: None)
+    def __init__(self, on_exercise_click=None, on_challenges_click=None, on_personaje_click=None):
+        self.on_exercise_click = on_exercise_click
+        self.on_challenges_click = on_challenges_click
+        self.on_personaje_click = on_personaje_click
         
         # Crear contenido del componente
         content = ft.Column([
@@ -26,7 +22,7 @@ class SectionsComponent(ft.Container):
                 subtitle="¡Actívate con ejercicios divertidos!",
                 icon=ft.Icon(ft.icons.FITNESS_CENTER, color="#7C4DFF", size=40),
                 icon_bgcolor="#D1C4E9",
-                on_click=lambda e: self.on_section_click("/ejercicios"),
+                on_click=self.on_exercise_click,
                 margin=ft.margin.only(top=10, bottom=10),
             ),
             SectionHome(
@@ -34,7 +30,7 @@ class SectionsComponent(ft.Container):
                 subtitle="Supera retos y gana medallas",
                 icon=ft.Icon(ft.icons.STAR, color="#7C4DFF", size=40),
                 icon_bgcolor="#D1C4E9",
-                on_click=lambda e: self.on_section_click("/desafios"),
+                on_click=self.on_challenges_click,
                 margin=ft.margin.only(bottom=10),
             ),
             SectionHome(
@@ -42,7 +38,7 @@ class SectionsComponent(ft.Container):
                 subtitle="Personaliza tu avatar y mira tus logros",
                 icon=ft.Icon(ft.icons.PERSON, color="#7C4DFF", size=40),
                 icon_bgcolor="#D1C4E9",
-                on_click=lambda e: self.on_section_click("/personajes"),
+                on_click=self.on_personaje_click,
             ),
         ])
         

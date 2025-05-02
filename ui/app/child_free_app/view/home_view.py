@@ -12,13 +12,28 @@ from domain.model import Tutor, Child
 
 class HomeView(ft.View):
 
-    def __init__(self):
+    def __init__(
+        self,
+        on_exercise_section_click=None,
+        on_challenges_section_click=None,
+        on_personaje_section_click=None,
+        user: Tutor | Child | None = None
+    ) -> None:
 
-        self._user: Tutor | Child | None = None
+        self._user: Tutor | Child | None = user
+
+        # Eventos de clic en secciones
+        self._on_exercise_section_click = on_exercise_section_click
+        self._on_challenges_section_click = on_challenges_section_click
+        self._on_personaje_section_click = on_personaje_section_click
 
         welcome_component = WelcomeComponent(username="Alberto")
         stats_component = StatsComponent()
-        sections_component = SectionsComponent(on_section_click=self._on_section_click)
+        sections_component = SectionsComponent(
+            on_exercise_click=self._on_exercise_section_click,
+            on_challenges_click=self._on_challenges_section_click,
+            on_personaje_click=self._on_personaje_section_click
+        )
         daily_tip_component = DailyTipComponent()
 
         super().__init__(
@@ -50,7 +65,28 @@ class HomeView(ft.View):
     @user.setter
     def user(self, value: Tutor | Child) -> None:
         self._user = value
+    
+    @property
+    def on_exercise_section_click(self):
+        return self._on_exercise_section_click
+    
+    @on_exercise_section_click.setter
+    def on_exercise_section_click(self, func):
+        self._on_exercise_section_click = func
 
-    def _on_section_click(self, route):
-        if self.page:
-            self.page.go(route)
+    @property
+    def on_challenges_section_click(self):
+        return self._on_challenges_section_click
+    
+    @on_challenges_section_click.setter
+    def on_challenges_section_click(self, func):
+        self._on_challenges_section_click = func
+
+    @property
+    def on_personaje_section_click(self):
+        return self._on_personaje_section_click
+
+    @on_personaje_section_click.setter
+    def on_personaje_section_click(self, func):
+        self._on_personaje_section_click = func
+        
