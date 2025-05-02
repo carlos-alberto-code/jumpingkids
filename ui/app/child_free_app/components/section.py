@@ -22,7 +22,7 @@ class SectionHome(ft.Card):
                     margin=ft.margin.only(right=16)
                 ),
                 ft.Column([
-                    ft.Text(title, weight=ft.FontWeight.BOLD, size=18, color="green800"),
+                    ft.Text(title, weight=ft.FontWeight.BOLD, size=18, color="D1C4E9"),
                     ft.Text(subtitle, color="grey600", size=14),
                 ],
                 expand=True)
@@ -30,8 +30,8 @@ class SectionHome(ft.Card):
             bgcolor="white",
             border_radius=16,
             padding=16,
-            border=ft.border.all(3, "green100"),
-            shadow=ft.BoxShadow(blur_radius=4, color="grey100"),
+            border=ft.border.all(3, "D1C4E9"),
+            shadow=ft.BoxShadow(blur_radius=4, color="D1C4E9"),
             ink=True,
             on_click=on_click,
         )
