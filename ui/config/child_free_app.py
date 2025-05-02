@@ -1,5 +1,3 @@
-import flet as ft
-
 from interface.view_event import ViewEvent
 
 from domain.routing.controller import Controller
