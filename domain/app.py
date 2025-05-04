@@ -2,7 +2,7 @@ import flet as ft
 
 
 class App:
-    def __init__(self, theme: ft.Theme, views: list[ft.View]) -> None:
+    def __init__(self, theme: ft.Theme, views: dict[str, ft.View]) -> None:
         self._theme = theme
         self._views = views
     
@@ -11,6 +11,6 @@ class App:
         return self._theme
     
     @property
-    def views(self) -> list[ft.View]:
+    def views(self) -> dict[str, ft.View]:
         return self._views
 

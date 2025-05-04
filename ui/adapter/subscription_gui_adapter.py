@@ -1,8 +1,8 @@
-from domain.app import JumpingkidsTheme
+from domain.app import App
 from domain.subscription import SubscriptionRepositoryPort
-from domain.app import App, ChildFreeApp, ChildPremiumApp, TutorFreeApp, TutorPremiumApp
 
 from ui.theme.child_free_theme import ChildFreeTheme
+
 from ui.config.child_free_app import view_manager as child_free_view_manager
 from ui.config.tutor_free_app import view_manager as tutor_free_view_manager
 from ui.config.child_premium_app import view_manager as child_premium_view_manager

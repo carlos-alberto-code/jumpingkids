@@ -6,9 +6,14 @@ from domain.subscription import SubscriptionServiceCore
 from infrastructure.login import LoginRepositoryAdapter
 
 from ui.app.login.login_view import LoginView
+from ui.app.components.sidebar import Sidebar
 from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 
 from app_state import AppState
+
+
+def delete_slash(value: str) -> str:
+    return value[1:] if value.startswith("/") else value
 
 
 def show_snackbar_message(page: ft.Page, message: str, color: str, duration: int = 4000) -> None:
@@ -48,15 +53,16 @@ def main(page: ft.Page):
         if user:
             subscription_service = SubscriptionServiceCore(SubscriptionGuiAdapter())
             state = AppState(user=user, app=subscription_service.get_user_app(user))
-    
+        
         page.theme = state.app.theme
-        sidebar.keys = state.app.views.names
-
+        sidebar.keys = {
+            delete_slash(name): icon for name, icon in state.app.views.items()
+        }
         page.views.clear()
-        default_view_name = state.app.views.names[0]
-        default_view = state.app.views[default_view_name]
+        default_view = state.app.views[0]
         page.views.append(default_view)
-        page.go(default_view.route)
+        if default_view.route:
+            page.go(default_view.route)
         page.update()
     
     def on_signup(event: ft.ControlEvent):
