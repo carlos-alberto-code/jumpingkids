@@ -1,6 +1,7 @@
 import flet as ft
 from ui.app.register_children.child_form_component import ChildFormComponent
 from ui.app.register_children.child_list_component import ChildListComponent
+from ui.app.register_children.animation_panel import AnimationPanel
 
 MAX_CHILDREN = 3
 
@@ -27,23 +28,47 @@ class RegisterChildrenView(ft.View):
             disabled=True
         )
 
+        # Nuevo layout inspirado en LoginView
         super().__init__(
             route="/register-child",
-            padding=30,
+            padding=0,
             controls=[
-                ft.Column([
-                    ft.Text("Registro de hijos", size=22, weight=ft.FontWeight.BOLD),
-                    ft.Text("Agrega hasta 3 niños. Guarda cada formulario para agregarlos a la lista."),
-                    self._add_child_btn,
-                    ft.Divider(),
-                    ft.Row([
-                        self._form_column,
-                        ft.VerticalDivider(),
-                        self._child_list,
-                    ], alignment=ft.MainAxisAlignment.START),
-                    self._finish_btn
-                ], tight=True)
+                ft.Row(
+                    expand=True,
+                    spacing=0,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    controls=[
+                        AnimationPanel(),
+                        ft.Container(
+                            expand=True,
+                            alignment=ft.alignment.center,
+                            content=ft.Card(
+                                elevation=6,
+                                surface_tint_color="#F3E5F5",
+                                color="white",
+                                shape=ft.RoundedRectangleBorder(radius=24),
+                                content=ft.Container(
+                                    padding=40,
+                                    width=520,
+                                    content=ft.Column([
+                                        ft.Text("Registro de hijos", size=28, weight=ft.FontWeight.BOLD, color="#7C4DFF"),
+                                        ft.Text("Agrega hasta 3 niños. Guarda cada formulario para agregarlos a la lista.", size=16, color="grey600"),
+                                        ft.Container(self._add_child_btn, margin=ft.margin.only(top=10, bottom=10)),
+                                        ft.Divider(),
+                                        ft.Row([
+                                            self._form_column,
+                                            ft.VerticalDivider(),
+                                            self._child_list,
+                                        ], alignment=ft.MainAxisAlignment.START),
+                                        ft.Container(self._finish_btn, margin=ft.margin.only(top=20)),
+                                    ], tight=True, spacing=12)
+                                )
+                            )
+                        )
+                    ]
+                )
             ],
+            bgcolor="#F3E5F5"
         )
 
     def _handle_add_child(self, e):
