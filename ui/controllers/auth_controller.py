@@ -141,9 +141,9 @@ class AuthController:
                         )
                         self._page.go("/tutor-app")
                         self._page.update()
-                    self._page.dialog = PaymentDialog(on_success=on_payment_success)
-                    self._page.dialog.open = True
-                    self._page.update()
+                        self._page.close(payment_dialog)
+                    payment_dialog = PaymentDialog(on_success=on_payment_success)
+                    self._page.open(payment_dialog)
                 else:
                     registration_service.finalize_registration()
                     self._show_snackbar_message(
@@ -153,9 +153,8 @@ class AuthController:
                     )
                     self._page.go("/tutor-app")
                     self._page.update()
-            self._page.dialog = SubscriptionDialog(on_select=on_subscription_selected)
-            self._page.dialog.open = True
-            self._page.update()
+            subscription_dialog = SubscriptionDialog(on_select=on_subscription_selected)
+            self._page.open(subscription_dialog)
         register_children_view = RegisterChildrenView(
             on_finish=on_finish_register_children,
             registration_service=registration_service
