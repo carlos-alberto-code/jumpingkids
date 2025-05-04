@@ -1,8 +1,7 @@
 import flet as ft
-from domain.app import JumpingkidsTheme
 
 
-class ChildFreeTheme(JumpingkidsTheme):
+class ChildFreeTheme(ft.Theme):
     """Tema para el perfil de niño free: tonos morados y cafés, estilo amigable y moderno."""
     def __init__(self) -> None:
         super().__init__(

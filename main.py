@@ -16,11 +16,13 @@ def delete_slash(value: str) -> str:
     return value[1:] if value.startswith("/") else value
 
 
-def show_snackbar_message(page: ft.Page, message: str, color: str, duration: int = 4000) -> None:
+def show_snackbar_message(page: ft.Page, message: str, bgcolor: str, text_color: str) -> None:
     snackbar = ft.SnackBar(
-        content=ft.Text(message),
-        bgcolor=color,
-        duration=duration
+        content=ft.Row(
+            [ft.Text(message, color=text_color, weight=ft.FontWeight.BOLD, size=14)],
+            alignment=ft.MainAxisAlignment.CENTER,
+        ),
+        bgcolor=bgcolor,
     )
     page.open(snackbar)
 
@@ -37,8 +39,10 @@ def main(page: ft.Page):
             show_snackbar_message(
                 page=page,
                 message="Por favor, completa todos los campos.",
-                color=ft.Colors.RED
+                bgcolor=ft.Colors.GREY_100,
+                text_color="#2D2242",
             )
+            return
 
         login_service = LoginServiceCore(LoginRepositoryAdapter())
         user = login_service.login(login_view.username_field, login_view.password_field)
@@ -47,13 +51,14 @@ def main(page: ft.Page):
             show_snackbar_message(
                 page=page,
                 message="Usuario no encontrado!",
-                color=ft.Colors.RED
+                bgcolor=ft.Colors.GREY_100,
+                text_color="#2D2242",
             )
+            return
 
-        if user:
-            subscription_service = SubscriptionServiceCore(SubscriptionGuiAdapter())
-            state = AppState(user=user, app=subscription_service.get_user_app(user))
-        
+        # Solo si user existe, se ejecuta el resto
+        subscription_service = SubscriptionServiceCore(SubscriptionGuiAdapter())
+        state = AppState(user=user, app=subscription_service.get_user_app(user))
         page.theme = state.app.theme
         sidebar.keys = {
             delete_slash(jview.name): jview.icon for jview in state.app.views.values()

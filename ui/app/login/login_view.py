@@ -3,10 +3,7 @@ from .animation_panel import AnimationPanel
 from .auth_panel import AuthPanel
 
 class LoginView(ft.View):
-    """
-    Vista principal de login/signup.
-    Responsabilidad: organizar la estructura visual principal.
-    """
+    
     def __init__(self, on_login=None, on_signup=None):
         self._auth_panel = AuthPanel(on_login=on_login, on_signup=on_signup)
         super().__init__(

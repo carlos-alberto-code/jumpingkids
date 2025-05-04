@@ -1,6 +1,8 @@
 import flet as ft
-from .login_form import LoginForm
-from .signup_form import SignupForm
+
+from ui.app.login.login_form import LoginForm
+from ui.app.login.signup_form import SignupForm
+
 
 class AuthPanel(ft.Container):
     """
