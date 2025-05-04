@@ -181,7 +181,6 @@ class ChildListComponent(ft.Container):
             ),
             elevation=0,
             color=bg_color,
-            border_radius=10,
             margin=ft.margin.only(bottom=5)
         )
     

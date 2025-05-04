@@ -249,57 +249,59 @@ class RegisterChildrenView(ft.View):
         # Verificar si hay formularios activos
         if len(self._active_forms) > 0:
             # Mostrar mensaje de advertencia
-            if hasattr(self, "page") and self.page:
-                self.page.open(ft.AlertDialog(
-                    title=ft.Text("Formularios sin guardar"),
-                    content=ft.Text(
-                        "Hay formularios que no has guardado. "
-                        "¿Quieres guardarlos antes de continuar?"
+            self._dialog = ft.AlertDialog(
+                title=ft.Text("Formularios sin guardar"),
+                content=ft.Text(
+                    "Hay formularios que no has guardado. "
+                    "¿Quieres guardarlos antes de continuar?"
+                ),
+                actions=[
+                    ft.TextButton("Ignorar", on_click=lambda _: self._confirm_finish(e)),
+                    ft.FilledButton(
+                        "Guardar primero", 
+                        on_click=lambda _: self.page.close(self._dialog) if self.page else None
                     ),
-                    actions=[
-                        ft.TextButton("Ignorar", on_click=lambda _: self._confirm_finish(e)),
-                        ft.FilledButton(
-                            "Guardar primero", 
-                            on_click=lambda _: self.page.close(self.page.dialog) if self.page else None
-                        ),
-                    ],
-                ))
+                ],
+            )
+            if hasattr(self, "page") and self.page:
+                self.page.open(self._dialog)
                 self.page.update()
         else:
             self._confirm_finish(e)
 
     def _confirm_finish(self, e):
         # Cerrar diálogo si está abierto
-        if hasattr(self, "page") and self.page and self.page.dialog:
-            self.page.close(self.page.dialog)
-            
+        if hasattr(self, "page") and self.page and hasattr(self, "_dialog"):
+            self.page.close(self._dialog)
+            self.page.update()
         # Verificar si hay niños registrados
         if len(self._children_data) == 0:
             # Mostrar mensaje de advertencia
-            if hasattr(self, "page") and self.page:
-                self.page.open(ft.AlertDialog(
-                    title=ft.Text("Sin niños registrados"),
-                    content=ft.Text(
-                        "No has registrado ningún niño. "
-                        "¿Estás seguro de que quieres continuar?"
+            self._dialog = ft.AlertDialog(
+                title=ft.Text("Sin niños registrados"),
+                content=ft.Text(
+                    "No has registrado ningún niño. "
+                    "¿Estás seguro de que quieres continuar?"
+                ),
+                actions=[
+                    ft.TextButton("Cancelar", on_click=lambda _: self.page.close(self._dialog)),
+                    ft.FilledButton(
+                        "Continuar sin niños", 
+                        on_click=lambda _: self._finish_registration()
                     ),
-                    actions=[
-                        ft.TextButton("Cancelar", on_click=lambda _: self.page.close(self.page.dialog)),
-                        ft.FilledButton(
-                            "Continuar sin niños", 
-                            on_click=lambda _: self._finish_registration()
-                        ),
-                    ],
-                ))
+                ],
+            )
+            if hasattr(self, "page") and self.page:
+                self.page.open(self._dialog)
                 self.page.update()
         else:
             self._finish_registration()
 
     def _finish_registration(self):
         # Cerrar diálogo si está abierto
-        if hasattr(self, "page") and self.page and self.page.dialog:
-            self.page.close(self.page.dialog)
-            
+        if hasattr(self, "page") and self.page and hasattr(self, "_dialog"):
+            self.page.close(self._dialog)
+            self.page.update()
         # Llamar al callback de finalización
         self._on_finish(self._children_data)
 

@@ -143,7 +143,6 @@ class ChildFormComponent(ft.Container):
                 surface_tint_color="#F3E5F5",
                 color="white",
                 margin=10,
-                border_radius=16,
             )
         )
 
