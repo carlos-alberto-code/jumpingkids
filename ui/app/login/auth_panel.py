@@ -38,6 +38,11 @@ class AuthPanel(ft.Container):
         """Permite acceder a la instancia de LoginForm actual."""
         return self.login_form
 
+    @property
+    def signup_form_instance(self):
+        """Permite acceder a la instancia de SignupForm actual."""
+        return self.signup_form
+
     def show_login(self):
         self.column_panel.controls = [self.login_form]
         self.content = self.column_panel

@@ -33,3 +33,7 @@ class LoginView(ft.View):
     @property
     def password_field(self):
         return self._auth_panel.login_form_instance.password
+
+    @property
+    def signup(self):
+        return self._auth_panel.signup_form_instance
