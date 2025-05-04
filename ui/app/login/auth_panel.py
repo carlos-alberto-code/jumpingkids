@@ -31,6 +31,11 @@ class AuthPanel(ft.Container):
             on_switch_to_login=lambda e: self.show_login()
         )
 
+    @property
+    def login_form_instance(self):
+        """Permite acceder a la instancia de LoginForm actual."""
+        return self.login_form
+
     def show_login(self):
         self.column_panel.controls = [self.login_form]
         self.content = self.column_panel

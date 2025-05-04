@@ -8,6 +8,7 @@ class LoginView(ft.View):
     Responsabilidad: organizar la estructura visual principal.
     """
     def __init__(self, on_login=None, on_signup=None):
+        self._auth_panel = AuthPanel(on_login=on_login, on_signup=on_signup)
         super().__init__(
             route="/login",
             padding=0,
@@ -17,9 +18,21 @@ class LoginView(ft.View):
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
                         AnimationPanel(),
-                        AuthPanel(on_login=on_login, on_signup=on_signup),
+                        self._auth_panel,
                     ],
                     expand=True,
                 )
             ],
         )
+
+    @property
+    def not_complet_data(self):
+        return self._auth_panel.login_form_instance.not_complet_data
+
+    @property
+    def username_field(self):
+        return self._auth_panel.login_form_instance.username
+
+    @property
+    def password_field(self):
+        return self._auth_panel.login_form_instance.password

@@ -11,8 +11,13 @@ from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 from app_state import AppState
 
 
-def show_snackbar_message(message: str, color: ft.Colors):
-    ...
+def show_snackbar_message(page: ft.Page, message: str, color: str, duration: int = 4000) -> None:
+    snackbar = ft.SnackBar(
+        content=ft.Text(message),
+        bgcolor=color,
+        duration=duration
+    )
+    page.open(snackbar)
 
 
 def main(page: ft.Page):
@@ -25,6 +30,7 @@ def main(page: ft.Page):
     def on_login(event: ft.ControlEvent):
         if login_view.not_complet_data:
             show_snackbar_message(
+                page=page,
                 message="Por favor, completa todos los campos.",
                 color=ft.Colors.RED
             )
@@ -34,19 +40,21 @@ def main(page: ft.Page):
 
         if not user:
             show_snackbar_message(
+                page=page,
                 message="Usuario no encontrado!",
                 color=ft.Colors.RED
             )
 
-        subscription_service = SubscriptionServiceCore(SubscriptionGuiAdapter())
-
-        state = AppState(user=user, app=subscription_service.get_user_app(user))
+        if user:
+            subscription_service = SubscriptionServiceCore(SubscriptionGuiAdapter())
+            state = AppState(user=user, app=subscription_service.get_user_app(user))
     
         page.theme = state.app.theme
-        sidebar.keys = state.app.views.keys()
+        sidebar.keys = state.app.views.names
 
         page.views.clear()
-        default_view = state.app.views[0]
+        default_view_name = state.app.views.names[0]
+        default_view = state.app.views[default_view_name]
         page.views.append(default_view)
         page.go(default_view.route)
         page.update()
