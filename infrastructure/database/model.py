@@ -43,6 +43,11 @@ class RoutineEntity(Base):
 
     categories: Mapped[list["CategoryEntity"]] = relationship("CategoryEntity", secondary="categories_routines", back_populates="routines", lazy="selectin")
     exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="routines_exercises", lazy="selectin")
+    subscription_types: Mapped[list["SubscriptionTypeEntity"]] = relationship(
+        "SubscriptionTypeEntity",
+        secondary="routines_subscription_types",
+        lazy="selectin"
+    )
 
     def __init__(self, name: str, description: str):
         self.name = name
@@ -67,6 +72,12 @@ class ExerciseEntity(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
 
+    subscription_types: Mapped[list["SubscriptionTypeEntity"]] = relationship(
+        "SubscriptionTypeEntity",
+        secondary="exercises_subscription_types",
+        lazy="selectin"
+    )
+
     def __init__(self, name: str, description: str):
         self.name = name
         self.description = description
@@ -80,6 +91,20 @@ RoutineExerciseEntity = Table(
     Base.metadata,
     Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
     Column("exercise_id", Integer, ForeignKey("exercises.id"), primary_key=True),
+)
+
+RoutineSubscriptionTypeEntity = Table(
+    "routines_subscription_types",
+    Base.metadata,
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
+    Column("subscription_type_id", Integer, ForeignKey("subscription_types.id"), primary_key=True),
+)
+
+ExerciseSubscriptionTypeEntity = Table(
+    "exercises_subscription_types",
+    Base.metadata,
+    Column("exercise_id", Integer, ForeignKey("exercises.id"), primary_key=True),
+    Column("subscription_type_id", Integer, ForeignKey("subscription_types.id"), primary_key=True),
 )
 
 class TutorEntity(Base):

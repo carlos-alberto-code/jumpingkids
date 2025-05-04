@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from typing import List
 
 @dataclass
 class SubscriptionType:
@@ -24,13 +24,27 @@ class Tutor(User):
 @dataclass
 class Child(User):
     tutor: Tutor
+    favorite_routines: List['Routine']
 
 
+@dataclass
+class Category:
+    id: int
+    name: str
+    routines: List['Routine']
+
+@dataclass
+class Routine:
+    id: int
+    name: str
+    description: str
+    categories: List[Category]
+    exercises: List['Exercise']
+    subscription_types: List[SubscriptionType]
 
 @dataclass
 class Exercise:
     id: int
     name: str
     description: str
-    level: int
-    category: str
+    subscription_types: List[SubscriptionType]
