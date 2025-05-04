@@ -18,6 +18,7 @@ class AuthPanel(ft.Container):
         self.column_panel = ft.Column(
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            scroll=ft.ScrollMode.AUTO,
         )
         self.content = self.column_panel
         self._build_forms(on_login, on_signup)

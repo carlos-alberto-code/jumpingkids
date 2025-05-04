@@ -44,7 +44,6 @@ class RegisterChildrenView(ft.View):
                     self._finish_btn
                 ], tight=True)
             ],
-            expand=True
         )
 
     def _handle_add_child(self, e):

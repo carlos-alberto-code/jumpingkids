@@ -38,12 +38,15 @@ class SignupForm(ft.Column):
             height=50,
             width=400,
         )
-        self.subscription_type_field = ft.TextField(
+        self.subscription_type_field = ft.Dropdown(
             label="Tipo de suscripción",
+            options=[
+                ft.dropdown.Option("free"),
+                ft.dropdown.Option("premium"),
+            ],
             border_radius=8,
             filled=True,
             bgcolor=ft.Colors.GREY_100,
-            height=50,
             width=400,
         )
         self.message_text = ft.Text("", color=ft.Colors.RED, visible=False)
