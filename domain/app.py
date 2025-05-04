@@ -1,43 +1,16 @@
 import flet as ft
 
-from domain.routing.view_manager import ViewManager
-
-
-class JumpingkidsTheme(ft.Theme):
-    pass
-
 
 class App:
-    def __init__(self, theme: JumpingkidsTheme, view_manager: ViewManager) -> None:
+    def __init__(self, theme: ft.Theme, views: list[ft.View]) -> None:
         self._theme = theme
-        self._view_manager = view_manager
+        self._views = views
     
     @property
-    def theme(self) -> JumpingkidsTheme:
+    def theme(self) -> ft.Theme:
         return self._theme
     
     @property
-    def view_manager(self) -> ViewManager:
-        return self._view_manager
+    def views(self) -> list[ft.View]:
+        return self._views
 
-
-class TutorFreeApp(App):
-    def __init__(self, theme: JumpingkidsTheme, view_manager: ViewManager) -> None:
-        super().__init__(theme, view_manager)
-        
-
-
-class TutorPremiumApp(App):
-    def __init__(self, theme: JumpingkidsTheme, view_manager: ViewManager) -> None:
-        super().__init__(theme, view_manager)
-
-
-
-class ChildFreeApp(App):
-    def __init__(self, theme: JumpingkidsTheme, view_manager: ViewManager) -> None:
-        super().__init__(theme, view_manager)
-
-
-class ChildPremiumApp(App):
-    def __init__(self, theme: JumpingkidsTheme, view_manager: ViewManager) -> None:
-        super().__init__(theme, view_manager)

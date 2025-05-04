@@ -14,12 +14,12 @@ class SubscriptionServiceCore(SubscriptionServicePort):
         if isinstance(user, Tutor):
             if user.subscription_type.name == "free":
                 return self._subscription_repository.get_tutor_free_app()
-            elif user.subscription_type.name == "premium":
+            if user.subscription_type.name == "premium":
                 return self._subscription_repository.get_tutor_premium_app()
-        elif isinstance(user, Child):
+        if isinstance(user, Child):
             if user.tutor.subscription_type.name == "free":
                 return self._subscription_repository.get_child_free_app()
-            elif user.tutor.subscription_type.name == "premium":
+            if user.tutor.subscription_type.name == "premium":
                 return self._subscription_repository.get_child_premium_app()
 
         raise ValueError(f"No fue posible obtener la aplicación para el usuario: {user}")

@@ -1,21 +1,22 @@
 from abc import ABC, abstractmethod
-from domain.app import TutorFreeApp, TutorPremiumApp, ChildFreeApp, ChildPremiumApp
 
+from domain.app import App
 
 class SubscriptionRepositoryPort(ABC):
 
     @abstractmethod
-    def get_tutor_free_app(self) -> TutorFreeApp:
+    def get_tutor_free_app(self) -> App:
         pass
 
     @abstractmethod
-    def get_tutor_premium_app(self) -> TutorPremiumApp:
+    def get_tutor_premium_app(self) -> App:
         pass
 
     @abstractmethod
-    def get_child_free_app(self) -> ChildFreeApp:
+    def get_child_free_app(self) -> App:
         pass
 
     @abstractmethod
-    def get_child_premium_app(self) -> ChildPremiumApp:
+    def get_child_premium_app(self) -> App:
         pass
+    
