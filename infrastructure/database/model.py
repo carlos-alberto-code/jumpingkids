@@ -26,6 +26,7 @@ class CategoryEntity(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
 
     routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="categories_routines", back_populates="categories", lazy="selectin")
+    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", back_populates="category", lazy="selectin")
 
     def __init__(self, name: str):
         self.name = name
@@ -71,6 +72,11 @@ class ExerciseEntity(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String(255), nullable=False)
+    category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
+    level_id: Mapped[int] = mapped_column(Integer, ForeignKey("levels.id"), nullable=False)
+
+    category: Mapped["CategoryEntity"] = relationship("CategoryEntity", back_populates="exercises", lazy="selectin")
+    level: Mapped["LevelEntity"] = relationship("LevelEntity", back_populates="exercises", lazy="selectin")
 
     subscription_types: Mapped[list["SubscriptionTypeEntity"]] = relationship(
         "SubscriptionTypeEntity",
@@ -78,9 +84,11 @@ class ExerciseEntity(Base):
         lazy="selectin"
     )
 
-    def __init__(self, name: str, description: str):
+    def __init__(self, name: str, description: str, category_id: int, level_id: int):
         self.name = name
         self.description = description
+        self.category_id = category_id
+        self.level_id = level_id
 
     def __repr__(self):
         return f"ExerciseEntity(id={self.id}, name={self.name})"
@@ -157,4 +165,27 @@ FavoriteRoutinesEntity = Table(
     Base.metadata,
     Column("child_id", Integer, ForeignKey("children.id"), primary_key=True, nullable=False),
     Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True, nullable=False),
+)
+
+class LevelEntity(Base):
+    __tablename__ = "levels"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+
+    routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="levels_routines", lazy="selectin")
+    exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", back_populates="level", lazy="selectin")
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def __repr__(self):
+        return f"LevelEntity(id={self.id}, name={self.name})"
+
+# Tabla de asociación opcional para rutinas por nivel
+LevelsRoutinesEntity = Table(
+    "levels_routines",
+    Base.metadata,
+    Column("level_id", Integer, ForeignKey("levels.id"), primary_key=True),
+    Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True),
 )

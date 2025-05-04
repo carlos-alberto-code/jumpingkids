@@ -1,5 +1,5 @@
 import flet as ft
-from domain.model import Exercise
+from domain.model import Exercise, Category, Level, SubscriptionType
 from ui.app.child_free_app.components.exercise_view import (
     ProgressComponent,
     ExerciseListComponent,
@@ -8,14 +8,23 @@ from ui.app.child_free_app.components.exercise_view import (
 
 class ExerciseView(ft.View):
     def __init__(self, appbar: ft.AppBar | None = None) -> None:
-        # Lista de ejercicios de ejemplo
+        # Instancias dummy para los modelos requeridos
+        default_subscription = SubscriptionType(id=1, name="Free")
+        fuerza_category = Category(id=1, name="Fuerza", routines=[], exercises=[])
+        resistencia_category = Category(id=2, name="Resistencia", routines=[], exercises=[])
+        elasticidad_category = Category(id=3, name="Elasticidad", routines=[], exercises=[])
+        cardio_category = Category(id=4, name="Cardio", routines=[], exercises=[])
+        nivel_1 = Level(id=1, name="Nivel 1", routines=[], exercises=[])
+        nivel_2 = Level(id=2, name="Nivel 2", routines=[], exercises=[])
+
+        # Lista de ejercicios de ejemplo congruente con el modelo de dominio
         ejercicios = [
-            Exercise(id=1, name="Saltos estrella", description="Saltos abriendo brazos y piernas", level=1, category="Resistencia"),
-            Exercise(id=2, name="Sentadillas básicas", description="Sentadillas para principiantes", level=1, category="Fuerza"),
-            Exercise(id=3, name="Estiramiento de brazos", description="Estirar brazos en diferentes direcciones", level=1, category="Elasticidad"),
-            Exercise(id=4, name="Flexiones de brazos", description="Flexiones para fortalecer el tren superior", level=2, category="Fuerza"),
-            Exercise(id=5, name="Abdominales", description="Ejercicio para fortalecer el abdomen", level=2, category="Fuerza"),
-            Exercise(id=6, name="Caminata rápida", description="Caminata a paso ligero para mejorar resistencia", level=1, category="Cardio"),
+            Exercise(id=1, name="Saltos estrella", description="Saltos abriendo brazos y piernas", level=nivel_1, category=resistencia_category, subscription_types=[default_subscription]),
+            Exercise(id=2, name="Sentadillas básicas", description="Sentadillas para principiantes", level=nivel_1, category=fuerza_category, subscription_types=[default_subscription]),
+            Exercise(id=3, name="Estiramiento de brazos", description="Estirar brazos en diferentes direcciones", level=nivel_1, category=elasticidad_category, subscription_types=[default_subscription]),
+            Exercise(id=4, name="Flexiones de brazos", description="Flexiones para fortalecer el tren superior", level=nivel_2, category=fuerza_category, subscription_types=[default_subscription]),
+            Exercise(id=5, name="Abdominales", description="Ejercicio para fortalecer el abdomen", level=nivel_2, category=fuerza_category, subscription_types=[default_subscription]),
+            Exercise(id=6, name="Caminata rápida", description="Caminata a paso ligero para mejorar resistencia", level=nivel_1, category=cardio_category, subscription_types=[default_subscription]),
         ]
         
         # Crear componentes refactorizados

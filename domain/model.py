@@ -32,6 +32,15 @@ class Category:
     id: int
     name: str
     routines: list['Routine']
+    exercises: list['Exercise']
+
+
+@dataclass
+class Level:
+    id: int
+    name: str
+    routines: list['Routine']
+    exercises: list['Exercise']
 
 
 @dataclass
@@ -49,4 +58,6 @@ class Exercise:
     id: int
     name: str
     description: str
+    category: Category
+    level: Level
     subscription_types: list[SubscriptionType]

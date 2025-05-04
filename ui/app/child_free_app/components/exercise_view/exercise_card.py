@@ -15,11 +15,11 @@ class ExerciseCard(ft.Card):
                         ft.Text(exercise.description, color="grey600", size=14),
                         ft.Row([
                             ft.Container(
-                                content=ft.Text(f"Nivel {exercise.level}", size=12, color="green800", weight=ft.FontWeight.BOLD),
+                                content=ft.Text(f"Nivel {exercise.level.name}", size=12, color="green800", weight=ft.FontWeight.BOLD),
                                 bgcolor="green100", border_radius=8, padding=5, margin=ft.margin.only(right=5)
                             ),
                             ft.Container(
-                                content=ft.Text(exercise.category, size=12, color="blue800", weight=ft.FontWeight.BOLD),
+                                content=ft.Text(exercise.category.name, size=12, color="blue800", weight=ft.FontWeight.BOLD),
                                 bgcolor="blue100", border_radius=8, padding=5
                             ),
                         ], spacing=5)

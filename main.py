@@ -5,11 +5,10 @@ from domain.subscription import SubscriptionServiceCore
 
 from infrastructure.login import LoginRepositoryAdapter
 
+from ui.app_state import AppState
 from ui.app.login.login_view import LoginView
 from ui.app.components.sidebar import Sidebar
 from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
-
-from ui.app_state import AppState
 
 
 def delete_slash(value: str) -> str:
