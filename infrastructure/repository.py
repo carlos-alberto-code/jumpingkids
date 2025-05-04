@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from infrastructure.database.model import Base
 from infrastructure.database.connection import get_session
+from domain.registration.registration_repository_port import RegistrationRepositoryPort
 
 
 T = TypeVar("T", bound=Base)
@@ -73,3 +74,18 @@ class Repository(Generic[T]):
         except SQLAlchemyError as e:
             session.rollback()
             raise Exception(f"Error al eliminar entidad: {str(e)}")
+
+
+class RegistrationRepositoryAdapter(RegistrationRepositoryPort):
+    def save_tutor(self, tutor_data: dict):
+        # TODO: Implementar guardado real en base de datos y retornar el id del tutor
+        # Por ahora, retornamos un id simulado
+        return 1
+
+    def save_children(self, tutor_id: int, children_data: list):
+        # TODO: Implementar guardado real de los hijos en base de datos
+        pass
+
+    def save_subscription(self, tutor_id: int, subscription_type: str):
+        # TODO: Implementar guardado real de la suscripción en base de datos
+        pass

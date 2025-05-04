@@ -1,5 +1,6 @@
 import flet as ft
 
+from domain.model import Tutor
 from domain.login import LoginServiceCore
 from domain.subscription import SubscriptionServiceCore
 
@@ -65,12 +66,73 @@ def main(page: ft.Page):
         page.views.clear()
         default_view = state.app.views["inicio"].view
         page.views.append(default_view)
-        if default_view.route:
+        if (default_view.route):
             page.go(default_view.route)
         page.update()
     
     def on_signup(event: ft.ControlEvent):
-        print("Signup button clicked")
+        if login_view.not_signup_data:
+            show_snackbar_message(
+                page=page,
+                message="Por favor, completa todos los campos.",
+                bgcolor=ft.Colors.GREY_100,
+                text_color="#2D2242",
+            )
+            return
+
+        tutor_data = {
+            "username": login_view.signup.username,
+            "password": login_view.signup.password,
+            "full_name": login_view.signup.full_name,
+        }
+        from domain.registration.registration_service_core import RegistrationServiceCore
+        from infrastructure.repository import RegistrationRepositoryAdapter
+        from ui.app.register_children.register_children_view import RegisterChildrenView
+        from ui.app.register_children.subscription_dialog import SubscriptionDialog
+        from ui.app.register_children.payment_dialog import PaymentDialog
+
+        registration_service = RegistrationServiceCore(RegistrationRepositoryAdapter())
+        registration_service.start_registration(tutor_data)
+
+        def on_finish_register_children(children_data):
+            def on_subscription_selected(subscription_type):
+                registration_service.set_subscription(subscription_type)
+                if subscription_type == "premium":
+                    def on_payment_success(payment_data):
+                        registration_service.process_payment(payment_data)
+                        registration_service.finalize_registration()
+                        show_snackbar_message(
+                            page=page,
+                            message="¡Registro completo y pago exitoso!",
+                            bgcolor=ft.Colors.GREEN_200,
+                            text_color="#2D2242",
+                        )
+                        page.go("/tutor-app")
+                        page.update()
+                    page.dialog = PaymentDialog(on_success=on_payment_success)
+                    page.dialog.open = True
+                    page.update()
+                else:
+                    registration_service.finalize_registration()
+                    show_snackbar_message(
+                        page=page,
+                        message="¡Registro completo! Bienvenido.",
+                        bgcolor=ft.Colors.GREEN_200,
+                        text_color="#2D2242",
+                    )
+                    page.go("/tutor-app")
+                    page.update()
+            page.dialog = SubscriptionDialog(on_select=on_subscription_selected)
+            page.dialog.open = True
+            page.update()
+
+        register_children_view = RegisterChildrenView(
+            on_finish=on_finish_register_children,
+            registration_service=registration_service
+        )
+        page.views.append(register_children_view)
+        page.go("/register-child")
+        page.update()
 
     login_view = LoginView(
         on_login=on_login,
