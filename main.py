@@ -9,7 +9,7 @@ from ui.app.login.login_view import LoginView
 from ui.app.components.sidebar import Sidebar
 from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 
-from app_state import AppState
+from ui.app_state import AppState
 
 
 def delete_slash(value: str) -> str:
@@ -56,10 +56,10 @@ def main(page: ft.Page):
         
         page.theme = state.app.theme
         sidebar.keys = {
-            delete_slash(name): icon for name, icon in state.app.views.items()
+            delete_slash(jview.name): jview.icon for jview in state.app.views.values()
         }
         page.views.clear()
-        default_view = state.app.views[0]
+        default_view = state.app.views["inicio"].view
         page.views.append(default_view)
         if default_view.route:
             page.go(default_view.route)
