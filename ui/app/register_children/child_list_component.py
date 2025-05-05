@@ -1,7 +1,7 @@
 import flet as ft
 
 class ChildListComponent(ft.Container):
-    """Componente mejorado para mostrar la lista de niños registrados"""
+    """Componente mejorado para mostrar la lista de niños registrados con colores modernos y consistentes con LoginView."""
     
     def __init__(self, children_data=None):
         self.children_data = children_data or []
@@ -13,18 +13,18 @@ class ChildListComponent(ft.Container):
                     ft.Icon(
                         ft.icons.PERSON_SEARCH,
                         size=40,
-                        color="purple200"
+                        color="#7C4DFF"  # Morado principal
                     ),
                     ft.Text(
                         "No hay niños registrados aún",
                         italic=True,
-                        color="grey500",
+                        color=ft.Colors.GREY_600,
                         text_align=ft.TextAlign.CENTER,
                         size=14
                     ),
                     ft.Text(
                         "Usa el botón 'Agregar hijo' para comenzar",
-                        color="grey400",
+                        color=ft.Colors.GREY_400,
                         text_align=ft.TextAlign.CENTER,
                         size=12
                     )
@@ -42,29 +42,24 @@ class ChildListComponent(ft.Container):
             spacing=5,
             scroll=ft.ScrollMode.AUTO,
             visible=False if not self.children_data else True,
-            height=200,  # Altura fija para evitar desbordamientos
+            height=200,
         )
         
         # Mensaje de cuota
         self.quota_text = ft.Text(
             f"0 de 3 cupos utilizados",
-            color="grey700",
+            color=ft.Colors.GREY_700,
             size=12,
             text_align=ft.TextAlign.RIGHT
         )
         
-        # Actualizar lista y texto de cuota
         self._refresh_list()
         
-        # Layout principal
         super().__init__(
             content=ft.Column(
                 [
-                    # Lista de niños o mensaje de vacío
                     self.list_column,
                     self.empty_state,
-                    
-                    # Mensaje de cuota
                     ft.Container(
                         content=self.quota_text,
                         padding=ft.padding.only(top=5, right=5),
@@ -76,45 +71,30 @@ class ChildListComponent(ft.Container):
             ),
             alignment=ft.alignment.top_center,
             width=400,
-            height=250,  # Altura fija para evitar desbordamientos
+            height=250,
+            bgcolor=ft.Colors.GREY_100,  # Fondo igual que el login
+            border_radius=12,
+            shadow=ft.BoxShadow(blur_radius=8, color=ft.colors.with_opacity(0.08, "#2D2242")),
         )
     
     def _refresh_list(self):
-        """Actualiza la lista de niños y el texto de cuota"""
-        # Limpiar lista actual
         self.list_column.controls.clear()
-        
-        # Mostrar estado vacío si no hay niños
         self.empty_state.visible = len(self.children_data) == 0
         self.list_column.visible = len(self.children_data) > 0
-        
-        # Actualizar texto de cuota
         self.quota_text.value = f"{len(self.children_data)} de 3 cupos utilizados"
-        
-        # Crear tarjetas para cada niño
         for i, child in enumerate(self.children_data):
             self.list_column.controls.append(self._create_child_card(i, child))
     
     def _create_child_card(self, index, child_data):
-        """Crea una tarjeta para un niño registrado"""
-        # Determinar color de fondo basado en el índice
-        colors = [ft.Colors.GREY_100, "#D1C4E9", "#E0BBFF"]
+        # Paleta moderna: alterna entre blanco y lila claro
+        colors = [ft.Colors.WHITE, "#F3E5F5", "#EDE7F6"]
         bg_color = colors[index % len(colors)]
-        
-        # Crear avatar con iniciales
-        initials = "".join([name[0].upper() for name in child_data["full_name"].split() if name])
-        if not initials:
-            initials = "N"
-            
-        # Obtener la edad si existe
+        initials = "".join([name[0].upper() for name in child_data["full_name"].split() if name]) or "N"
         age_text = f"{child_data.get('age', '?')} años" if child_data.get('age') else ""
-        
-        # Crear tarjeta
         return ft.Card(
             content=ft.Container(
                 content=ft.Row(
                     [
-                        # Avatar
                         ft.Container(
                             content=ft.Text(
                                 initials,
@@ -126,28 +106,27 @@ class ChildListComponent(ft.Container):
                             width=40,
                             height=40,
                             border_radius=20,
-                            bgcolor="#2D2242",
+                            bgcolor="#2D2242",  # Avatar igual que login
                             alignment=ft.alignment.center,
                         ),
-                        
-                        # Información del niño
                         ft.Column(
                             [
                                 ft.Text(
                                     child_data["full_name"],
                                     weight=ft.FontWeight.BOLD,
-                                    size=16
+                                    size=16,
+                                    color="#2D2242"
                                 ),
                                 ft.Row(
                                     [
                                         ft.Icon(
                                             ft.icons.ALTERNATE_EMAIL,
-                                            color="grey700",
+                                            color=ft.Colors.GREY_700,
                                             size=14
                                         ),
                                         ft.Text(
                                             child_data["username"],
-                                            color="grey700",
+                                            color=ft.Colors.GREY_700,
                                             size=14
                                         ),
                                     ],
@@ -158,8 +137,6 @@ class ChildListComponent(ft.Container):
                             spacing=3,
                             expand=True
                         ),
-                        
-                        # Badge de edad
                         ft.Container(
                             content=ft.Text(
                                 age_text,
@@ -167,7 +144,7 @@ class ChildListComponent(ft.Container):
                                 size=12,
                                 weight=ft.FontWeight.BOLD
                             ),
-                            bgcolor=ft.Colors.GREY_100,
+                            bgcolor="#D1C4E9",
                             border_radius=10,
                             padding=ft.padding.symmetric(horizontal=8, vertical=4),
                             visible=True if age_text else False
@@ -185,6 +162,5 @@ class ChildListComponent(ft.Container):
         )
     
     def update(self):
-        """Actualiza la visualización del componente"""
         self._refresh_list()
         super().update()

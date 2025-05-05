@@ -5,7 +5,7 @@ class AnimationPanel(ft.Container):
         super().__init__(
             width=500,
             bgcolor="#2D2242",
-            padding=20,
+            padding=0,  # Eliminado el padding para que quede pegado a la izquierda
             animate=ft.Animation(300, ft.AnimationCurve.EASE_IN_OUT),
             content=ft.Column(
                 alignment=ft.MainAxisAlignment.CENTER,
