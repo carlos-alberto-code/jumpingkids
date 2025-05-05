@@ -16,22 +16,11 @@ from infrastructure.login import LoginRepositoryAdapter
 from infrastructure.repository import RegistrationRepositoryAdapter
 
 
-class AuthController:
+class UIFeedbackService:
     def __init__(self, page: ft.Page):
         self._page = page
-        self._sidebar = Sidebar()
-        self._login_view = LoginView(
-            on_login=self._on_login,
-            on_signup=self._on_signup
-        )
 
-    def show_login_view(self):
-        self._page.views.clear()
-        self._page.views.append(self._login_view)
-        self._page.go("/login")
-        self._page.update()
-
-    def _show_snackbar_message(self, message: str, bgcolor: str, text_color: str) -> None:
+    def show_snackbar(self, message: str, bgcolor: str, text_color: str):
         snackbar = ft.SnackBar(
             content=ft.Row(
                 [ft.Text(message, color=text_color, weight=ft.FontWeight.BOLD, size=14)],
@@ -41,12 +30,16 @@ class AuthController:
         )
         self._page.open(snackbar)
 
-    def _delete_slash(self, value: str) -> str:
-        return value[1:] if value.startswith("/") else value
+class LoginHandler:
+    def __init__(self, login_view, page: ft.Page, sidebar, feedback_service: UIFeedbackService):
+        self._login_view = login_view
+        self._page = page
+        self._sidebar = sidebar
+        self._feedback = feedback_service
 
-    def _on_login(self, event: ft.ControlEvent):
+    def handle_login(self, event: ft.ControlEvent):
         if self._login_view.not_complet_data:
-            self._show_snackbar_message(
+            self._feedback.show_snackbar(
                 message="Por favor, completa todos los campos.",
                 bgcolor=ft.Colors.GREY_100,
                 text_color="#2D2242",
@@ -55,7 +48,7 @@ class AuthController:
         login_service = LoginServiceCore(LoginRepositoryAdapter())
         user = login_service.login(self._login_view.username_field, self._login_view.password_field)
         if not user:
-            self._show_snackbar_message(
+            self._feedback.show_snackbar(
                 message="Usuario no encontrado!",
                 bgcolor=ft.Colors.GREY_100,
                 text_color="#2D2242",
@@ -74,38 +67,18 @@ class AuthController:
             self._page.go(default_view.route)
         self._page.update()
 
-    def _on_signup(self, event: ft.ControlEvent):
+    def _delete_slash(self, value: str) -> str:
+        return value[1:] if value.startswith("/") else value
+
+class SignupHandler:
+    def __init__(self, login_view, page: ft.Page, feedback_service: UIFeedbackService):
+        self._login_view = login_view
+        self._page = page
+        self._feedback = feedback_service
+
+    def handle_signup(self, event: ft.ControlEvent):
         signup_data = self._login_view.signup.signup_data
-
-        # Validación de campos obligatorios
-        if self._login_view.signup.not_completed_data:
-            self._show_snackbar_message(
-                message="Por favor, completa todos los campos.",
-                bgcolor=ft.Colors.GREY_100,
-                text_color="#2D2242",
-            )
-            return
-
-        # Validación de coincidencia de contraseñas
-        if signup_data["password"] != signup_data["confirm_password"]:
-            self._show_snackbar_message(
-                message="Las contraseñas no coinciden.",
-                bgcolor=ft.Colors.GREY_100,
-                text_color="#2D2242",
-            )
-            return
-
-        # Validación de tipo de suscripción (puedes mejorar esto con una consulta a la base de datos)
         subscription_type_name = signup_data["subscription_type"].strip().lower()
-        if subscription_type_name not in ["free", "premium"]:
-            self._show_snackbar_message(
-                message="Tipo de suscripción inválido. Usa 'free' o 'premium'.",
-                bgcolor=ft.Colors.GREY_100,
-                text_color="#2D2242",
-            )
-            return
-
-        # Construir el diccionario para el registro
         tutor_data = {
             "username": signup_data["username"],
             "password": signup_data["password"],
@@ -113,20 +86,16 @@ class AuthController:
             "children": [],
             "subscription_type": subscription_type_name
         }
-
         registration_service = RegistrationServiceCore(RegistrationRepositoryAdapter())
         try:
-            # Validar existencia de usuario (esto depende de la implementación del repositorio)
-            # Si el repositorio lanza excepción por usuario duplicado, se captura aquí
             registration_service.start_registration(tutor_data)
         except Exception as e:
-            self._show_snackbar_message(
+            self._feedback.show_snackbar(
                 message=f"Error al registrar tutor: {str(e)}",
                 bgcolor=ft.Colors.RED_200,
                 text_color="#2D2242",
             )
             return
-
         def on_finish_register_children(children_data):
             def on_subscription_selected(subscription_type):
                 registration_service.set_subscription(subscription_type)
@@ -134,7 +103,7 @@ class AuthController:
                     def on_payment_success(payment_data):
                         registration_service.process_payment(payment_data)
                         registration_service.finalize_registration()
-                        self._show_snackbar_message(
+                        self._feedback.show_snackbar(
                             message="¡Registro completo y pago exitoso!",
                             bgcolor=ft.Colors.GREEN_200,
                             text_color="#2D2242",
@@ -146,7 +115,7 @@ class AuthController:
                     self._page.open(payment_dialog)
                 else:
                     registration_service.finalize_registration()
-                    self._show_snackbar_message(
+                    self._feedback.show_snackbar(
                         message="¡Registro completo! Bienvenido.",
                         bgcolor=ft.Colors.GREEN_200,
                         text_color="#2D2242",
@@ -162,3 +131,27 @@ class AuthController:
         self._page.views.append(register_children_view)
         self._page.go("/register-child")
         self._page.update()
+
+class AuthController:
+    def __init__(self, page: ft.Page):
+        self._page = page
+        self._sidebar = Sidebar()
+        self._login_view = LoginView(
+            on_login=self._on_login,
+            on_signup=self._on_signup
+        )
+        self._feedback = UIFeedbackService(self._page)
+        self._login_handler = LoginHandler(self._login_view, self._page, self._sidebar, self._feedback)
+        self._signup_handler = SignupHandler(self._login_view, self._page, self._feedback)
+
+    def show_login_view(self):
+        self._page.views.clear()
+        self._page.views.append(self._login_view)
+        self._page.go("/login")
+        self._page.update()
+
+    def _on_login(self, event: ft.ControlEvent):
+        self._login_handler.handle_login(event)
+
+    def _on_signup(self, event: ft.ControlEvent):
+        self._signup_handler.handle_signup(event)
