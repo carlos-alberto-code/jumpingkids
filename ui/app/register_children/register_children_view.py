@@ -269,3 +269,4 @@ class RegisterChildrenView(ft.View):
     @property
     def children_data(self):
         return self._children_data
+    
