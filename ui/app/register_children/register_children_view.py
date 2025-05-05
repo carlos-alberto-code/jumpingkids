@@ -23,6 +23,14 @@ class RegisterChildrenView(ft.View):
             icon=ft.icons.PERSON_ADD,
             on_click=self._handle_add_child,
         )
+
+        # Diálogo para el formulario de registro de niño
+        self._child_form_dialog = ft.AlertDialog(
+            modal=True,
+            content=None,  # Se asigna dinámicamente
+            actions=[],
+            on_dismiss=lambda e: self._handle_cancel_form_dialog(),
+        )
         
         self._finish_btn = ft.FilledButton(
             "Finalizar registro",
@@ -37,14 +45,6 @@ class RegisterChildrenView(ft.View):
             )
         )
         
-        # Contenedor de formularios con scroll
-        self._form_column = ft.Column(
-            [], 
-            spacing=10,
-            scroll=ft.ScrollMode.AUTO,
-            height=400,  # Altura fija para evitar desbordamientos
-        )
-
         # Layout principal
         super().__init__(
             route="/register-child",
@@ -112,27 +112,6 @@ class RegisterChildrenView(ft.View):
                                     margin=ft.margin.only(bottom=20),
                                 ),
                                 
-                                # Contenedor de formularios
-                                ft.Container(
-                                    ft.Column(
-                                        [
-                                            ft.Text(
-                                                "Completa los datos del niño", 
-                                                size=18, 
-                                                weight=ft.FontWeight.BOLD,
-                                                color="#7C4DFF", 
-                                                visible=False,  # Inicialmente oculto
-                                            ),
-                                            self._form_column,
-                                        ],
-                                    ),
-                                    padding=15,
-                                    border_radius=10,
-                                    bgcolor="#F8F0FF",  # Color de fondo más claro
-                                    visible=False,  # Inicialmente oculto
-                                    margin=ft.margin.only(bottom=20),
-                                ),
-                                
                                 # Botón para finalizar
                                 ft.Container(
                                     self._finish_btn,
@@ -152,7 +131,7 @@ class RegisterChildrenView(ft.View):
 
     def _handle_add_child(self, e):
         # Verificar si ya se alcanzó el límite de niños
-        total = len(self._active_forms) + len(self._children_data)
+        total = len(self._children_data)
         if total >= MAX_CHILDREN:
             # Mostrar mensaje de límite alcanzado
             if hasattr(self, "page") and self.page:
@@ -163,62 +142,34 @@ class RegisterChildrenView(ft.View):
                 ))
                 self.page.update()
             return
-            
-        # Mostrar el contenedor de formularios si estaba oculto
-        form_container = self.controls[0].controls[1].controls[3]
-        if not form_container.visible:
-            form_container.visible = True
-            form_title = form_container.content.controls[0]
-            form_title.visible = True
-        
-        # Crear formulario
+        # Crear formulario y mostrar en diálogo
         idx = self._next_index
         form = ChildFormComponent(
             on_save=self._handle_save_child,
             on_cancel=self._handle_cancel_form,
             index=idx
         )
-        
-        # Agregar formulario
-        self._form_column.controls.append(form)
-        self._active_forms.append((idx, form))
-        self._next_index += 1
-        
-        # Actualizar botones
-        self._update_buttons()
-        self.update()
-        
-        # Hacer scroll para mostrar el nuevo formulario
+        self._child_form_dialog.content = form
+        self._child_form_dialog.actions = []
+        self._active_form_index = idx
         if hasattr(self, "page") and self.page:
-            form.scroll_into_view()
+            self.page.open(self._child_form_dialog)
             self.page.update()
+        self._next_index += 1
 
     def _handle_save_child(self, index, data):
         # Guardar datos del niño
         self._children_data.append(data)
-        
-        # Actualizar servicio de registro
         self._registration_service.add_child(data)
-        
-        # Remover el formulario activo
-        for i, (idx, form) in enumerate(self._active_forms):
-            if idx == index:
-                self._form_column.controls.remove(form)
-                self._active_forms.pop(i)
-                break
-        
         # Actualizar lista de niños
         self._child_list.children_data = self._children_data
         self._child_list.update()
-        
-        # Ocultar el contenedor de formularios si no hay formularios activos
-        if len(self._active_forms) == 0:
-            form_container = self.controls[0].controls[1].controls[3]
-            form_container.visible = False
-        
+        # Cerrar el diálogo
+        if hasattr(self, "page") and self.page:
+            self.page.close(self._child_form_dialog)
+            self.page.update()
         # Actualizar botones
         self._update_buttons()
-        
         # Mostrar mensaje de éxito
         if hasattr(self, "page") and self.page:
             self.page.open(ft.SnackBar(
@@ -228,22 +179,18 @@ class RegisterChildrenView(ft.View):
             ))
             self.page.update()
 
-    def _handle_cancel_form(self, index):
-        # Remover el formulario
-        for i, (idx, form) in enumerate(self._active_forms):
-            if idx == index:
-                self._form_column.controls.remove(form)
-                self._active_forms.pop(i)
-                break
-        
-        # Ocultar el contenedor de formularios si no hay formularios activos
-        if len(self._active_forms) == 0:
-            form_container = self.controls[0].controls[1].controls[3]
-            form_container.visible = False
-        
+    def _handle_cancel_form(self, index=None):
+        # Cerrar el diálogo si está abierto
+        if hasattr(self, "page") and self.page:
+            self.page.close(self._child_form_dialog)
+            self.page.update()
         # Actualizar botones
         self._update_buttons()
         self.update()
+
+    def _handle_cancel_form_dialog(self):
+        # Callback para on_dismiss del diálogo
+        self._handle_cancel_form()
 
     def _handle_finish(self, e):
         # Verificar si hay formularios activos
@@ -307,11 +254,11 @@ class RegisterChildrenView(ft.View):
 
     def _update_buttons(self):
         # Actualizar estado del botón de agregar
-        total = len(self._active_forms) + len(self._children_data)
+        total = len(self._children_data)
         self._add_child_btn.disabled = (total >= MAX_CHILDREN)
         
         # Actualizar estado del botón de finalizar
-        self._finish_btn.disabled = (len(self._children_data) == 0 and len(self._active_forms) == 0)
+        self._finish_btn.disabled = (len(self._children_data) == 0)
 
     @property
     def children_data(self):

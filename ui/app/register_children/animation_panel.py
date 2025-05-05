@@ -7,13 +7,15 @@ class AnimationPanel(ft.Container):
     """
     def __init__(self):
         # URL de animación Lottie adecuada para niños
-        animation_url = "https://assets9.lottiefiles.com/packages/lf20_tiviyc6j.json"  # Niños jugando
+        animation_url = "https://assets5.lottiefiles.com/packages/lf20_touohxv0.json"  # Niños jugando
         
         # Texto motivacional
         motivational_text = [
             "¡Haz que tus hijos se ejerciten divirtiéndose!",
             "Actividad física + diversión = niños saludables",
             "Acompaña a tus hijos en su desarrollo físico"
+            "¡Cada salto cuenta para una vida activa!",
+            "Fomenta hábitos saludables desde pequeños",
         ]
         
         super().__init__(
@@ -81,6 +83,8 @@ class AnimationPanel(ft.Container):
                 spacing=10,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 alignment=ft.MainAxisAlignment.CENTER,
+                scroll=ft.ScrollMode.ALWAYS,  # Permite scroll si hay desbordamiento
+                expand=True,
             ),
             alignment=ft.alignment.center,
             border_radius=ft.border_radius.only(
@@ -94,6 +98,9 @@ class AnimationPanel(ft.Container):
             ),
             padding=30,
             expand=True,
+            width=420,  # Limita el ancho máximo del panel
+            height=None,  # Permite que el alto sea dinámico
+            bgcolor=None,
         )
     
     def _create_motivational_card(self, text):
@@ -111,6 +118,7 @@ class AnimationPanel(ft.Container):
                         color="white",
                         size=14,
                         weight=ft.FontWeight.W_500,
+                        max_lines=None,  # Sin límite de líneas
                     ),
                 ],
                 spacing=10,
@@ -120,4 +128,6 @@ class AnimationPanel(ft.Container):
             padding=ft.padding.all(10),
             border_radius=ft.border_radius.all(10),
             bgcolor=ft.colors.with_opacity(0.2, "white"),
+            width=None,  # Deja que el ancho lo controle el contenedor padre
+            expand=True,
         )
