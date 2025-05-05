@@ -91,16 +91,12 @@ class AnimationPanel(ft.Container):
                 top_right=24,
                 bottom_right=24
             ),
-            gradient=ft.LinearGradient(
-                begin=ft.alignment.top_center,
-                end=ft.alignment.bottom_center,
-                colors=["#673AB7", "#4527A0"],
-            ),
+            gradient=None,
             padding=30,
             expand=True,
             width=420,  # Limita el ancho máximo del panel
             height=None,  # Permite que el alto sea dinámico
-            bgcolor=None,
+            bgcolor="#2D2242",
         )
     
     def _create_motivational_card(self, text):
@@ -127,7 +123,7 @@ class AnimationPanel(ft.Container):
             margin=ft.margin.symmetric(vertical=5),
             padding=ft.padding.all(10),
             border_radius=ft.border_radius.all(10),
-            bgcolor=ft.colors.with_opacity(0.2, "white"),
+            bgcolor=ft.colors.with_opacity(0.15, "white"),
             width=None,  # Deja que el ancho lo controle el contenedor padre
             expand=True,
         )

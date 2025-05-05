@@ -6,12 +6,22 @@ class SubscriptionDialog(ft.AlertDialog):
         self.free_btn = ft.ElevatedButton(
             "Suscripción Gratuita",
             icon=ft.icons.LOCK_OPEN,
-            on_click=lambda e: self._handle_select("free")
+            on_click=lambda e: self._handle_select("free"),
+            style=ft.ButtonStyle(
+                bgcolor="#2D2242",
+                color="white",
+                shape=ft.RoundedRectangleBorder(radius=8),
+            )
         )
         self.premium_btn = ft.FilledButton(
             "Suscripción Premium",
             icon=ft.icons.STAR,
-            on_click=lambda e: self._handle_select("premium")
+            on_click=lambda e: self._handle_select("premium"),
+            style=ft.ButtonStyle(
+                bgcolor="#2D2242",
+                color="white",
+                shape=ft.RoundedRectangleBorder(radius=8),
+            )
         )
         super().__init__(
             modal=True,

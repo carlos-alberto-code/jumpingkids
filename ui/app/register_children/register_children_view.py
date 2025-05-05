@@ -22,6 +22,12 @@ class RegisterChildrenView(ft.View):
             "Agregar hijo",
             icon=ft.icons.PERSON_ADD,
             on_click=self._handle_add_child,
+            style=ft.ButtonStyle(
+                bgcolor="#2D2242",
+                color="white",
+                shape=ft.RoundedRectangleBorder(radius=8),
+                padding=ft.padding.symmetric(horizontal=20, vertical=10),
+            )
         )
 
         # Diálogo para el formulario de registro de niño
@@ -38,7 +44,7 @@ class RegisterChildrenView(ft.View):
             on_click=self._handle_finish,
             disabled=True,
             style=ft.ButtonStyle(
-                bgcolor="#7C4DFF",
+                bgcolor="#2D2242",
                 color="white",
                 padding=ft.padding.symmetric(horizontal=20, vertical=10),
                 shape=ft.RoundedRectangleBorder(radius=8),
@@ -126,7 +132,7 @@ class RegisterChildrenView(ft.View):
                     expand=True,
                 )
             ],
-            bgcolor="#F3E5F5",
+            bgcolor=ft.Colors.GREY_100,
         )
 
     def _handle_add_child(self, e):

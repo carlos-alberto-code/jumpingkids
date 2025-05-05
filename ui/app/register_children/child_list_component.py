@@ -98,7 +98,7 @@ class ChildListComponent(ft.Container):
     def _create_child_card(self, index, child_data):
         """Crea una tarjeta para un niño registrado"""
         # Determinar color de fondo basado en el índice
-        colors = ["#E0BBFF", "#C5CAE9", "#D1C4E9"]
+        colors = [ft.Colors.GREY_100, "#D1C4E9", "#E0BBFF"]
         bg_color = colors[index % len(colors)]
         
         # Crear avatar con iniciales
@@ -126,7 +126,7 @@ class ChildListComponent(ft.Container):
                             width=40,
                             height=40,
                             border_radius=20,
-                            bgcolor="#7C4DFF",
+                            bgcolor="#2D2242",
                             alignment=ft.alignment.center,
                         ),
                         
@@ -163,11 +163,11 @@ class ChildListComponent(ft.Container):
                         ft.Container(
                             content=ft.Text(
                                 age_text,
-                                color="#7C4DFF",
+                                color="#2D2242",
                                 size=12,
                                 weight=ft.FontWeight.BOLD
                             ),
-                            bgcolor="#F3E5F5",
+                            bgcolor=ft.Colors.GREY_100,
                             border_radius=10,
                             padding=ft.padding.symmetric(horizontal=8, vertical=4),
                             visible=True if age_text else False
