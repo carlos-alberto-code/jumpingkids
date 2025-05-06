@@ -9,7 +9,7 @@ class SubscriptionType:
 
 @dataclass
 class User:
-    id: int
+    id: int | None
     username: str
     password: str
     full_name: str
@@ -17,7 +17,7 @@ class User:
 
 @dataclass
 class Tutor(User):
-    children: list['Child']
+    children: list['Child'] | None
     subscription_type: SubscriptionType
 
 
