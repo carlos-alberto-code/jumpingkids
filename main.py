@@ -1,5 +1,7 @@
 import flet as ft
-from ui.controllers.auth_controller import AuthController
+
+from ui.app.auth.controllers.auth_controller import AuthController
+
 
 def main(page: ft.Page):
 
@@ -8,5 +10,6 @@ def main(page: ft.Page):
     
     auth_controller = AuthController(page)
     auth_controller.show_login_view()
+
 
 ft.app(target=main, port=9000)
