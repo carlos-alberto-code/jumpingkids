@@ -1,7 +1,7 @@
 import flet as ft
 
 from ui.app.components.sidebar import Sidebar
-from ui.app.auth.login_view import AuthView
+from ui.app.auth.auth_view import AuthView
 from ui.app.auth.controllers.login_handler import LoginHandler
 from ui.app.auth.controllers.signup_handler import SignupHandler
 

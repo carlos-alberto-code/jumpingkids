@@ -2,6 +2,7 @@ import flet as ft
 
 
 class SignupForm(ft.Column):
+
     def __init__(self, on_signup=None, on_switch_to_login=None):
         self.full_name_field = ft.TextField(
             label="Nombre completo",
@@ -21,16 +22,6 @@ class SignupForm(ft.Column):
         )
         self.password_field = ft.TextField(
             label="Contraseña",
-            password=True,
-            can_reveal_password=True,
-            border_radius=8,
-            filled=True,
-            bgcolor=ft.Colors.GREY_100,
-            height=50,
-            width=400,
-        )
-        self.confirm_password_field = ft.TextField(
-            label="Confirmar Contraseña",
             password=True,
             can_reveal_password=True,
             border_radius=8,
@@ -63,7 +54,6 @@ class SignupForm(ft.Column):
                 self.full_name_field,
                 self.username_field,
                 self.password_field,
-                self.confirm_password_field,
                 self.subscription_type_field,
                 self.message_text,
                 ft.ElevatedButton(
@@ -108,16 +98,12 @@ class SignupForm(ft.Column):
         return self.password_field.value or ""
 
     @property
-    def confirm_password(self):
-        return self.confirm_password_field.value or ""
-
-    @property
     def subscription_type(self):
         return self.subscription_type_field.value or ""
 
     @property
-    def not_completed_data(self):
-        return not (self.full_name.strip() and self.username.strip() and self.password.strip() and self.confirm_password.strip() and self.subscription_type.strip())
+    def completed_data(self):
+        return bool(self.full_name.strip() and self.username.strip() and self.password.strip() and self.subscription_type.strip())
 
     @property
     def signup_data(self):
@@ -125,7 +111,6 @@ class SignupForm(ft.Column):
             "full_name": self.full_name,
             "username": self.username,
             "password": self.password,
-            "confirm_password": self.confirm_password,
             "subscription_type": self.subscription_type
         }
 

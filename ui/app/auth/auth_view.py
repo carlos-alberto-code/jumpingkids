@@ -1,6 +1,6 @@
 import flet as ft
 
-from ui.app.auth.login.auth_panel import AuthPanel
+from ui.app.auth.auth_panel import AuthPanel
 from ui.app.auth.login.animation_panel import AnimationPanel
 
 
@@ -23,19 +23,7 @@ class AuthView(ft.View):
                 )
             ],
         )
-
+    
     @property
-    def not_complet_data(self):
-        return self._auth_panel.login_form_instance.not_complet_data
-
-    @property
-    def username_field(self):
-        return self._auth_panel.login_form_instance.username
-
-    @property
-    def password_field(self):
-        return self._auth_panel.login_form_instance.password
-
-    @property
-    def signup(self):
-        return self._auth_panel.signup_form_instance
+    def panel(self):
+        return self._auth_panel

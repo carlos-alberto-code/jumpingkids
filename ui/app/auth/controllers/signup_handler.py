@@ -2,8 +2,8 @@ import flet as ft
 
 from domain.auth.signup.signup_service_port import SignupServicePort
 
-from domain.model import Tutor
-from ui.app.auth.login_view import AuthView
+from domain.model import SubscriptionType, Tutor
+from ui.app.auth.auth_view import AuthView
 from ui.app.components.snackbar import JSnackbar
 
 
@@ -25,23 +25,26 @@ class SignupHandler:
         except Exception:
             self._show_snackbar(event, "Error al crear el usuario!", ft.Colors.RED_400)
             return
-        self._auth_view.show_login_form()
+        self._auth_view.panel.show_login()
 
     def _is_form_complete(self, event: ft.ControlEvent) -> bool:
-        if not self._auth_view.signup.form.complet_data:
+        if not self._auth_view.panel.signup_form.completed_data:
             self._show_snackbar(event, "Por favor, rellena todos los campos!", ft.Colors.RED_400)
             return False
         return True
 
     def _build_tutor_from_form(self) -> Tutor:
-        form = self._auth_view.signup.form
+        form = self._auth_view.panel.signup_form
         return Tutor(
             id=None,
             username=form.username,
             password=form.password,
             full_name=form.full_name,
             children=None,
-            subscription_type=form.subscription_type,
+            subscription_type=SubscriptionType(
+                id=None,
+                name=form.subscription_type,
+            ),
         )
 
     def _show_snackbar(self, event: ft.ControlEvent, message: str, bgcolor: str):
