@@ -1,8 +1,14 @@
 import flet as ft
 
 from domain.registration.registration_service_core import RegistrationServiceCore
-from infrastructure.repository import RegistrationRepositoryAdapter
+
+from ui.app.auth.signup.payment_dialog import PaymentDialog
+from ui.app.auth.signup.register_children_view import RegisterChildrenView
+from ui.app.auth.signup.subscription_dialog import SubscriptionDialog
+from ui.app.components.snackbar import JSnackbar
 from ui.app.auth.login.login_view import LoginView
+
+from infrastructure.repository import RegistrationRepositoryAdapter
 
 
 class SignupHandler:
@@ -24,11 +30,12 @@ class SignupHandler:
         try:
             registration_service.start_registration(tutor_data)
         except Exception as e:
-            self._feedback.show_snackbar(
-                message=f"Error al registrar tutor: {str(e)}",
-                bgcolor=ft.Colors.RED_200,
+            snackbar = JSnackbar(
+                message="Error al registrar el tutor: " + str(e),
+                bgcolor=ft.Colors.GREY_100,
                 text_color="#2D2242",
             )
+            event.page.open(snackbar)
             return
         def on_finish_register_children(children_data):
             def on_subscription_selected(subscription_type):
@@ -37,11 +44,6 @@ class SignupHandler:
                     def on_payment_success(payment_data):
                         registration_service.process_payment(payment_data)
                         registration_service.finalize_registration()
-                        self._feedback.show_snackbar(
-                            message="¡Registro completo y pago exitoso!",
-                            bgcolor=ft.Colors.GREEN_200,
-                            text_color="#2D2242",
-                        )
                         self._page.go("/tutor-app")
                         self._page.update()
                         self._page.close(payment_dialog)
@@ -49,11 +51,12 @@ class SignupHandler:
                     self._page.open(payment_dialog)
                 else:
                     registration_service.finalize_registration()
-                    self._feedback.show_snackbar(
-                        message="¡Registro completo! Bienvenido.",
-                        bgcolor=ft.Colors.GREEN_200,
+                    snackbar = JSnackbar(
+                        message="Registro exitoso. Ya puedes iniciar sesión.",
+                        bgcolor=ft.Colors.GREY_100,
                         text_color="#2D2242",
                     )
+                    event.page.open(snackbar)
                     self._page.go("/tutor-app")
                     self._page.update()
             subscription_dialog = SubscriptionDialog(on_select=on_subscription_selected)
