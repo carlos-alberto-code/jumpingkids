@@ -154,10 +154,10 @@ class ChildFormComponent(ft.Container):
         )
 
     def _handle_save(self, e):
-        name = self.name_field.value.strip()
-        age = self.age_field.value.strip()
-        username = self.username_field.value.strip()
-        password = self.password_field.value.strip()
+        name = (self.name_field.value or "").strip()
+        age = (self.age_field.value or "").strip()
+        username = (self.username_field.value or "").strip()
+        password = (self.password_field.value or "").strip()
         if not name or not username or not password:
             self.show_error("Todos los campos son obligatorios")
             return
