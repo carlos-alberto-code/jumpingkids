@@ -5,7 +5,7 @@ from domain.subscription.susbcription_service_core import SubscriptionServiceCor
 
 from ui.app_state import AppState
 from ui.app.components.sidebar import Sidebar
-from ui.app.login.login_view import LoginView
+from ui.app.auth.login.login_view import LoginView
 from ui.app.components.snackbar import JSnackbar
 from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 

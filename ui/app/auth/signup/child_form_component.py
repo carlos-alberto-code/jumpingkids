@@ -1,6 +1,7 @@
 import flet as ft
 import threading
 
+
 class ChildFormComponent(ft.Container):
     def __init__(self, on_save, on_cancel, index=0, initial_data=None):
         self.on_save = on_save

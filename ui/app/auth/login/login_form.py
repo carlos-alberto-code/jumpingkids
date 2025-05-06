@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class LoginForm(ft.Column):
     def __init__(self, on_login=None, on_switch_to_signup=None):
         self.username_field = ft.TextField(

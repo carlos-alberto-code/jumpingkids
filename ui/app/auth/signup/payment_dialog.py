@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class PaymentDialog(ft.AlertDialog):
     def __init__(self, on_success):
         self.on_success = on_success

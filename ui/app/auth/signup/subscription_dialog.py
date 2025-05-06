@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class SubscriptionDialog(ft.AlertDialog):
     def __init__(self, on_select):
         self.on_select = on_select

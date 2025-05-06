@@ -1,6 +1,8 @@
 import flet as ft
-from .animation_panel import AnimationPanel
-from .auth_panel import AuthPanel
+
+from ui.app.auth.login.auth_panel import AuthPanel
+from ui.app.auth.login.animation_panel import AnimationPanel
+
 
 class LoginView(ft.View):
     

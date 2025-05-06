@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class ChildListComponent(ft.Container):
     """Componente mejorado para mostrar la lista de niños registrados con colores modernos y consistentes con LoginView."""
     

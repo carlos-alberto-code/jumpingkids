@@ -1,9 +1,13 @@
 import flet as ft
-from ui.app.register_children.child_form_component import ChildFormComponent
-from ui.app.register_children.child_list_component import ChildListComponent
-from ui.app.register_children.animation_panel import AnimationPanel
+
+
+from ui.app.auth.signup.animation_panel import AnimationPanel
+from ui.app.auth.signup.child_form_component import ChildFormComponent
+from ui.app.auth.signup.child_list_component import ChildListComponent
+
 
 MAX_CHILDREN = 3
+
 
 class RegisterChildrenView(ft.View):
     def __init__(self, on_finish, registration_service):
