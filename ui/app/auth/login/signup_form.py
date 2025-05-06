@@ -104,18 +104,3 @@ class SignupForm(ft.Column):
     @property
     def completed_data(self):
         return bool(self.full_name.strip() and self.username.strip() and self.password.strip() and self.subscription_type.strip())
-
-    @property
-    def signup_data(self):
-        return {
-            "full_name": self.full_name,
-            "username": self.username,
-            "password": self.password,
-            "subscription_type": self.subscription_type
-        }
-
-    def show_message(self, message):
-        self.message_text.value = message
-        self.message_text.visible = True
-        if hasattr(self, "page") and self.page:
-            self.page.update()
