@@ -1,8 +1,8 @@
 import flet as ft
 
+from domain.model import SubscriptionType, Tutor
 from domain.auth.signup.signup_service_port import SignupServicePort
 
-from domain.model import SubscriptionType, Tutor
 from ui.app.auth.auth_view import AuthView
 from ui.app.components.snackbar import JSnackbar
 
