@@ -2,11 +2,11 @@ import flet as ft
 
 from domain.registration.registration_service_core import RegistrationServiceCore
 
-from ui.app.auth.signup.payment_dialog import PaymentDialog
-from ui.app.auth.signup.register_children_view import RegisterChildrenView
-from ui.app.auth.signup.subscription_dialog import SubscriptionDialog
 from ui.app.components.snackbar import JSnackbar
 from ui.app.auth.login.login_view import LoginView
+from ui.app.auth.signup.payment_dialog import PaymentDialog
+from ui.app.auth.signup.subscription_dialog import SubscriptionDialog
+from ui.app.auth.signup.register_children_view import RegisterChildrenView
 
 from infrastructure.repository import RegistrationRepositoryAdapter
 
