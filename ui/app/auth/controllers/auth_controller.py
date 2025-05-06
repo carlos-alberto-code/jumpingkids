@@ -1,7 +1,7 @@
 import flet as ft
 
 from ui.app.components.sidebar import Sidebar
-from ui.app.auth.login.login_view import LoginView
+from ui.app.auth.login_view import AuthView
 from ui.app.auth.controllers.login_handler import LoginHandler
 from ui.app.auth.controllers.signup_handler import SignupHandler
 
@@ -10,7 +10,7 @@ class AuthController:
     def __init__(self, page: ft.Page):
         self._page = page
         self._sidebar = Sidebar()
-        self._login_view = LoginView(
+        self._login_view = AuthView(
             on_login=self._login_handler.handle_login,
             on_signup=self._signup_handler.handle_signup
         )

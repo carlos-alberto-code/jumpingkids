@@ -5,7 +5,7 @@ from domain.subscription.susbcription_service_core import SubscriptionServiceCor
 
 from ui.app_state import AppState
 from ui.app.components.sidebar import Sidebar
-from ui.app.auth.login.login_view import LoginView
+from ui.app.auth.login_view import AuthView
 from ui.app.components.snackbar import JSnackbar
 from ui.adapter.subscription_gui_adapter import SubscriptionGuiAdapter
 
@@ -13,7 +13,7 @@ from infrastructure.login.login_repository_adapter import LoginRepositoryAdapter
 
 
 class LoginHandler:
-    def __init__(self, login_view: LoginView, page: ft.Page, sidebar: Sidebar):
+    def __init__(self, login_view: AuthView, page: ft.Page, sidebar: Sidebar):
         self._login_view = login_view
         self._sidebar = sidebar
         self._page = page

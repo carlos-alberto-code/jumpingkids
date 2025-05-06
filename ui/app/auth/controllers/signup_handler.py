@@ -1,71 +1,54 @@
 import flet as ft
 
-from domain.registration.registration_service_core import RegistrationServiceCore
+from domain.auth.signup.signup_service_port import SignupServicePort
 
+from domain.model import Tutor
+from ui.app.auth.login_view import AuthView
 from ui.app.components.snackbar import JSnackbar
-from ui.app.auth.login.login_view import LoginView
-from ui.app.auth.signup.payment_dialog import PaymentDialog
-from ui.app.auth.signup.subscription_dialog import SubscriptionDialog
-from ui.app.auth.signup.register_children_view import RegisterChildrenView
-
-from infrastructure.repository import RegistrationRepositoryAdapter
 
 
 class SignupHandler:
-    def __init__(self, login_view: LoginView, page: ft.Page):
-        self._login_view = login_view
-        self._page = page
+    def __init__(self, auth_view: AuthView, signup_service: SignupServicePort):
+        self._auth_view = auth_view
+        self._signup_service = signup_service
 
     def handle_signup(self, event: ft.ControlEvent):
-        signup_data = self._login_view.signup.signup_data
-        subscription_type_name = signup_data["subscription_type"].strip().lower()
-        tutor_data = {
-            "username": signup_data["username"],
-            "password": signup_data["password"],
-            "full_name": signup_data["full_name"],
-            "children": [],
-            "subscription_type": subscription_type_name
-        }
-        registration_service = RegistrationServiceCore(RegistrationRepositoryAdapter())
-        try:
-            registration_service.start_registration(tutor_data)
-        except Exception as e:
-            snackbar = JSnackbar(
-                message="Error al registrar el tutor: " + str(e),
-                bgcolor=ft.Colors.GREY_100,
-                text_color="#2D2242",
-            )
-            event.page.open(snackbar)
+        if not self._is_form_complete(event):
             return
-        def on_finish_register_children(children_data):
-            def on_subscription_selected(subscription_type):
-                registration_service.set_subscription(subscription_type)
-                if subscription_type == "premium":
-                    def on_payment_success(payment_data):
-                        registration_service.process_payment(payment_data)
-                        registration_service.finalize_registration()
-                        self._page.go("/tutor-app")
-                        self._page.update()
-                        self._page.close(payment_dialog)
-                    payment_dialog = PaymentDialog(on_success=on_payment_success)
-                    self._page.open(payment_dialog)
-                else:
-                    registration_service.finalize_registration()
-                    snackbar = JSnackbar(
-                        message="Registro exitoso. Ya puedes iniciar sesión.",
-                        bgcolor=ft.Colors.GREY_100,
-                        text_color="#2D2242",
-                    )
-                    event.page.open(snackbar)
-                    self._page.go("/tutor-app")
-                    self._page.update()
-            subscription_dialog = SubscriptionDialog(on_select=on_subscription_selected)
-            self._page.open(subscription_dialog)
-        register_children_view = RegisterChildrenView(
-            on_finish=on_finish_register_children,
-            registration_service=registration_service
+        tutor = self._build_tutor_from_form()
+        if self._signup_service.tutor_exists(tutor.username):
+            self._show_snackbar(event, "El usuario ya existe!", ft.Colors.RED_400)
+            return
+        try:
+            self._signup_service.add_tutor(tutor)
+            self._show_snackbar(event, "Usuario creado correctamente!", ft.Colors.GREEN_400)
+        except Exception:
+            self._show_snackbar(event, "Error al crear el usuario!", ft.Colors.RED_400)
+            return
+        self._auth_view.show_login_form()
+
+    def _is_form_complete(self, event: ft.ControlEvent) -> bool:
+        if not self._auth_view.signup.form.complet_data:
+            self._show_snackbar(event, "Por favor, rellena todos los campos!", ft.Colors.RED_400)
+            return False
+        return True
+
+    def _build_tutor_from_form(self) -> Tutor:
+        form = self._auth_view.signup.form
+        return Tutor(
+            id=None,
+            username=form.username,
+            password=form.password,
+            full_name=form.full_name,
+            children=None,
+            subscription_type=form.subscription_type,
         )
-        self._page.views.append(register_children_view)
-        self._page.go("/register-child")
-        self._page.update()
-        
+
+    def _show_snackbar(self, event: ft.ControlEvent, message: str, bgcolor: str):
+        event.page.open(
+            JSnackbar(
+                message=message,
+                bgcolor=bgcolor,
+                text_color=ft.Colors.WHITE,
+            )
+        )

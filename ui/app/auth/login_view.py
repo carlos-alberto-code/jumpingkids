@@ -4,7 +4,7 @@ from ui.app.auth.login.auth_panel import AuthPanel
 from ui.app.auth.login.animation_panel import AnimationPanel
 
 
-class LoginView(ft.View):
+class AuthView(ft.View):
     
     def __init__(self, on_login=None, on_signup=None):
         self._auth_panel = AuthPanel(on_login=on_login, on_signup=on_signup)
