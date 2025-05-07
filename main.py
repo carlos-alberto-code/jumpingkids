@@ -9,7 +9,7 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     
     auth_controller = AuthController(page)
-    auth_controller.show_login_view()
+    auth_controller.show_auth_view()
 
 
 ft.app(target=main, port=9000)
