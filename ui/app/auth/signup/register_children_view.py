@@ -241,7 +241,7 @@ class RegisterChildrenView(ft.View):
                     "¿Estás seguro de que quieres continuar?"
                 ),
                 actions=[
-                    ft.TextButton("Cancelar", on_click=lambda _: self.page.close(self._dialog)),
+                    ft.TextButton("Cancelar"),
                     ft.FilledButton(
                         "Continuar sin niños", 
                         on_click=lambda _: self._finish_registration()

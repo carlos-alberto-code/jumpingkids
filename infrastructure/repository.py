@@ -73,3 +73,13 @@ class Repository(Generic[T]):
         except SQLAlchemyError as e:
             session.rollback()
             raise Exception(f"Error al eliminar entidad: {str(e)}")
+
+    def exists(self, *conditions: ColumnElement[bool]) -> bool:
+        with get_session() as session:
+            try:
+                stmt = select(self._model).where(and_(*conditions))
+                result = session.execute(stmt)
+                return result.scalar_one_or_none() is not None
+            except SQLAlchemyError as e:
+                # Considera logging aquí
+                raise SQLAlchemyError(f"Error al verificar existencia de entidad: {str(e)}")

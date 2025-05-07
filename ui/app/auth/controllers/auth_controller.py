@@ -3,6 +3,7 @@ import flet as ft
 from domain.auth.login.login_service_core import LoginServiceCore
 from domain.auth.signup.signup_repository_port import SignupRepositoryPort
 from domain.auth.signup.signup_service_core import SignupServiceCore
+from infrastructure.auth.signup.signup_service_adapter import SignupRepositoryAdapter
 from infrastructure.login.login_repository_adapter import LoginRepositoryAdapter
 from ui.app.components.sidebar import Sidebar
 from ui.app.auth.auth_view import AuthView

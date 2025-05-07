@@ -1,16 +1,12 @@
 from abc import ABC, abstractmethod
 
-from domain.model import Child, Tutor
+from domain.command.model import TutorCreate
 
 
 class SignupServicePort(ABC):
 
     @abstractmethod
-    def add_child(self, child: Child):
-        pass
-
-    @abstractmethod
-    def add_tutor(self, tutor: Tutor):
+    def add_tutor(self, tutor: TutorCreate):
         pass
 
     @abstractmethod
