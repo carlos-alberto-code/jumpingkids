@@ -15,7 +15,7 @@ class LoginHandler:
         self._subscription_service = subscription_service
 
     def handle_login(self, event: ft.ControlEvent):
-        if self._auth_view.panel.login_form.completed_data:
+        if not self._auth_view.panel.login_form.completed_data:
             snackbar = JSnackbar(
                 message="Por favor, completa todos los campos.",
                 bgcolor=ft.Colors.GREY_100,
