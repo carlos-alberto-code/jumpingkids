@@ -7,11 +7,9 @@ class Sidebar(ft.NavigationRail):
         icon=ft.icons.DIRECTIONS_RUN,
         on_change=None,
     ) -> None:
-        # Almacenar las claves y manejo de eventos
         self._keys: dict[str, ft.icons] = {}
         self._on_change = on_change
         
-        # Inicializar el NavigationRail con opciones mejoradas
         super().__init__(
             selected_index=0,
             extended=True,
@@ -26,12 +24,11 @@ class Sidebar(ft.NavigationRail):
         self.destinations = []
     
     def _create_leading(self, title, icon):
-        """Crear el encabezado personalizado del sidebar"""
         return ft.Container(
             content=ft.Column([
                 ft.Row(
                     [
-                        ft.Icon(icon, size=24),  # Consistente con Login/Signup
+                        ft.Icon(icon, size=24),
                         ft.Text(
                             title, 
                             size=20, 
@@ -41,14 +38,13 @@ class Sidebar(ft.NavigationRail):
                     alignment=ft.MainAxisAlignment.START,
                     spacing=10,
                 ),
-                ft.Divider(height=1),  # Consistente con Login/Signup
+                ft.Divider(height=1),
             ]),
             margin=ft.margin.only(bottom=10),
             padding=ft.padding.all(10),
         )
     
     def _handle_change(self, e):
-        """Gestiona el cambio de selección y propaga el evento al controlador externo"""
         if self._on_change:
             # Obtener la etiqueta actual seleccionada para enviarla al controlador
             labels = list(self._keys.keys())
