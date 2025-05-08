@@ -73,9 +73,9 @@ class LoginForm(ft.Column):
         return self.password_field.value or ""
 
     @property
-    def not_complet_data(self):
-        """Retorna True si falta algún dato requerido."""
-        return not self.username.strip() or not self.password.strip()
+    def completed_data(self):
+        """Retorna True si todos los campos requeridos están completos (no vacíos ni solo espacios)."""
+        return bool(self.username.strip()) and bool(self.password.strip())
 
     def show_message(self, message):
         self.message_text.value = message

@@ -1,7 +1,7 @@
 from domain.app import App
 from domain.model import Child, Tutor
-from domain.subscription.subscription_service_port import SubscriptionServicePort
-from domain.subscription.subscription_repository_port import SubscriptionRepositoryPort
+from domain.auth.subscription.subscription_service_port import SubscriptionServicePort
+from domain.auth.subscription.subscription_repository_port import SubscriptionRepositoryPort
 
 
 class SubscriptionServiceCore(SubscriptionServicePort):

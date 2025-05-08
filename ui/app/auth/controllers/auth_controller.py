@@ -2,6 +2,7 @@ import flet as ft
 
 from domain.auth.login.login_service_core import LoginServiceCore
 from domain.auth.signup.signup_service_core import SignupServiceCore
+from domain.subscription.susbcription_service_core import SubscriptionServiceCore
 
 from ui.app.auth.auth_view import AuthView
 from ui.app.components.sidebar import Sidebar
@@ -19,6 +20,7 @@ class AuthController:
         
         login_service = LoginServiceCore(LoginRepositoryAdapter())
         signup_service = SignupServiceCore(SignupRepositoryAdapter())
+        subscription_service = SubscriptionServiceCore(SubscriptionRepositoryAdapter())
 
         self._auth_view = AuthView(
             subscription_types=signup_service.get_subscription_types(),
@@ -27,7 +29,7 @@ class AuthController:
         )
 
 
-        self._login_handler = LoginHandler(self._auth_view, login_service)
+        self._login_handler = LoginHandler(self._auth_view, login_service, subscription_service)
         self._signup_handler = SignupHandler(self._auth_view, signup_service)
 
     def show_auth_view(self):
