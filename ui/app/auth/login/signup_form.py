@@ -103,9 +103,9 @@ class SignupForm(ft.Column):
         return self._password_field.value or ""
 
     @property
-    def subscription_type_name(self):
-        return self._subscription_type_field.value
+    def subscription_type_id(self):
+        return self._subscription_type_field.data.name if self._subscription_type_field.data else 1
 
     @property
     def completed_data(self):
-        return bool(self.full_name.strip() and self.username.strip() and self.password.strip() and self.subscription_type_name)
+        return bool(self.full_name.strip() and self.username.strip() and self.password.strip() and self.subscription_type_id)

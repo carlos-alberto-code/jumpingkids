@@ -39,7 +39,7 @@ class SignupHandler:
             username=form.username,
             password=form.password,
             full_name=form.full_name,
-            subscription_type_name=form.subscription_type_name if form.subscription_type_name else "",
+            subscription_type_id=form.subscription_type_id,
         )
 
     def _show_snackbar(self, event: ft.ControlEvent, message: str, bgcolor: str):

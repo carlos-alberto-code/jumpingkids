@@ -2,8 +2,8 @@ import flet as ft
 
 from domain.auth.login.login_service_core import LoginServiceCore
 from domain.auth.signup.signup_service_core import SignupServiceCore
-from domain.subscription.susbcription_service_core import SubscriptionServiceCore
 
+from domain.auth.subscription.susbcription_service_core import SubscriptionServiceCore
 from ui.app.auth.auth_view import AuthView
 from ui.app.components.sidebar import Sidebar
 from ui.app.auth.controllers.login_handler import LoginHandler
