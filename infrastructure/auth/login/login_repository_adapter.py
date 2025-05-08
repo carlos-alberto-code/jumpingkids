@@ -1,9 +1,8 @@
+from domain.auth.login.login_repository_port import LoginRepositoryPort
 from domain.model import Child, Tutor
-from domain.login import LoginRepositoryPort
 
+from infrastructure.auth.login.login_mapper import LoginChildMapper, LoginTutorMapper
 from infrastructure.repository import Repository
-from infrastructure.login.login_mapper import LoginTutorMapper
-from infrastructure.login.login_mapper import LoginChildMapper
 from infrastructure.database.model import ChildEntity, TutorEntity
 
 
@@ -22,12 +21,4 @@ class LoginRepositoryAdapter(LoginRepositoryPort):
         if child:
             return LoginChildMapper.to_domain(child)
         return None
-
-    def create_user(self, user: Tutor | Child) -> None:
-        if isinstance(user, Tutor):
-            tutor_entity = LoginTutorMapper.to_entity(user)
-            self._tutot_repository.add(tutor_entity)
-        elif isinstance(user, Child):
-            child_entity = LoginChildMapper.to_entity(user)
-            self._child_repository.add(child_entity)
         

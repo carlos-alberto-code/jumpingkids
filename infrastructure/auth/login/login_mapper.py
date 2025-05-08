@@ -19,14 +19,6 @@ class LoginTutorMapper:
             )
         )
 
-    @staticmethod
-    def to_entity(tutor: Tutor) -> TutorEntity:
-        return TutorEntity(
-            full_name=tutor.full_name,
-            username=tutor.username,
-            password=tutor.password,
-            subscription_type_id=tutor.subscription_type.id,
-        )    
 
 class LoginChildMapper:
     @staticmethod
@@ -50,15 +42,4 @@ class LoginChildMapper:
                     subscription_types=[]
                 ) for routine in getattr(entity, 'favorite_routines', [])
             ]
-        )
-    
-    @staticmethod
-    def to_entity(child: Child) -> ChildEntity:
-        if not child.tutor or not hasattr(child.tutor, 'id'):
-            raise ValueError("Child must have a tutor with a valid id")
-        return ChildEntity(
-            full_name=child.full_name,
-            tutor_id=child.tutor.id,
-            username=child.username,
-            password=child.password,
         )

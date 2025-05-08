@@ -1,6 +1,6 @@
 import flet as ft
 
-from domain.model import SubscriptionType, Tutor
+from domain.command.model import TutorCreate
 from domain.auth.signup.signup_service_port import SignupServicePort
 
 from ui.app.auth.auth_view import AuthView
@@ -33,18 +33,13 @@ class SignupHandler:
             return False
         return True
 
-    def _build_tutor_from_form(self) -> Tutor:
+    def _build_tutor_from_form(self) -> TutorCreate:
         form = self._auth_view.panel.signup_form
-        return Tutor(
-            id=None,
+        return TutorCreate(
             username=form.username,
             password=form.password,
             full_name=form.full_name,
-            children=None,
-            subscription_type=SubscriptionType(
-                id=None,
-                name=form.subscription_type,
-            ),
+            subscription_type_name=form.subscription_type_name if form.subscription_type_name else "",
         )
 
     def _show_snackbar(self, event: ft.ControlEvent, message: str, bgcolor: str):

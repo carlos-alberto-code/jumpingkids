@@ -1,6 +1,6 @@
+from domain.auth.login.login_repository_port import LoginRepositoryPort
+from domain.auth.login.login_service_port import LoginServicePort
 from domain.model import Child, Tutor
-from domain.login.login_service_port import LoginServicePort
-from domain.login.login_repository_port import LoginRepositoryPort
 
 
 class LoginServiceCore(LoginServicePort):
@@ -12,7 +12,3 @@ class LoginServiceCore(LoginServicePort):
     def login(self, username: str, password: str) -> Tutor | Child | None:
         user = self._login_repository.get_by_username(username)
         return user if user else None
-
-    def signup(self, user: Tutor | Child) -> None:
-        self._login_repository.create_user(user)
-        

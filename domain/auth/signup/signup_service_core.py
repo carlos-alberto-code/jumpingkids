@@ -1,6 +1,7 @@
 from domain.command.model import TutorCreate
 from domain.auth.signup.signup_service_port import SignupServicePort
 from domain.auth.signup.signup_repository_port import SignupRepositoryPort
+from domain.model import SubscriptionType
 
 
 class SignupServiceCore(SignupServicePort):
@@ -12,3 +13,6 @@ class SignupServiceCore(SignupServicePort):
     
     def tutor_exists(self, username: str) -> bool:
         return self._repository.tutor_exists(username)
+    
+    def get_subscription_types(self) -> list[SubscriptionType]:
+        return self._repository.get_subscription_types()

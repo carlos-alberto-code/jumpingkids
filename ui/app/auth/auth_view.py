@@ -1,13 +1,14 @@
 import flet as ft
 
+from domain.model import SubscriptionType
 from ui.app.auth.auth_panel import AuthPanel
 from ui.app.auth.login.animation_panel import AnimationPanel
 
 
 class AuthView(ft.View):
     
-    def __init__(self, on_login=None, on_signup=None):
-        self._auth_panel = AuthPanel(on_login=on_login, on_signup=on_signup)
+    def __init__(self, subscription_types: list[SubscriptionType], on_login=None, on_signup=None):
+        self._auth_panel = AuthPanel(subscription_types=subscription_types, on_login=on_login, on_signup=on_signup)
         super().__init__(
             route="/auth",
             padding=0,

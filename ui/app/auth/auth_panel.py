@@ -1,17 +1,19 @@
 import flet as ft
 
+from domain.model import SubscriptionType
 from ui.app.auth.login.login_form import LoginForm
 from ui.app.auth.login.signup_form import SignupForm
 
 
 class AuthPanel(ft.Container):
 
-    def __init__(self, on_login=None, on_signup=None):
+    def __init__(self, subscription_types: list[SubscriptionType], on_login=None, on_signup=None):
         self._login_form = LoginForm(
             on_login=on_login,
             on_switch_to_signup=lambda e: self.show_signup()
         )
         self._signup_form = SignupForm(
+            subscription_types=subscription_types,
             on_signup=on_signup,
             on_switch_to_login=lambda e: self.show_login()
         )
