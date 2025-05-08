@@ -1,6 +1,6 @@
 from domain.app import App
-from domain.subscription import SubscriptionRepositoryPort
 
+from domain.auth.subscription.subscription_repository_port import SubscriptionRepositoryPort
 from ui.theme.child_free_theme import ChildFreeTheme
 
 from ui.config.child_free_app import view_manager as child_free_view_manager

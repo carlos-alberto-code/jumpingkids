@@ -6,5 +6,5 @@ class TutorCreate:
     full_name: str
     username: str
     password: str
-    subscription_type_name: str
+    subscription_type_id: int
     

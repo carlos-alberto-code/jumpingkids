@@ -1,7 +1,7 @@
 import flet as ft
 
 from domain.auth.login.login_service_port import LoginServicePort
-from domain.subscription.subscription_service_port import SubscriptionServicePort
+from domain.auth.subscription.subscription_service_port import SubscriptionServicePort
 
 from ui.app_state import AppState
 from ui.app.auth.auth_view import AuthView

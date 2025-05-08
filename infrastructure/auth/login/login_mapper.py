@@ -1,5 +1,5 @@
 from domain.model import Child, Tutor, SubscriptionType, Routine
-from infrastructure.database.model import ChildEntity, TutorEntity, SubscriptionTypeEntity, RoutineEntity
+from infrastructure.database.model import ChildEntity, TutorEntity
 
 class LoginTutorMapper:
     @staticmethod
