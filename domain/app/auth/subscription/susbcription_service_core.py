@@ -1,5 +1,5 @@
 from domain.app import App
-from domain.model import Child, Tutor
+from domain.model.model import Child, Tutor
 from domain.auth.subscription.subscription_service_port import SubscriptionServicePort
 from domain.auth.subscription.subscription_repository_port import SubscriptionRepositoryPort
 

@@ -1,7 +1,7 @@
 import flet as ft
 
 from domain.app import App
-from domain.model import User
+from domain.model.model import User
 
 
 class AppState:

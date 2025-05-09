@@ -1,4 +1,4 @@
-from domain.model import SubscriptionType
+from domain.model.model import SubscriptionType
 from domain.command.model import TutorCreate
 from domain.auth.signup.signup_repository_port import SignupRepositoryPort
 

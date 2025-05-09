@@ -1,6 +1,6 @@
 import flet as ft
 
-from domain.model import SubscriptionType
+from domain.model.model import SubscriptionType
 from ui.app.auth.auth_panel import AuthPanel
 from ui.app.auth.login.animation_panel import AnimationPanel
 

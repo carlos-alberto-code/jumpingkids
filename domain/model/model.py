@@ -60,4 +60,4 @@ class Exercise:
     description: str
     category: Category
     level: Level
-    subscription_types: list[SubscriptionType]
+    duration: int | None

@@ -1,6 +1,6 @@
 import flet as ft
 
-from domain.model import SubscriptionType
+from domain.model.model import SubscriptionType
 
 
 class SignupForm(ft.Column):

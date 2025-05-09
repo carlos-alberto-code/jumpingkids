@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from domain.command.model import TutorCreate
-from domain.model import SubscriptionType
+from domain.model.model import SubscriptionType
 
 
 class SignupRepositoryPort(ABC):

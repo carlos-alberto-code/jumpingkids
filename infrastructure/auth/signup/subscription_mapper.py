@@ -1,4 +1,4 @@
-from domain.model import SubscriptionType
+from domain.model.model import SubscriptionType
 from infrastructure.database.model import SubscriptionTypeEntity
 
 

@@ -1,116 +1,34 @@
 import flet as ft
-from domain.model import Exercise
-from ui.app.child_free_app.components.exercise_view.exercise_card import ExerciseCard
 
-class ExerciseListComponent(ft.Container):
+from ui.app.child_free_app.components.exercise_view.exercise_card import ExerciseCard
+from ui.app.child_free_app.dto import ExerciseDTO
+
+class ExerciseList(ft.ListView):
     """Componente que muestra la lista de ejercicios con filtros por categoría."""
     
-    def __init__(self, exercises=None, on_exercise_selected=None):
-        self.exercises = exercises or []
-        self.on_exercise_selected = on_exercise_selected or (lambda exercise: None)
-        self.filtered_exercises = self.exercises.copy()
-        self.selected_category = "Todos"
+    def __init__(self, exercises: list[ExerciseDTO], on_exercise_select=None):
+        self._exercises = exercises or []
+        self._on_exercise_selected = on_exercise_select
         
-        # Categorías para filtrar
-        self.categories = ["Todos", "Resistencia", "Fuerza", "Elasticidad", "Cardio"]
-        
-        # Crear contenido del componente
-        content = ft.Column([
-            ft.Row([
-                ft.Text("Ejercicios disponibles", size=24, weight=ft.FontWeight.BOLD, color="green700"),
-                ft.Container(
-                    content=ft.Text("¡NUEVO!", color="white", size=10, weight=ft.FontWeight.BOLD),
-                    bgcolor="orange400",
-                    border_radius=15,
-                    padding=ft.padding.symmetric(horizontal=12, vertical=4),
-                    alignment=ft.alignment.center,
-                    margin=ft.margin.only(left=10)
-                )
-            ]),
-            
-            # Filtros de categoría
-            ft.Container(
-                margin=ft.margin.only(top=5, bottom=10),
-                content=ft.Row(
-                    [self._create_category_filter(cat) for cat in self.categories],
-                    scroll=ft.ScrollMode.AUTO
-                )
-            ),
-            
-            # ListView con altura específica y scroll para los ejercicios
-            ft.Container(
-                height=400,
-                content=ft.ListView(
-                    [
-                        self._create_exercise_card(exercise) for exercise in self.filtered_exercises
-                    ],
-                    spacing=10,
-                    padding=ft.padding.symmetric(vertical=10),
-                    auto_scroll=True
-                ),
-                border_radius=8,
-                border=ft.border.all(1, "green100"),
-            )
-        ], spacing=10)
-        
-        # Inicializar el contenedor con los estilos adecuados
         super().__init__(
-            content=content,
-            expand=2
+            controls=[
+                ExerciseCard(
+                    exercise=exercise,
+                    on_click=self._on_exercise_selected
+                ) for exercise in self._exercises
+            ],
         )
     
-    def _create_category_filter(self, category):
-        """
-        Crea un filtro de categoría clickeable.
-        """
-        is_selected = category == self.selected_category
-        
-        return ft.Container(
-            content=ft.Text(category, size=12, color="green800"),
-            bgcolor="green50" if is_selected else "white",
-            border=ft.border.all(1, "green200"),
-            border_radius=15,
-            padding=ft.padding.symmetric(horizontal=15, vertical=5),
-            margin=ft.margin.only(right=5),
-            on_click=lambda e, cat=category: self._apply_category_filter(cat)
-        )
+    @property
+    def exercises(self):
+        return self._exercises
     
-    def _create_exercise_card(self, exercise):
-        """
-        Crea una tarjeta de ejercicio.
-        """
-        return ExerciseCard(
-            exercise=exercise,
-            on_click=lambda e, ex=exercise: self._handle_exercise_selected(ex)
-        )
-    
-    def _handle_exercise_selected(self, exercise):
-        """
-        Maneja la selección de un ejercicio.
-        """
-        if self.on_exercise_selected:
-            self.on_exercise_selected(exercise)
-    
-    def _apply_category_filter(self, category):
-        """
-        Aplica un filtro de categoría a la lista de ejercicios.
-        """
-        self.selected_category = category
-        
-        # Filtrar ejercicios por categoría
-        if category == "Todos":
-            self.filtered_exercises = self.exercises.copy()
-        else:
-            self.filtered_exercises = [ex for ex in self.exercises if ex.category == category]
-        
-        # Actualizar los botones de filtro
-        category_row = self.content.controls[1].content # type: ignore
-        for i, cat_container in enumerate(category_row.controls):
-            cat_text = cat_container.content.value
-            cat_container.bgcolor = "green50" if cat_text == category else "white"
-        
-        # Actualizar la lista de ejercicios
-        exercise_list = self.content.controls[2].content # type: ignore
-        exercise_list.controls = [self._create_exercise_card(ex) for ex in self.filtered_exercises]
-        
-        self.update()
+    @exercises.setter
+    def exercises(self, exercises: list[ExerciseDTO]):
+        self._exercises = exercises
+        self.controls = [
+            ExerciseCard(
+                exercise=exercise,
+                on_click=self._on_exercise_selected
+            ) for exercise in self._exercises
+        ] 

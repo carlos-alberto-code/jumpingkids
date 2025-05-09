@@ -1,5 +1,5 @@
 import flet as ft
-from domain.model import Exercise
+from domain.model.model import Exercise
 from ui.app.components.cronometer import Cronometer
 
 class ExercisePlayerComponent(ft.Container):

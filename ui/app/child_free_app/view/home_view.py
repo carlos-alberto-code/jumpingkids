@@ -8,7 +8,7 @@ from ui.app.child_free_app.components.home_view import (
     DailyTipComponent
 )
 
-from domain.model import Tutor, Child
+from domain.model.model import Tutor, Child
 
 class HomeView(ft.View):
 

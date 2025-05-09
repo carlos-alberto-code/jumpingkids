@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from domain.app import App
-from domain.model import Tutor, Child
+from domain.model.model import Tutor, Child
 
 
 class SubscriptionServicePort(ABC):
