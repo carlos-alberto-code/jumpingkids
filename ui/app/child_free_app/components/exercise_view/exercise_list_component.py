@@ -4,10 +4,9 @@ from ui.app.child_free_app.components.exercise_view.exercise_card import Exercis
 from ui.app.child_free_app.dto import ExerciseDTO
 
 class ExerciseList(ft.ListView):
-    """Componente que muestra la lista de ejercicios con filtros por categoría."""
     
     def __init__(self, exercises: list[ExerciseDTO], on_exercise_select=None):
-        self._exercises = exercises or []
+        self._exercises = exercises
         self._on_exercise_selected = on_exercise_select
         
         super().__init__(

@@ -46,6 +46,7 @@ class ExerciseCard(ft.Card):
             trailing=ft.IconButton(
                 icon=ft.Icons.PLAY_ARROW,
                 on_click=self._on_click,
+                data=exercise,
             ),
         )
             
