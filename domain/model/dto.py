@@ -1,5 +1,20 @@
-
+import flet as ft
 from dataclasses import dataclass
+
+from domain.manager.view_manager import ViewManager
+
+
+@dataclass
+class App:
+    theme: ft.Theme
+    view_manager: ViewManager
+
+    @property
+    def default_view(self) -> ft.View:
+        try:
+            return self.view_manager["/"]
+        except KeyError:
+            raise KeyError("Default view not found in view manager.")
 
 
 @dataclass

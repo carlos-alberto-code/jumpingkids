@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-from domain.app import App
+from domain.model.dto import App
+
 
 class SubscriptionRepositoryPort(ABC):
 

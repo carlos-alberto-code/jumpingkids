@@ -1,6 +1,6 @@
 import flet as ft
 
-# from domain.app import App
+from domain.model.dto import App
 from domain.model.model import User
 
 
@@ -13,7 +13,7 @@ class AppState:
 
     def __init__(self):
         self._user: User
-        # self._app: JApp
+        self._app: App
         
     @property
     def user(self) -> User:
@@ -23,10 +23,10 @@ class AppState:
     def user(self, value: User) -> None:
         self._user = value
 
-    # @property
-    # def app(self) -> App:
-    #     return self._app
+    @property
+    def app(self) -> App:
+        return self._app
 
-    # @app.setter
-    # def app(self, value: App) -> None:
-    #     self._app = value
+    @app.setter
+    def app(self, value: App) -> None:
+        self._app = value

@@ -42,12 +42,20 @@ class LoginController:
             event.page.open(snackbar)
             return # Evita ejecutar el resto del código
 
-        # TODO: Manejo de la suscripción: Lógica para devolver las vistas para el tipo de usuario y su tipo de suscripción
         
-        # Obtener la aplicación (vistas) correspondientes al tipo de usuario y su suscripción
-        user_app = self._subscription_service.get_user_app(user)
-        # Poner estos datos en el estado de la aplicación
-        state = AppState().user
+        app = self._subscription_service.get_user_app(user)
+        AppState().user = user
+        AppState().app = app
+
+        view = AppState().app.default_view
+        theme = AppState().app.theme
+        
+        event.page.theme = theme
+
+        event.page.views.clear()
+        event.page.views.append(view)
+        event.page.go(view.route)
+        event.page.update()
 
     def _delete_slash(self, value: str) -> str:
         return value[1:] if value.startswith("/") else value
