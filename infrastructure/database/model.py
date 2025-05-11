@@ -150,6 +150,7 @@ class ChildEntity(Base):
 
     tutor: Mapped["TutorEntity"] = relationship("TutorEntity", back_populates="children", lazy="selectin")
     favorite_routines: Mapped[list["RoutineEntity"]] = relationship("RoutineEntity", secondary="favorite_routines",lazy="selectin")
+    favorite_exercises: Mapped[list["ExerciseEntity"]] = relationship("ExerciseEntity", secondary="favorite_exercises", lazy="selectin")
 
     def __init__(self, full_name: str, tutor_id: int, username: str, password: str):
         self.full_name = full_name
@@ -166,6 +167,13 @@ FavoriteRoutinesEntity = Table(
     Base.metadata,
     Column("child_id", Integer, ForeignKey("children.id"), primary_key=True, nullable=False),
     Column("routine_id", Integer, ForeignKey("routines.id"), primary_key=True, nullable=False),
+)
+
+FavoriteExercisesEntity = Table(
+    "favorite_exercises",
+    Base.metadata,
+    Column("child_id", Integer, ForeignKey("children.id"), primary_key=True, nullable=False),
+    Column("exercise_id", Integer, ForeignKey("exercises.id"), primary_key=True, nullable=False),
 )
 
 class LevelEntity(Base):
