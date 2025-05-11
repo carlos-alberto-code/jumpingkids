@@ -1,17 +1,17 @@
 import flet as ft
 
-from ui.app.child_free_app.dto import ExerciseDTO
+from domain.manager.event import ViewEvent
+from domain.manager.service import Service
 from ui.app.child_free_app.view.exercise_view import ExerciseView
 
 
-class ExerciseViewEvents:
+class ExerciseViewEvent(ViewEvent):
 
-    def __init__(self, view: ExerciseView, exercise_service: ExerciseServicePort) -> None:
-        self._view = view
-        self._exercise_service = exercise_service
-        self._connect()
+    def __init__(self, exercise_view: ExerciseView, services: list[Service]) -> None:
+        super().__init__(exercise_view, services)
+        self._exercise_service: ExerciseServicePort = services[0]
     
-    def _connect(self):
+    def _connect_events(self) -> None:
         self._view.on_submit = self._on_submit
         self._view.on_filter_by_level = self._on_filter_by_level
         self._view.on_filter_by_category = self._on_filter_by_category

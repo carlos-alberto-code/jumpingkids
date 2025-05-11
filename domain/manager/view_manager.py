@@ -1,5 +1,5 @@
 import flet as ft
-from domain.routing.controller import Controller
+from domain.manager.controller import Controller
 
 class ViewManager:
     """

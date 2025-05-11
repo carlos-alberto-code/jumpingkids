@@ -1,6 +1,6 @@
 from abc import ABC
 
-from interface.repository import Repository
+from domain.manager.repository import Repository
 
 
 class Service(ABC):

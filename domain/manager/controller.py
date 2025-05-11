@@ -1,8 +1,8 @@
 import flet as ft
 
-from interface.service import Service
-from interface.view_event import ViewEvent
-from interface.repository import Repository
+from domain.manager.event import ViewEvent
+from domain.manager.service import Service
+from domain.manager.repository import Repository
 
 
 class Controller:

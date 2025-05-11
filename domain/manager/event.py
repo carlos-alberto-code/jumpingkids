@@ -1,24 +1,24 @@
 import flet as ft
+
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
-from interface.service import Service
+from domain.manager.service import Service
 
 
-class ViewEvent(ABC):
-    """
-    Clase base de la cual deben heredar todas las clases que implementarán la lógica de eventos de la vista. 
+T = TypeVar('T', bound=ft.View)
 
-    La lógica de eventos de la vista se encarga de conectar los eventos de la vista con los servicios.
-    """
 
-    @abstractmethod
-    def __init__(self, view: ft.View, services: list[Service]) -> None:
+class ViewEvent(Generic[T], ABC):
+
+    def __init__(self, view: T, services: list[Service]) -> None:
+        super().__init__()
         self._view = view
         self._services = services
         self._connect_events()
-
+    
     @property
-    def view(self) -> ft.View:
+    def view(self) -> T:
         """
         Devuelve la vista con sus eventos ya conectados. Los eventos hacen uso de servicios para suministrar datos para las acciones demandadas.
         """
@@ -30,4 +30,3 @@ class ViewEvent(ABC):
         Conecta los eventos de la vista con los servicios.
         """
         pass
-    

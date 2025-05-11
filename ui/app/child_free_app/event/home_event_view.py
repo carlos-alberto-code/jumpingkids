@@ -1,7 +1,7 @@
 import flet as ft
 
-from interface.service import Service
-from interface.view_event import ViewEvent
+from domain.manager.service import Service
+from domain.manager.view_event import ViewEvent
 
 from ui.config.child_free_app import view_manager
 from ui.app.child_free_app.view.home_view import HomeView

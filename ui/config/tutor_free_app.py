@@ -1,7 +1,7 @@
 import flet as ft
 
-from domain.routing.controller import Controller
-from domain.routing.view_manager import ViewManager
+from domain.manager.controller import Controller
+from domain.manager.view_manager import ViewManager
 
 
 view_manager = ViewManager()
