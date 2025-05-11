@@ -6,19 +6,20 @@ from typing import Generic, TypeVar
 from domain.manager.service import Service
 
 
-T = TypeVar('T', bound=ft.View)
+V = TypeVar('V', bound=ft.View)
+S = TypeVar('S', bound=Service)
 
 
-class ViewEvent(Generic[T], ABC):
+class ViewEvent(Generic[V], ABC):
 
-    def __init__(self, view: T, services: list[Service]) -> None:
+    def __init__(self, view: V, services: dict[type[Service], Service]) -> None:
         super().__init__()
         self._view = view
         self._services = services
         self._connect_events()
     
     @property
-    def view(self) -> T:
+    def view(self) -> V:
         """
         Devuelve la vista con sus eventos ya conectados. Los eventos hacen uso de servicios para suministrar datos para las acciones demandadas.
         """
@@ -30,3 +31,8 @@ class ViewEvent(Generic[T], ABC):
         Conecta los eventos de la vista con los servicios.
         """
         pass
+
+    def get_service(self, service_class: type[S]) -> S:
+        if service_class not in self._services:
+            raise KeyError(f"El servicio {service_class.__name__} no está registrado.")
+        return self._services[service_class]

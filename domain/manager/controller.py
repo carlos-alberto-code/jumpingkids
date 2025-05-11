@@ -27,13 +27,11 @@ class Controller:
         Devuelve la vista con sus eventos ya conectados. Los eventos hacen uso de servicios para suministrar datos para las acciones demandadas.
         """
         view = self._view_class()
-        services = [
-            service_class(
-                *[
-                    repository_class()
-                    for repository_class in repositories
-                ]
-            ) for service_class, repositories in self._services_class.items()
-        ]
-        return self._event_class(view, services).view
+        services_dict = {}
+        for service_class, repositories in self._services_class.items():
+            service_instance = service_class(
+                *[repository() for repository in repositories]
+            )
+            services_dict[service_class] = service_instance
+        return self._event_class(view, services_dict).view
     

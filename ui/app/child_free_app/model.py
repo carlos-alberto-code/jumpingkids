@@ -10,3 +10,13 @@ class ExerciseDTO:
     category: str
     level: str
     duration: int
+
+@dataclass
+class CategoryDTO:
+    id: int
+    name: str
+
+@dataclass
+class LevelDTO:
+    id: int
+    name: str

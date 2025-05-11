@@ -1,6 +1,6 @@
 import flet as ft
 
-from domain.app import App
+# from domain.app import App
 from domain.model.model import User
 
 
@@ -11,10 +11,9 @@ class AppState:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, user: User, app: App):
-        if not hasattr(self, '_initialized'):
-            self._user = user
-            self._app = app
+    def __init__(self):
+        self._user: User
+        # self._app: JApp
         
     @property
     def user(self) -> User:
@@ -24,10 +23,10 @@ class AppState:
     def user(self, value: User) -> None:
         self._user = value
 
-    @property
-    def app(self) -> App:
-        return self._app
+    # @property
+    # def app(self) -> App:
+    #     return self._app
 
-    @app.setter
-    def app(self, value: App) -> None:
-        self._app = value
+    # @app.setter
+    # def app(self, value: App) -> None:
+    #     self._app = value
