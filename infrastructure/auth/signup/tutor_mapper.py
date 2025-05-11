@@ -1,4 +1,4 @@
-from domain.command.model import TutorCreate
+from domain.model.command import TutorCreate
 from infrastructure.database.model import TutorEntity
 
 class TutorMapper:

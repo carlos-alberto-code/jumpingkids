@@ -1,7 +1,7 @@
 from domain.manager.repository import Repository
 from domain.app.child_free_app.exercise.exercise_service_port import ExerciseServicePort
 
-from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
+from domain.model.dto import CategoryDTO, ExerciseDTO, LevelDTO
 from infrastructure.child_free_app.exercise_repository_adapter import ExerciseRepositoryAdapter
 
 

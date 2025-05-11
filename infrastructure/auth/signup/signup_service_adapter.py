@@ -1,6 +1,6 @@
 from domain.model.model import SubscriptionType
-from domain.command.model import TutorCreate
-from domain.auth.signup.signup_repository_port import SignupRepositoryPort
+from domain.model.command import TutorCreate
+from domain.app.auth.signup.signup_repository_port import SignupRepositoryPort
 
 from infrastructure.repository import Repository
 from infrastructure.auth.signup.tutor_mapper import TutorMapper

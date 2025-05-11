@@ -1,6 +1,6 @@
-from domain.auth.login.login_repository_port import LoginRepositoryPort
-from domain.auth.login.login_service_port import LoginServicePort
 from domain.model.model import Child, Tutor
+from domain.app.auth.login.login_service_port import LoginServicePort
+from domain.app.auth.login.login_repository_port import LoginRepositoryPort
 
 
 class LoginServiceCore(LoginServicePort):

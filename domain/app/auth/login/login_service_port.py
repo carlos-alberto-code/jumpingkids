@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.model.model import User, Tutor, Child
+from domain.model.model import Tutor, Child
 
 
 class LoginServicePort(ABC):

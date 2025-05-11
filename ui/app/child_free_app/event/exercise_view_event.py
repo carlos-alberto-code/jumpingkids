@@ -6,7 +6,7 @@ from domain.app.child_free_app.exercise.exercise_service_core import ExerciseSer
 
 from ui.app_state import AppState
 from ui.app.child_free_app.view.exercise_view import ExerciseView
-from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
+from domain.model.dto import CategoryDTO, ExerciseDTO, LevelDTO
 
 
 class ExerciseViewEvent(ViewEvent[ExerciseView]):

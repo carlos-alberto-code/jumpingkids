@@ -1,6 +1,6 @@
 from domain.app.child_free_app.exercise.exercise_repository_port import ExerciseRepositoryPort
 
-from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
+from domain.model.dto import CategoryDTO, ExerciseDTO, LevelDTO
 
 from infrastructure.repository import Repository
 from infrastructure.database.model import ExerciseEntity, CategoryEntity, LevelEntity

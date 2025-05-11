@@ -1,14 +1,14 @@
 import flet as ft
 
-from domain.auth.login.login_service_port import LoginServicePort
-from domain.auth.subscription.subscription_service_port import SubscriptionServicePort
+from domain.app.auth.login.login_service_port import LoginServicePort
+from domain.app.auth.subscription.subscription_service_port import SubscriptionServicePort
 
 from ui.app_state import AppState
 from ui.app.auth.auth_view import AuthView
 from ui.app.components.snackbar import JSnackbar
 
 
-class LoginHandler:
+class LoginController:
     def __init__(self, auth_view: AuthView, login_service: LoginServicePort, subscription_service: SubscriptionServicePort):
         self._auth_view = auth_view
         self._login_service = login_service
@@ -42,12 +42,12 @@ class LoginHandler:
             event.page.open(snackbar)
             return # Evita ejecutar el resto del código
 
-        # Manejo de la suscripción: Lógica para devolver las vistas para el tipo de usuario y su tipo de suscripción
+        # TODO: Manejo de la suscripción: Lógica para devolver las vistas para el tipo de usuario y su tipo de suscripción
         
         # Obtener la aplicación (vistas) correspondientes al tipo de usuario y su suscripción
         user_app = self._subscription_service.get_user_app(user)
         # Poner estos datos en el estado de la aplicación
-        state = AppState(user=user, app=user_app)
+        state = AppState().user
 
     def _delete_slash(self, value: str) -> str:
         return value[1:] if value.startswith("/") else value

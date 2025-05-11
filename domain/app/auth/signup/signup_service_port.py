@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.command.model import TutorCreate
+from domain.model.command import TutorCreate
 from domain.model.model import SubscriptionType
 
 

@@ -1,13 +1,13 @@
 import flet as ft
 
-from domain.command.model import TutorCreate
-from domain.auth.signup.signup_service_port import SignupServicePort
+from domain.model.command import TutorCreate
+from domain.app.auth.signup.signup_service_port import SignupServicePort
 
 from ui.app.auth.auth_view import AuthView
 from ui.app.components.snackbar import JSnackbar
 
 
-class SignupHandler:
+class SignupController:
     def __init__(self, auth_view: AuthView, signup_service: SignupServicePort):
         self._auth_view = auth_view
         self._signup_service = signup_service

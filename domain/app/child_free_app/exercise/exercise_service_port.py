@@ -5,7 +5,7 @@ from interface.crud.read import GetAll
 from domain.manager.service import Service
 from domain.manager.repository import Repository
 
-from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
+from domain.model.dto import CategoryDTO, ExerciseDTO, LevelDTO
 
 
 class ExerciseServicePort(

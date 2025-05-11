@@ -2,7 +2,7 @@ import flet as ft
 
 from ui.app.components.sidebar import Sidebar
 from ui.app.components.appbar import JumpingKidsAppbar
-from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
+from domain.model.dto import CategoryDTO, ExerciseDTO, LevelDTO
 from ui.app.child_free_app.components.exercise_view.exercise_list_component import ExerciseList
 from ui.app.child_free_app.components.exercise_view.exercise_player_component import ExercisePlayerComponent
 

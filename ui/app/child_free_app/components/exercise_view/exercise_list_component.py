@@ -1,7 +1,7 @@
 import flet as ft
 
 from ui.app.child_free_app.components.exercise_view.exercise_card import ExerciseCard
-from ui.app.child_free_app.model import ExerciseDTO
+from domain.model.dto import ExerciseDTO
 
 class ExerciseList(ft.ListView):
     
