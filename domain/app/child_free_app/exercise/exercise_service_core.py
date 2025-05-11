@@ -28,10 +28,13 @@ class ExerciseServiceCore(ExerciseServicePort):
         return self._repository.filter_exercises_by_level(level_id)
     
     def search(self, text: str) -> list[ExerciseDTO] | None:
-        ...
+        print("Buscando...")
+        # TODO: Implementar la búsqueda de ejercicios por nombre
 
     def add_favorite_exercise(self, user_id: int, exercise_id: int) -> None:
-        ...
+        print("Agregando ejercicio favorito...")
+        # TODO: Implementar la lógica para agregar un ejercicio a favoritos
     
     def remove_favorite_exercise(self, user_id: int, exercise_id: int) -> None:
-        ...
+        print("Removiendo ejercicio favorito...")
+        # TODO: Implementar la lógica para eliminar un ejercicio de favoritos
