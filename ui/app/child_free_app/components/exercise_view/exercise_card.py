@@ -1,6 +1,6 @@
 import flet as ft
 
-from ui.app.child_free_app.dto import ExerciseDTO
+from ui.app.child_free_app.model import ExerciseDTO
 
 
 class Tag(ft.Container):

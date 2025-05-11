@@ -3,7 +3,7 @@
 from domain.manager.repository import Repository
 from domain.manager.service import Service
 from interface.crud.read import GetAll
-from ui.app.child_free_app.dto import ExerciseDTO
+from ui.app.child_free_app.model import ExerciseDTO
 
 
 class ExerciseServicePort(
