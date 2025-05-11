@@ -3,6 +3,7 @@ from domain.manager.view_manager import ViewManager
 
 from domain.app.child_free_app.exercise.exercise_service_core import ExerciseServiceCore
 
+from infrastructure.child_free_app.exercise_repository_adapter import ExerciseRepositoryAdapter
 from ui.app.child_free_app.view.exercise_view import ExerciseView
 from ui.app.child_free_app.event.exercise_view_event import ExerciseViewEvent
 

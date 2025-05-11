@@ -15,12 +15,22 @@ class Repository(Generic[T]):
         super().__init__()
         self._model = model
     
-    def get_by(self, *conditions: ColumnElement[bool]) -> T | None:
+    def get_one_by(self, *conditions: ColumnElement[bool]) -> T | None:
         with get_session() as session:
             try:
                 stmt = select(self._model).where(and_(*conditions))
                 result = session.execute(stmt)
                 return result.scalar_one_or_none()
+            except SQLAlchemyError as e:
+                # Considera logging aquí
+                raise SQLAlchemyError(f"Error al obtener entidad: {str(e)}")
+
+    def get_by(self, *conditions: ColumnElement[bool]) -> list[T] | None:
+        with get_session() as session:
+            try:
+                stmt = select(self._model).where(and_(*conditions))
+                result = session.execute(stmt)
+                return list(result.scalars().all())
             except SQLAlchemyError as e:
                 # Considera logging aquí
                 raise SQLAlchemyError(f"Error al obtener entidad: {str(e)}")

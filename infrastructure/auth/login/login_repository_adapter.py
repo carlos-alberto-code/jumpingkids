@@ -14,10 +14,10 @@ class LoginRepositoryAdapter(LoginRepositoryPort):
         self._child_repository = Repository[ChildEntity](ChildEntity)
     
     def get_by_username(self, username: str) -> Tutor | Child | None:
-        tutor = self._tutot_repository.get_by(TutorEntity.username == username)
+        tutor = self._tutot_repository.get_one_by(TutorEntity.username == username)
         if tutor:
             return LoginTutorMapper.to_domain(tutor)
-        child = self._child_repository.get_by(ChildEntity.username == username)
+        child = self._child_repository.get_one_by(ChildEntity.username == username)
         if child:
             return LoginChildMapper.to_domain(child)
         return None

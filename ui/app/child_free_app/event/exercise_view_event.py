@@ -2,12 +2,11 @@ import flet as ft
 
 from domain.manager.event import ViewEvent
 from domain.manager.service import Service
-
 from domain.app.child_free_app.exercise.exercise_service_core import ExerciseServiceCore
 
+from ui.app_state import AppState
 from ui.app.child_free_app.view.exercise_view import ExerciseView
 from ui.app.child_free_app.model import CategoryDTO, ExerciseDTO, LevelDTO
-from ui.app_state import AppState
 
 
 class ExerciseViewEvent(ViewEvent[ExerciseView]):
@@ -15,10 +14,12 @@ class ExerciseViewEvent(ViewEvent[ExerciseView]):
     def __init__(self, view: ExerciseView, services: dict[type[Service], Service]) -> None:
         super().__init__(view, services)
         self._exercise_service = self.get_service(ExerciseServiceCore)
-        
-        self._view.exercises = self._exercise_service.get_all()
-        self._view.categories = self._exercise_service.get_categories()
-        self._view.levels = self._exercise_service.get_levels()
+        exercises = self._exercise_service.get_all()
+        categories = self._exercise_service.get_categories()
+        levels = self._exercise_service.get_levels()
+        self._view.exercises = exercises if exercises else []
+        self._view.categories = categories
+        self._view.levels = levels
         self._view.update()
     
     def _connect_events(self) -> None:

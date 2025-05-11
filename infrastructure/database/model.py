@@ -74,6 +74,7 @@ class ExerciseEntity(Base):
     description: Mapped[str] = mapped_column(String(255), nullable=False)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
     level_id: Mapped[int] = mapped_column(Integer, ForeignKey("levels.id"), nullable=False)
+    duration: Mapped[int] = mapped_column(Integer, nullable=False, default=15)
 
     category: Mapped["CategoryEntity"] = relationship("CategoryEntity", back_populates="exercises", lazy="selectin")
     level: Mapped["LevelEntity"] = relationship("LevelEntity", back_populates="exercises", lazy="selectin")

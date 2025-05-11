@@ -9,7 +9,7 @@ class SubscriptionType:
 
 @dataclass
 class User:
-    id: int | None
+    id: int
     username: str
     password: str
     full_name: str
