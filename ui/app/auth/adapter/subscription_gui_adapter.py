@@ -1,6 +1,5 @@
 
 
-from domain.manager.view_manager import ViewManager
 from domain.model.dto import App
 from domain.app.auth.subscription.subscription_repository_port import SubscriptionRepositoryPort
 
